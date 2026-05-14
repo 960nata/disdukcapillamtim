@@ -45,7 +45,7 @@ export default function Hero() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
           >
-            Melayani Sepenuh Hati<br />Untuk Masyarakat Lampung Timur
+            Melayani Sepenuh Hati
           </motion.h1>
           
           <motion.p 
@@ -54,7 +54,7 @@ export default function Hero() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.4 }}
           >
-            Pelayanan administrasi kependudukan yang mudah, cepat, dan transparan untuk masyarakat Lampung Timur.
+            Dinas Kependudukan dan Pencatatan Sipil Kabupaten Lampung Timur berkomitmen<br />menghadirkan pelayanan administrasi kependudukan yang prima, akuntabel, dan transparan —<br />memanfaatkan teknologi agar setiap warga memperoleh hak identitasnya secara mudah, cepat, dan tepat.
           </motion.p>
 
           <motion.div 
