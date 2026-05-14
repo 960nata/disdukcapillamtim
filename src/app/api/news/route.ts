@@ -40,6 +40,10 @@ export async function POST(request: Request) {
         seoTitle: body.seoTitle,
         seoDesc: body.seoDesc,
         seoKeywords: body.seoKeywords,
+        videoUrl: body.videoUrl,
+        isCarousel: body.isCarousel || false,
+        category: body.category,
+        tags: body.tags,
       },
     });
     return NextResponse.json(news);

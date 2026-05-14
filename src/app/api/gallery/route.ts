@@ -18,6 +18,8 @@ export async function POST(request: Request) {
     const photo = await prisma.gallery.create({
       data: {
         url: body.url,
+        title: body.title,
+        description: body.description,
         caption: body.caption,
       },
     });

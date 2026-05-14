@@ -20,6 +20,7 @@ export async function POST(request: Request) {
         name: body.name,
         desc: body.desc,
         status: body.status || 'Aktif',
+        url: body.url,
       },
     });
     return NextResponse.json(innovation);

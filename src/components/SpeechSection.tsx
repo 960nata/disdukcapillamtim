@@ -1,11 +1,11 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
 import { cn } from '@/lib/utils';
 
-const speeches = [
+const defaultSpeeches = [
   {
     name: "Ela Siti Nuryamah, S.Sos.",
     title: "Bupati Lampung Timur",
@@ -22,6 +22,22 @@ const speeches = [
 
 export default function SpeechSection() {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [speeches, setSpeeches] = useState(defaultSpeeches);
+
+  useEffect(() => {
+    async function fetchSpeeches() {
+      try {
+        const res = await fetch('/api/speeches');
+        const data = await res.json();
+        if (data && data.length > 0) {
+          setSpeeches(data);
+        }
+      } catch (error) {
+        console.error('Failed to fetch speeches:', error);
+      }
+    }
+    fetchSpeeches();
+  }, []);
 
   return (
     <section className="relative min-h-[600px] md:h-[700px] py-20 md:py-0 px-6 overflow-hidden border-t border-gray-100 flex items-center">

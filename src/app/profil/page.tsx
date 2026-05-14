@@ -1,11 +1,37 @@
 'use client';
 
+import { useState, useEffect } from 'react';
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import Image from "next/image";
 import { motion } from "framer-motion";
 
+const defaultStructure = [
+  { name: "Indra Gandi, S. IP", role: "Plt. Kepala Dinas / Sekretaris", nip: "19771010 199603 1 001", order: 1 },
+  { name: "WIDI TAMA SAPUTRA", title: "S.E., M.M", role: "Kabid Pendaftaran Penduduk", nip: "19830512 200212 1 003", order: 2 },
+  { name: "Denny Kurniawan R", title: "S.IP., M.H", role: "Kabid Pencatatan Sipil", nip: "19800405 200903 1 001", order: 3 },
+  { name: "Drs. I Wayan Wartama", role: "Kabid PIAK", nip: "19691001 199803 1 001", order: 4 },
+  { name: "Dian Trisnowati. H", role: "Kabid Inovasi Pelayanan", nip: "19680220 199803 2002", order: 5 },
+];
+
 export default function ProfilPage() {
+  const [structure, setStructure] = useState<any[]>(defaultStructure);
+
+  useEffect(() => {
+    async function fetchStructure() {
+      try {
+        const res = await fetch('/api/structure');
+        const data = await res.json();
+        if (data && data.length > 0) {
+          setStructure(data);
+        }
+      } catch (error) {
+        console.error('Failed to fetch structure:', error);
+      }
+    }
+    fetchStructure();
+  }, []);
+
   return (
     <div className="min-h-screen bg-white flex flex-col font-sans">
       <Header />
@@ -246,36 +272,43 @@ export default function ProfilPage() {
             </div>
             
             {/* Kepala Dinas */}
-            <div className="bg-white border border-gray-100 rounded-[2rem] p-8 mb-6 flex flex-col md:flex-row items-center gap-8 shadow-md hover:shadow-lg transition-all duration-300">
-              <div className="w-32 h-32 bg-[#27ae60]/10 rounded-full flex items-center justify-center border-2 border-[#27ae60]/20 flex-shrink-0">
-                <span className="text-5xl font-bold text-[#27ae60]">I</span>
+            {structure.filter(p => p.order === 1 || p.role.includes("Kepala")).map((person, i) => (
+              <div key={i} className="bg-white border border-gray-100 rounded-[2rem] p-8 mb-6 flex flex-col md:flex-row items-center gap-8 shadow-md hover:shadow-lg transition-all duration-300">
+                <div className="w-32 h-32 bg-[#27ae60]/10 rounded-full flex items-center justify-center border-2 border-[#27ae60]/20 flex-shrink-0">
+                  {person.photoUrl ? (
+                    <Image src={person.photoUrl} alt={person.name} width={128} height={128} className="rounded-full object-cover" />
+                  ) : (
+                    <span className="text-5xl font-bold text-[#27ae60]">{person.name.charAt(0)}</span>
+                  )}
+                </div>
+                <div className="text-center md:text-left">
+                  <h3 className="text-2xl md:text-3xl font-bold text-gray-900 mb-2">{person.name}</h3>
+                  <p className="text-xl font-medium text-[#27ae60] mb-4">{person.role}</p>
+                  {person.nip && (
+                    <span className="inline-block bg-gray-100 text-gray-700 font-mono font-bold px-4 py-2 rounded-full text-sm">
+                      NIP. {person.nip}
+                    </span>
+                  )}
+                </div>
               </div>
-              <div className="text-center md:text-left">
-                <h3 className="text-2xl md:text-3xl font-bold text-gray-900 mb-2">Indra Gandi, S. IP</h3>
-                <p className="text-xl font-medium text-[#27ae60] mb-4">Plt. Kepala Dinas / Sekretaris</p>
-                <span className="inline-block bg-gray-100 text-gray-700 font-mono font-bold px-4 py-2 rounded-full text-sm">
-                  NIP. 19771010 199603 1 001
-                </span>
-              </div>
-            </div>
+            ))}
 
             {/* Kabid Grid */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-              {[
-                { name: "WIDI TAMA SAPUTRA", title: "S.E., M.M", role: "Pendaftaran Penduduk", nip: "19830512 200212 1 003" },
-                { name: "Denny Kurniawan R", title: "S.IP., M.H", role: "Pencatatan Sipil", nip: "19800405 200903 1 001" },
-                { name: "Drs. I Wayan Wartama", title: "", role: "PIAK", nip: "19691001 199803 1 001" },
-                { name: "Dian Trisnowati. H", title: "", role: "Inovasi Pelayanan", nip: "19680220 199803 2002" },
-              ].map((person, i) => (
+              {structure.filter(p => !(p.order === 1 || p.role.includes("Kepala"))).map((person, i) => (
                 <div key={i} className="bg-white border border-gray-100 rounded-2xl p-6 flex flex-col relative overflow-hidden shadow-sm hover:shadow-md transition-shadow group">
                   <div className="w-16 h-16 bg-gray-50 rounded-full flex items-center justify-center text-gray-700 font-bold text-xl mb-6 shadow-sm border border-gray-100">
-                    {person.name.charAt(0)}
+                    {person.photoUrl ? (
+                      <Image src={person.photoUrl} alt={person.name} width={64} height={64} className="rounded-full object-cover" />
+                    ) : (
+                      person.name.charAt(0)
+                    )}
                   </div>
                   <h3 className="text-lg font-bold text-gray-900 leading-tight">{person.name}</h3>
                   {person.title && <p className="text-sm font-bold text-gray-400 mb-2">{person.title}</p>}
                   {!person.title && <div className="h-4 mb-2"></div>}
-                  <p className="text-[#27ae60] font-medium text-sm mb-4">Kabid {person.role}</p>
-                  <p className="text-gray-400 text-xs font-mono mt-auto">NIP. {person.nip}</p>
+                  <p className="text-[#27ae60] font-medium text-sm mb-4">{person.role.includes("Kabid") ? person.role : `Kabid ${person.role}`}</p>
+                  {person.nip && <p className="text-gray-400 text-xs font-mono mt-auto">NIP. {person.nip}</p>}
                   
                   {/* Hover accent */}
                   <div className="absolute bottom-0 left-0 w-full h-1 bg-[#27ae60] transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left"></div>
