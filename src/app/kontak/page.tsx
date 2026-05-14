@@ -40,7 +40,7 @@ export default function KontakPage() {
         <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8">
           
           {/* Contact Cards Grid */}
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 -mt-10 relative z-20">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mt-10 relative z-20">
             
             {/* WhatsApp */}
             <a href="https://wa.me/628123456789" target="_blank" rel="noopener noreferrer" 
