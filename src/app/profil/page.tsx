@@ -53,7 +53,7 @@ export default function ProfilPage() {
               <div className="flex-1 bg-[#0b2b26] p-10 md:p-14 rounded-[2rem] flex flex-col justify-between text-white shadow-xl">
                 <div>
                   <span className="text-[#27ae60] text-sm font-bold uppercase tracking-widest mb-4 block">Arah Kebijakan</span>
-                  <h2 className="text-4xl font-bold mb-8">Visi</h2>
+                  <h2 className="text-3xl md:text-4xl font-bold mb-8">Visi</h2>
                 </div>
                 <p className="text-2xl md:text-3xl font-medium leading-snug text-white/90">
                   "Terwujudnya Tertib Administrasi Kependudukan Menuju Masyarakat Lampung Timur yang Sejahtera dan Berkeadilan"
@@ -106,7 +106,7 @@ export default function ProfilPage() {
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.2 }}
           >
-            <h2 className="text-4xl font-bold text-gray-900 mb-8 text-center">Dasar Hukum</h2>
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-8 text-center">Dasar Hukum</h2>
             
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               {/* Kedudukan */}
@@ -173,7 +173,7 @@ export default function ProfilPage() {
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
           >
-            <h2 className="text-4xl font-bold text-gray-900 mb-8">Rencana Strategis</h2>
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-8">Rencana Strategis</h2>
             
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               {/* Tujuan & Sasaran */}
@@ -239,7 +239,7 @@ export default function ProfilPage() {
             transition={{ duration: 0.6 }}
           >
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end mb-8 gap-4">
-              <h2 className="text-4xl font-bold text-gray-900">Manajemen</h2>
+              <h2 className="text-3xl md:text-4xl font-bold text-gray-900">Manajemen</h2>
               <span className="bg-gray-100 px-4 py-2 rounded-full font-bold text-sm text-gray-700">
                 Struktur Organisasi
               </span>
@@ -251,7 +251,7 @@ export default function ProfilPage() {
                 <span className="text-5xl font-bold text-[#27ae60]">I</span>
               </div>
               <div className="text-center md:text-left">
-                <h3 className="text-3xl font-bold text-gray-900 mb-2">Indra Gandi, S. IP</h3>
+                <h3 className="text-2xl md:text-3xl font-bold text-gray-900 mb-2">Indra Gandi, S. IP</h3>
                 <p className="text-xl font-medium text-[#27ae60] mb-4">Plt. Kepala Dinas / Sekretaris</p>
                 <span className="inline-block bg-gray-100 text-gray-700 font-mono font-bold px-4 py-2 rounded-full text-sm">
                   NIP. 19771010 199603 1 001

@@ -171,3 +171,19 @@
     justify-content: center;
   }
 }
+
+@media (max-width: 640px) {
+  .hero {
+    padding: 1.5rem;
+    min-height: 500px;
+  }
+  .heroTitle {
+    font-size: 1.8rem;
+  }
+  .heroSubtitle {
+    font-size: 0.9rem;
+  }
+  .heroSubtitle br {
+    display: none;
+  }
+}

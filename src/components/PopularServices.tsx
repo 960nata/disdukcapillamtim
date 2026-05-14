@@ -86,16 +86,16 @@ export default function PopularServices() {
         </div>
 
         {/* Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
           {services.map((service, index) => (
-            <div key={index} className="group bg-white border border-gray-100 hover:border-[#27ae60] rounded-2xl p-6 shadow-sm hover:shadow-md transition-all duration-300 flex flex-col h-full relative">
+            <div key={index} className="group bg-white border border-gray-100 hover:border-[#27ae60] rounded-2xl p-4 sm:p-6 shadow-sm hover:shadow-md transition-all duration-300 flex flex-col h-full relative">
               {/* Icon */}
               <div className="w-12 h-12 bg-gray-50 rounded-xl flex items-center justify-center text-[#27ae60] mb-5 group-hover:bg-[#27ae60]/10 transition-colors">
                 {service.icon}
               </div>
 
               {/* Content */}
-              <h3 className="text-base font-extrabold text-gray-900 mb-2">{service.title}</h3>
+              <h3 className="text-sm sm:text-base font-extrabold text-gray-900 mb-2">{service.title}</h3>
               <p className="text-xs text-gray-500 mb-4 flex-grow font-medium leading-relaxed">{service.description}</p>
 
               {/* Link */}

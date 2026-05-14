@@ -68,7 +68,7 @@ export default function Header() {
 
           {/* Mobile Menu Button */}
           <button 
-            className="md:hidden text-white hover:text-white/80 transition-colors"
+            className={`md:hidden transition-colors ${isScrolled ? 'text-black hover:text-black/80' : 'text-white hover:text-white/80'}`}
             onClick={() => setIsOpen(!isOpen)}
           >
             {isOpen ? '✕' : '☰'}
@@ -80,23 +80,25 @@ export default function Header() {
       <AnimatePresence>
         {isOpen && (
           <>
-            <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-40" onClick={() => setIsOpen(false)} />
+            {/* Invisible overlay to catch clicks outside */}
+            <div className="fixed inset-0 z-40" onClick={() => setIsOpen(false)} />
+            
             <motion.div
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -10 }}
               transition={{ duration: 0.2 }}
-              className="absolute top-full left-0 right-0 mt-2 bg-[#0c1a30]/95 backdrop-blur-lg border border-white/10 rounded-2xl p-6 z-50 shadow-2xl"
+              className="absolute top-full left-0 right-0 mt-2 bg-white/90 backdrop-blur-lg border border-gray-100 rounded-2xl p-6 z-50 shadow-xl"
             >
-              <div className="flex flex-col gap-4 text-white">
-                <Link href="/" className="hover:text-white/80 transition-colors py-2 border-b border-white/5" onClick={() => setIsOpen(false)}>Beranda</Link>
-                <Link href="/profil" className="hover:text-white/80 transition-colors py-2 border-b border-white/5" onClick={() => setIsOpen(false)}>Profil</Link>
-                <Link href="/layanan" className="hover:text-white/80 transition-colors py-2 border-b border-white/5" onClick={() => setIsOpen(false)}>Layanan</Link>
-                <Link href="/lokasi-pelayanan" className="hover:text-white/80 transition-colors py-2 border-b border-white/5" onClick={() => setIsOpen(false)}>Lokasi Pelayanan</Link>
-                <Link href="/berita" className="hover:text-white/80 transition-colors py-2 border-b border-white/5" onClick={() => setIsOpen(false)}>Berita</Link>
-                <Link href="/#kontak" className="hover:text-white/80 transition-colors py-2 border-b border-white/5" onClick={() => setIsOpen(false)}>Kontak</Link>
+              <div className="flex flex-col gap-4 text-gray-800 font-medium">
+                <Link href="/" className="hover:text-[#27ae60] transition-colors py-2 border-b border-gray-100" onClick={() => setIsOpen(false)}>Beranda</Link>
+                <Link href="/profil" className="hover:text-[#27ae60] transition-colors py-2 border-b border-gray-100" onClick={() => setIsOpen(false)}>Profil</Link>
+                <Link href="/layanan" className="hover:text-[#27ae60] transition-colors py-2 border-b border-gray-100" onClick={() => setIsOpen(false)}>Layanan</Link>
+                <Link href="/lokasi-pelayanan" className="hover:text-[#27ae60] transition-colors py-2 border-b border-gray-100" onClick={() => setIsOpen(false)}>Lokasi Pelayanan</Link>
+                <Link href="/berita" className="hover:text-[#27ae60] transition-colors py-2 border-b border-gray-100" onClick={() => setIsOpen(false)}>Berita</Link>
+                <Link href="/kontak" className="hover:text-[#27ae60] transition-colors py-2 border-b border-gray-100" onClick={() => setIsOpen(false)}>Kontak</Link>
                 <Link href="/kontak" onClick={() => setIsOpen(false)}>
-                  <button className="bg-[#27ae60] text-white hover:bg-[#1e8449] transition-colors rounded-full px-5 py-2 text-sm font-semibold mt-2">Hubungi Kami</button>
+                  <button className="bg-gradient-to-r from-[#27ae60] to-[#117a8b] text-white hover:from-[#1e8449] hover:to-[#0b6260] transition-colors rounded-full px-5 py-2 text-sm font-semibold mt-2 w-full">Hubungi Kami</button>
                 </Link>
               </div>
             </motion.div>

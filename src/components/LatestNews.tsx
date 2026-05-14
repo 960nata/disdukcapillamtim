@@ -97,9 +97,9 @@ export default function LatestNews() {
             {otherNews.map(item => (
               <div 
                 key={item.id} 
-                className="flex gap-4 group cursor-pointer border border-gray-100 rounded-2xl p-4 hover:border-[#27ae60] transition-all duration-300 bg-white hover:shadow-md"
+                className="flex flex-col sm:flex-row gap-4 group cursor-pointer border border-gray-100 rounded-2xl p-4 hover:border-[#27ae60] transition-all duration-300 bg-white hover:shadow-md"
               >
-                <div className="w-40 h-24 flex-shrink-0 overflow-hidden rounded-xl border border-gray-50">
+                <div className="w-full h-40 sm:w-40 sm:h-24 flex-shrink-0 overflow-hidden rounded-xl border border-gray-50">
                   <img 
                     src={item.image} 
                     alt={item.title} 

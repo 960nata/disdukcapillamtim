@@ -71,8 +71,8 @@ export default function BeritaPage() {
               {/* 3 Small Cards (Right) */}
               <div className="flex flex-col gap-4 lg:col-span-2">
                 {/* Small Card 1 */}
-                <div className="flex gap-4 group cursor-pointer border border-gray-100 rounded-[15px] p-4 hover:border-[#27ae60] transition-all duration-300 bg-white hover:shadow-md h-[120px]">
-                  <div className="w-32 h-full flex-shrink-0 overflow-hidden rounded-lg">
+                <div className="flex flex-col sm:flex-row gap-4 group cursor-pointer border border-gray-100 rounded-[15px] p-4 hover:border-[#27ae60] transition-all duration-300 bg-white hover:shadow-md h-auto sm:h-[120px]">
+                  <div className="w-full h-32 sm:w-32 sm:h-full flex-shrink-0 overflow-hidden rounded-lg">
                     <img src="/images/inovasi/lamtim_ceria.avif" alt="News" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
                   </div>
                   <div className="flex flex-col justify-between py-1">
@@ -89,8 +89,8 @@ export default function BeritaPage() {
                 </div>
 
                 {/* Small Card 2 */}
-                <div className="flex gap-4 group cursor-pointer border border-gray-100 rounded-[15px] p-4 hover:border-[#27ae60] transition-all duration-300 bg-white hover:shadow-md h-[120px]">
-                  <div className="w-32 h-full flex-shrink-0 overflow-hidden rounded-lg">
+                <div className="flex flex-col sm:flex-row gap-4 group cursor-pointer border border-gray-100 rounded-[15px] p-4 hover:border-[#27ae60] transition-all duration-300 bg-white hover:shadow-md h-auto sm:h-[120px]">
+                  <div className="w-full h-32 sm:w-32 sm:h-full flex-shrink-0 overflow-hidden rounded-lg">
                     <img src="/images/inovasi/isbath_nikah.avif" alt="News" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
                   </div>
                   <div className="flex flex-col justify-between py-1">
@@ -107,8 +107,8 @@ export default function BeritaPage() {
                 </div>
 
                 {/* Small Card 3 */}
-                <div className="flex gap-4 group cursor-pointer border border-gray-100 rounded-[15px] p-4 hover:border-[#27ae60] transition-all duration-300 bg-white hover:shadow-md h-[120px]">
-                  <div className="w-32 h-full flex-shrink-0 overflow-hidden rounded-lg">
+                <div className="flex flex-col sm:flex-row gap-4 group cursor-pointer border border-gray-100 rounded-[15px] p-4 hover:border-[#27ae60] transition-all duration-300 bg-white hover:shadow-md h-auto sm:h-[120px]">
+                  <div className="w-full h-32 sm:w-32 sm:h-full flex-shrink-0 overflow-hidden rounded-lg">
                     <img src="/images/inovasi/silamtim_berjaya.avif" alt="News" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
                   </div>
                   <div className="flex flex-col justify-between py-1">
