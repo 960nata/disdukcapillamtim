@@ -29,7 +29,6 @@ export default function ProfilPage() {
 
           {/* Content */}
           <div className="relative z-10 text-center text-white px-4 mt-10">
-            <span className="text-[#27ae60] text-sm font-bold uppercase tracking-wider mb-2 block">Tentang Kami</span>
             <h1 className="text-4xl md:text-5xl font-bold mb-4 text-white">Profil Dinas Kependudukan</h1>
             <p className="text-lg text-white/80 max-w-2xl mx-auto">
               Kenali lebih dekat visi, misi, dan struktur organisasi Dinas Kependudukan dan Pencatatan Sipil Kabupaten Lampung Timur.
