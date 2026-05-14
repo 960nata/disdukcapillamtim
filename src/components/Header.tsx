@@ -95,7 +95,9 @@ export default function Header() {
                 <Link href="/lokasi-pelayanan" className="hover:text-white/80 transition-colors py-2 border-b border-white/5" onClick={() => setIsOpen(false)}>Lokasi Pelayanan</Link>
                 <Link href="/berita" className="hover:text-white/80 transition-colors py-2 border-b border-white/5" onClick={() => setIsOpen(false)}>Berita</Link>
                 <Link href="/#kontak" className="hover:text-white/80 transition-colors py-2 border-b border-white/5" onClick={() => setIsOpen(false)}>Kontak</Link>
-                <button className="bg-[#27ae60] text-white hover:bg-[#1e8449] transition-colors rounded-full px-5 py-2 text-sm font-semibold mt-2" onClick={() => setIsOpen(false)}>Hubungi Kami</button>
+                <Link href="/kontak" onClick={() => setIsOpen(false)}>
+                  <button className="bg-[#27ae60] text-white hover:bg-[#1e8449] transition-colors rounded-full px-5 py-2 text-sm font-semibold mt-2">Hubungi Kami</button>
+                </Link>
               </div>
             </motion.div>
           </>

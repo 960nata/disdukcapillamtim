@@ -28,7 +28,6 @@ export default function KontakPage() {
 
           {/* Content */}
           <div className="relative z-10 text-center text-white px-4 mt-10">
-            <span className="text-[#27ae60] text-sm font-bold uppercase tracking-wider mb-2 block">Hubungi Kami</span>
             <h1 className="text-4xl md:text-5xl font-bold mb-4 text-white">Kontak Pelayanan</h1>
             <p className="text-lg text-white/80 max-w-2xl mx-auto">
               Hubungi kami melalui berbagai saluran komunikasi resmi untuk mendapatkan informasi dan pelayanan terbaik.
@@ -77,9 +76,9 @@ export default function KontakPage() {
             </a>
 
             {/* Email */}
-            <a href="mailto:disdukcapil@lampungtimurkab.go.id" target="_blank" rel="noopener noreferrer" 
+            <a href="mailto:disdukcapillamtim45@gmail.com" target="_blank" rel="noopener noreferrer" 
                className="bg-white border border-gray-100 rounded-2xl p-8 flex flex-col items-center text-center shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-1 group">
-              <div className="w-16 h-16 bg-[#00529C] rounded-full flex items-center justify-center text-white mb-6 group-hover:scale-110 transition-transform">
+              <div className="w-16 h-16 bg-[#EA4335] rounded-full flex items-center justify-center text-white mb-6 group-hover:scale-110 transition-transform">
                 <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
               </div>
               <h3 className="text-xl font-bold text-gray-900 mb-2">Email</h3>

@@ -21,7 +21,7 @@ export default function ContactSection() {
             
             {/* Button styled like Hero button but white */}
             <Link 
-              href="/contact" 
+              href="/kontak" 
               className="inline-flex items-center gap-2 bg-white text-[#0b2b26] hover:bg-white/90 transition-all duration-300 rounded-full px-8 py-3 text-sm font-semibold shadow-lg shadow-black/20"
             >
               Hubungi Kami

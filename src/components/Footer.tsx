@@ -32,7 +32,7 @@ export default function Footer() {
               <li><Link href="/layanan" className="hover:text-[#27ae60] transition-colors">Layanan Populer</Link></li>
               <li><Link href="/berita" className="hover:text-[#27ae60] transition-colors">Berita Terbaru</Link></li>
               <li><Link href="/galeri" className="hover:text-[#27ae60] transition-colors">Galeri Kegiatan</Link></li>
-              <li><Link href="/contact" className="hover:text-[#27ae60] transition-colors">Kontak</Link></li>
+              <li><Link href="/kontak" className="hover:text-[#27ae60] transition-colors">Kontak</Link></li>
             </ul>
           </div>
 
@@ -46,7 +46,7 @@ export default function Footer() {
               </li>
               <li className="flex items-center gap-2">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-[#27ae60]"><rect width="20" height="16" x="2" y="4" rx="2"></rect><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path></svg>
-                disdukcapil@lamtimkab.go.id
+                disdukcapillamtim45@gmail.com
               </li>
               <li className="flex items-start gap-2">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-[#27ae60] mt-0.5"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"></path><circle cx="12" cy="10" r="3"></circle></svg>
