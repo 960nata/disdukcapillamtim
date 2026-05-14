@@ -33,9 +33,10 @@ export async function POST(request: Request) {
     const news = await prisma.news.create({
       data: {
         title: body.title,
+        slug: body.slug || (body.title ? body.title.toLowerCase().replace(/[^\w ]+/g, '').replace(/ +/g, '-') : `news-${Date.now()}`),
         content: body.content,
         status: body.status || 'Draft',
-        authorId: body.authorId,
+        author: { connect: { id: Number(body.authorId) } },
         seoTitle: body.seoTitle,
         seoDesc: body.seoDesc,
         seoKeywords: body.seoKeywords,
