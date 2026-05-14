@@ -94,7 +94,7 @@ export default function KontakPage() {
               <span className="text-[#27ae60] text-sm font-bold uppercase tracking-wider mb-2 block">Lokasi Fisik</span>
               <h2 className="text-3xl font-bold mb-4">Kunjungi Kantor Kami</h2>
               <p className="text-white/80 font-medium leading-relaxed mb-6">
-                Jl. Letnan Adnan Sanjaya, Komplek Perkantoran Pemkab Lampung Timur, Sukadana, Kec. Sukadana, Kabupaten Lampung Timur, Lampung 34194.
+                Jl. Buay Subing No. 7, Desa Sukadana Ilir, Kecamatan Sukadana, Lampung Timur
               </p>
               <div className="flex flex-wrap gap-4">
                 <div className="bg-white/10 backdrop-blur-sm px-4 py-2 rounded-full border border-white/20 text-sm font-bold text-white">
