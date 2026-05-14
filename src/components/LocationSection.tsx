@@ -117,13 +117,33 @@ export default function LocationSection() {
           background: rgba(255, 255, 255, 0.9) !important;
           backdrop-filter: blur(10px) !important;
         }
+        .leaflet-popup {
+          animation: popup-fade 0.3s ease-out;
+        }
+        @keyframes popup-fade {
+          from {
+            opacity: 0;
+            transform: scale(0.95);
+          }
+          to {
+            opacity: 1;
+            transform: scale(1);
+          }
+        }
+        .map-fade-in {
+          animation: map-fade 0.5s ease-out;
+        }
+        @keyframes map-fade {
+          from { opacity: 0; }
+          to { opacity: 1; }
+        }
       `}</style>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
 
         {/* Map Container with Relative positioning for floating elements */}
-        <div className="relative h-[600px] rounded-[20px] overflow-hidden shadow-xl border border-gray-100">
+        <div className="relative h-[600px] rounded-[20px] overflow-hidden shadow-xl border border-gray-100 map-fade-in">
           
           {/* Map */}
           <div ref={mapRef} className="h-full w-full z-10" />
