@@ -1,0 +1,280 @@
+.header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0.6rem 2rem;
+  max-width: 1200px;
+  margin: 2rem auto;
+  width: calc(100% - 4rem);
+  background: transparent;
+  backdrop-filter: blur(20px);
+  border-radius: 50px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.header.scrolled {
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+  margin: 1rem auto;
+  width: calc(100% - 2rem);
+  padding: 0.5rem 1.5rem;
+}
+
+.headerContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: #fff;
+  letter-spacing: 0.05em;
+  text-decoration: none;
+  transition: color 0.5s;
+}
+
+.header.scrolled .logo {
+  color: #00529C;
+}
+
+.logoIcon {
+  width: 20px;
+  height: 20px;
+  background: #fff;
+  border-radius: 50%;
+  transition: background 0.5s;
+}
+
+.header.scrolled .logoIcon {
+  background: #00529C;
+}
+
+.centerNav {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
+
+.navItem {
+  position: relative;
+}
+
+.navLink {
+  color: rgba(255, 255, 255, 0.8);
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 0.9rem;
+  transition: color 0.5s;
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.navLink:hover {
+  color: #fff;
+}
+
+.header.scrolled .navLink {
+  color: #00529C;
+}
+
+.header.scrolled .navLink:hover {
+  color: #003B73;
+}
+
+.arrow {
+  font-size: 0.8rem;
+  opacity: 0.7;
+}
+
+/* Dropdown */
+.dropdownContent {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  padding-top: 1rem;
+  z-index: 20;
+}
+
+.navItem:hover .dropdownContent {
+  display: block;
+}
+
+.dropdownGrid {
+  background: white;
+  border-radius: 20px;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+  border: 1px solid rgba(0,0,0,0.05);
+  padding: 1.5rem;
+  display: grid;
+  grid-template-columns: repeat(2, 250px);
+  gap: 1rem;
+  list-style: none;
+}
+
+.dropdownItem a {
+  display: block;
+  padding: 0.8rem;
+  border-radius: 12px;
+  text-decoration: none;
+  transition: background 0.2s;
+}
+
+.dropdownItem a:hover {
+  background: #f5f7fb;
+}
+
+.itemTitle {
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: #1a1a1a;
+  margin-bottom: 0.2rem;
+}
+
+.itemDesc {
+  font-size: 0.8rem;
+  color: #666;
+  line-height: 1.4;
+}
+
+/* Right Nav */
+.rightNav {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.langBtn {
+  background: none;
+  border: none;
+  color: rgba(255, 255, 255, 0.8);
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: color 0.5s;
+}
+
+.header.scrolled .langBtn {
+  color: #00529C;
+}
+
+.actionBtn {
+  background: #1a4fd4;
+  color: white;
+  border: none;
+  padding: 0.5rem 1.5rem;
+  border-radius: 50px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.5s;
+}
+
+.header.scrolled .actionBtn {
+  background: #00529C;
+}
+
+.actionBtn:hover {
+  background: #153fa8;
+  transform: translateY(-2px);
+}
+
+.header.scrolled .actionBtn:hover {
+  background: #003B73;
+}
+
+.mobileMenuBtn {
+  display: none;
+  background: none;
+  border: none;
+  color: white;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+.header.scrolled .mobileMenuBtn {
+  color: #00529C;
+}
+
+/* Mobile Menu */
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(4px);
+  z-index: 15;
+}
+
+.mobileMenu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  padding-top: 1rem;
+  z-index: 20;
+}
+
+.mobileMenuContent {
+  background: white;
+  border-radius: 20px;
+  padding: 1.5rem;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.mobileLink {
+  color: #1a1a1a;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 1rem;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid #eee;
+}
+
+.mobileActionBtn {
+  background: #00529C;
+  color: white;
+  border: none;
+  padding: 0.8rem;
+  border-radius: 50px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 0.5rem;
+}
+
+@media (max-width: 1024px) {
+  .header {
+    width: calc(100% - 2rem);
+    margin: 1rem auto;
+    padding: 0.6rem 1rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .centerNav {
+    display: none;
+  }
+  .mobileMenuBtn {
+    display: block;
+  }
+}

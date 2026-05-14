@@ -1,0 +1,54 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  name      String
+  email     String   @unique
+  password  String   // For custom auth
+  role      String   // "Superadmin", "Admin", "Penulis Artikel"
+  status    String   // "Aktif", "Nonaktif"
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  news      News[]
+}
+
+model News {
+  id        Int      @id @default(autoincrement())
+  title     String
+  slug      String   @unique
+  content   String   @db.Text
+  status    String   // "Published", "Draft"
+  authorId  Int
+  author    User     @relation(fields: [authorId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  // SEO Fields
+  seoTitle    String?
+  seoDesc     String?
+  seoKeywords String?
+}
+
+model Innovation {
+  id        Int      @id @default(autoincrement())
+  name      String
+  desc      String   @db.Text
+  status    String   // "Aktif", "Perbaikan"
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Gallery {
+  id        Int      @id @default(autoincrement())
+  url       String
+  caption   String?
+  createdAt DateTime @default(now())
+}

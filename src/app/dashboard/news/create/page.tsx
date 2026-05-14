@@ -1,0 +1,409 @@
+'use client';
+
+import * as React from 'react';
+import { useState } from 'react';
+import Link from 'next/link';
+import dynamic from 'next/dynamic';
+import { motion } from 'framer-motion';
+
+// Import CustomQuillEditor dynamically to avoid SSR issues
+const CustomQuillEditor = dynamic(() => import('@/components/CustomQuillEditor'), { ssr: false });
+
+type Block = {
+  type: string;
+  content: string | string[];
+};
+
+export default function CreateNewsPage() {
+  const [title, setTitle] = useState('');
+  const [slug, setSlug] = useState('');
+  const [blocks, setBlocks] = useState<Block[]>([
+    { type: 'text', content: '<p>Mulai menulis artikel yang memukau di sini...</p>' },
+  ]);
+  
+  // SEO States
+  const [seoTitle, setSeoTitle] = useState('');
+  const [seoDesc, setSeoDesc] = useState('');
+  const [seoKeywords, setSeoKeywords] = useState('');
+  
+  // Cover Image State
+  const [coverImage, setCoverImage] = useState('/images/foto_kegiatan/kantor_luar.avif');
+
+  // Helper to generate slug
+  const generateSlug = (text: string) => {
+    return text
+      .toLowerCase()
+      .replace(/[^\w ]+/g, '')
+      .replace(/ +/g, '-');
+  };
+
+  const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const val = e.target.value;
+    setTitle(val);
+    // Auto generate slug if it hasn't been manually edited or is empty
+    if (!slug || slug === generateSlug(title)) {
+      setSlug(generateSlug(val));
+    }
+  };
+
+  const addBlock = (type: string) => {
+    if (type === 'text') {
+      setBlocks([...blocks, { type: 'text', content: '<p>Paragraf baru yang menarik...</p>' }]);
+    } else if (type === 'image') {
+      setBlocks([...blocks, { type: 'image', content: '/images/foto_kegiatan/pelayanan_ktp.avif' }]);
+    } else if (type === 'video') {
+      setBlocks([...blocks, { type: 'video', content: 'https://www.youtube.com/embed/dQw4w9WgXcQ' }]);
+    } else if (type === 'gallery') {
+      setBlocks([...blocks, { 
+        type: 'gallery', 
+        content: [
+          '/images/foto_kegiatan/pelayanan_ktp.avif',
+          '/images/foto_kegiatan/kantor_luar.avif'
+        ] 
+      }]);
+    } else if (type === 'carousel') {
+      setBlocks([...blocks, { 
+        type: 'carousel', 
+        content: [
+          '/images/foto_kegiatan/pelayanan_ktp.avif',
+          '/images/foto_kegiatan/kantor_luar.avif'
+        ] 
+      }]);
+    }
+  };
+
+  const removeBlock = (index: number) => {
+    const newBlocks = [...blocks];
+    newBlocks.splice(index, 1);
+    setBlocks(newBlocks);
+  };
+
+  const updateBlock = (index: number, content: any) => {
+    const newBlocks = [...blocks];
+    newBlocks[index].content = content;
+    setBlocks(newBlocks);
+  };
+
+  // Function to add image to gallery or carousel
+  const addImageToBlock = (blockIndex: number) => {
+    const newBlocks = [...blocks];
+    const block = newBlocks[blockIndex];
+    if (Array.isArray(block.content)) {
+      const newImage = block.content.length % 2 === 0 
+        ? '/images/foto_kegiatan/pelayanan_ktp.avif' 
+        : '/images/foto_kegiatan/kantor_luar.avif';
+      
+      newBlocks[blockIndex].content = [...block.content, newImage];
+      setBlocks(newBlocks);
+    }
+  };
+
+  // Function to remove image from gallery or carousel
+  const removeImageFromBlock = (blockIndex: number, imageIndex: number) => {
+    const newBlocks = [...blocks];
+    const block = newBlocks[blockIndex];
+    if (Array.isArray(block.content)) {
+      const newContent = [...block.content];
+      newContent.splice(imageIndex, 1);
+      newBlocks[blockIndex].content = newContent;
+      setBlocks(newBlocks);
+    }
+  };
+
+  return (
+    <div className="min-h-screen bg-[#f4f6f8] flex flex-col font-sans">
+      
+      {/* Premium Header */}
+      <div className="bg-white/80 backdrop-blur-md border-b border-gray-100 px-8 py-4 flex items-center justify-between sticky top-0 z-30 shadow-sm">
+        <div className="flex items-center gap-4">
+          <Link href="/dashboard/news" className="w-10 h-10 flex items-center justify-center bg-gray-50 rounded-xl text-gray-500 hover:text-gray-900 hover:bg-gray-100 transition-all border border-gray-100">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+          </Link>
+          <div>
+            <h1 className="text-xl font-extrabold text-gray-900 tracking-tight">Buat Artikel Premium</h1>
+            <p className="text-xs font-medium text-gray-500 flex items-center gap-1">
+              <span className="w-2 h-2 bg-[#27ae60] rounded-full inline-block"></span>
+              Auto Save Aktif
+            </p>
+          </div>
+        </div>
+        
+        <div className="flex items-center gap-3">
+          <button className="px-5 py-2.5 text-sm font-bold text-gray-700 hover:bg-gray-50 rounded-xl border border-gray-200 transition-all shadow-sm">
+            Simpan ke Draft
+          </button>
+          <button className="bg-gradient-to-r from-[#27ae60] to-[#2ecc71] hover:from-[#1e8449] hover:to-[#27ae60] text-white transition-all duration-300 rounded-xl px-6 py-2.5 text-sm font-bold shadow-md shadow-green-100 flex items-center gap-2">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+            Terbitkan Artikel
+          </button>
+        </div>
+      </div>
+
+      <div className="flex-grow flex flex-col lg:flex-row">
+        
+        {/* Main Editor Area (Notion Style) */}
+        <main className="flex-grow p-6 flex justify-center overflow-y-auto">
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="max-w-4xl w-full bg-white p-12 rounded-3xl border border-gray-100/80 shadow-sm space-y-8 min-h-[800px]"
+          >
+            
+            {/* Cover Image Area */}
+            <div className="relative group h-64 -mx-12 -mt-12 mb-8 bg-gray-100 overflow-hidden">
+              <img src={coverImage} alt="Cover" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
+              <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-black/40"></div>
+              <div className="absolute bottom-6 left-6 right-6 flex justify-between items-end">
+                <div>
+                  <span className="bg-black/50 text-white text-xs font-bold px-3 py-1 rounded-full backdrop-blur-sm">Cover Artikel</span>
+                </div>
+                <button className="bg-white/90 backdrop-blur-sm text-gray-900 px-4 py-2 rounded-xl text-xs font-bold hover:bg-white transition-all shadow-lg flex items-center gap-2 border border-white">
+                  Ganti Cover
+                </button>
+              </div>
+            </div>
+
+            {/* Title Block */}
+            <input 
+              type="text" 
+              placeholder="Tulis Judul Artikel yang Menarik di Sini..." 
+              value={title}
+              onChange={handleTitleChange}
+              className="w-full text-4xl font-extrabold text-gray-900 placeholder-gray-200 focus:outline-none border-b-2 border-transparent focus:border-gray-50 pb-4 tracking-tight"
+            />
+
+            {/* Dynamic Blocks */}
+            <div className="space-y-6">
+              {blocks.map((block, index) => (
+                <div key={index} className="relative group border border-transparent hover:border-gray-100 rounded-xl p-3 transition-all hover:bg-gray-50/50">
+                  
+                  {/* Block Actions */}
+                  <div className="absolute -right-2 -top-2 hidden group-hover:flex gap-1 bg-white border border-gray-200 rounded-lg shadow-sm p-1 z-10">
+                    <button onClick={() => removeBlock(index)} className="p-1 text-red-500 hover:bg-red-50 rounded">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+                    </button>
+                  </div>
+
+                  {/* Text Block (Custom Quill Editor) */}
+                  {block.type === 'text' && (
+                    <div className="quill-wrapper provers-glow">
+                      <CustomQuillEditor 
+                        value={block.content as string}
+                        onChange={(val) => updateBlock(index, val)}
+                        placeholder="Tulis paragraf baru..."
+                      />
+                    </div>
+                  )}
+
+                  {/* Image Block */}
+                  {block.type === 'image' && (
+                    <div className="relative rounded-xl overflow-hidden border border-gray-100 shadow-sm">
+                      <img src={block.content as string} alt="Block" className="w-full h-72 object-cover" />
+                      <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center backdrop-blur-sm">
+                        <button className="bg-white text-gray-900 px-4 py-2 rounded-xl text-xs font-bold hover:bg-gray-50 transition-all shadow-lg">
+                          Ganti Gambar
+                        </button>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Video Block */}
+                  {block.type === 'video' && (
+                    <div className="relative rounded-xl overflow-hidden border border-gray-100 bg-black aspect-video shadow-sm">
+                      <iframe 
+                        src={block.content as string} 
+                        className="w-full h-full" 
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                        allowFullScreen
+                      ></iframe>
+                    </div>
+                  )}
+
+                  {/* Gallery Block */}
+                  {block.type === 'gallery' && Array.isArray(block.content) && (
+                    <div className="space-y-3">
+                      <div className="flex items-center justify-between">
+                        <span className="text-xs font-bold text-gray-400 tracking-wider uppercase">Galeri Foto</span>
+                        <button 
+                          onClick={() => addImageToBlock(index)}
+                          className="text-xs font-bold text-[#27ae60] hover:text-[#1e8449] flex items-center gap-1"
+                        >
+                          <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                          Tambah Foto
+                        </button>
+                      </div>
+                      <div className="grid grid-cols-3 gap-4">
+                        {block.content.map((imgUrl: string, imgIdx: number) => (
+                          <div key={imgIdx} className="relative rounded-xl overflow-hidden border border-gray-100 aspect-square shadow-sm group/img">
+                            <img src={imgUrl} alt={`Gallery ${imgIdx}`} className="w-full h-full object-cover group-hover/img:scale-105 transition-transform duration-500" />
+                            <div className="absolute inset-0 bg-black/30 opacity-0 group-hover/img:opacity-100 transition-opacity flex items-center justify-center">
+                              <button 
+                                onClick={() => removeImageFromBlock(index, imgIdx)}
+                                className="p-1.5 bg-white/90 rounded-lg text-red-500 hover:bg-white hover:text-red-700 transition-colors shadow-lg"
+                              >
+                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+                              </button>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Carousel Block */}
+                  {block.type === 'carousel' && Array.isArray(block.content) && (
+                    <div className="space-y-3">
+                      <div className="flex items-center justify-between">
+                        <span className="text-xs font-bold text-gray-400 tracking-wider uppercase">Carousel Slider</span>
+                        <button 
+                          onClick={() => addImageToBlock(index)}
+                          className="text-xs font-bold text-[#27ae60] hover:text-[#1e8449] flex items-center gap-1"
+                        >
+                          <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                          Tambah Slide
+                        </button>
+                      </div>
+                      <div className="relative rounded-xl overflow-hidden border border-gray-100 h-64 bg-gray-50 flex items-center justify-center shadow-sm">
+                        {block.content.length > 0 ? (
+                          <>
+                            <img src={block.content[0]} alt="Carousel" className="w-full h-full object-cover" />
+                            <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent"></div>
+                            <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-1.5 bg-white/20 backdrop-blur-md px-3 py-1.5 rounded-full">
+                              {block.content.map((_, i) => (
+                                <div key={i} className={`w-2 h-2 rounded-full transition-all ${i === 0 ? 'bg-white scale-110' : 'bg-white/40'}`}></div>
+                              ))}
+                            </div>
+                            <div className="absolute top-4 right-4">
+                              <button 
+                                onClick={() => removeImageFromBlock(index, 0)}
+                                className="p-1.5 bg-white/90 rounded-lg text-red-500 hover:bg-white hover:text-red-700 transition-colors shadow-lg"
+                              >
+                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+                              </button>
+                            </div>
+                          </>
+                        ) : (
+                          <div className="text-sm text-gray-400">Belum ada foto. Klik "Tambah Slide"</div>
+                        )}
+                      </div>
+                    </div>
+                  )}
+
+                </div>
+              ))}
+            </div>
+
+            {/* Premium Block Inserter */}
+            <div className="flex justify-center pt-6 border-t border-gray-50">
+              <div className="bg-white p-2 rounded-2xl border border-gray-100 shadow-xl shadow-gray-100/50 flex gap-1.5 flex-wrap justify-center max-w-lg">
+                {[
+                  { type: 'text', label: 'Teks', icon: 'M4 6h16M4 12h16M4 18h7' },
+                  { type: 'image', label: 'Gambar', icon: 'M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z' },
+                  { type: 'video', label: 'Video', icon: 'M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z' },
+                  { type: 'gallery', label: 'Galeri', icon: 'M4 5a1 1 0 011-1h14a1 1 0 011 1v14a1 1 0 01-1 1H5a1 1 0 01-1-1V5z M9 9m-1 0a1 1 0 102 0a1 1 0 10-2 0 M15 15m-1 0a1 1 0 102 0a1 1 0 10-2 0' },
+                  { type: 'carousel', label: 'Slider', icon: 'M8 7h8M8 12h8M8 17h8 M3 3v18 M21 3v18' },
+                ].map((item) => (
+                  <button 
+                    key={item.type}
+                    onClick={() => addBlock(item.type)} 
+                    className="flex flex-col items-center gap-1 px-4 py-3 text-xs font-bold text-gray-500 hover:bg-gray-50 hover:text-gray-900 rounded-xl transition-all w-20"
+                  >
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-gray-400 group-hover:text-gray-600"><path d={item.icon}></path></svg>
+                    {item.label}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+          </motion.div>
+        </main>
+
+        {/* Premium Sidebar (Floating Style) */}
+        <aside className="w-full lg:w-96 bg-white border-l border-gray-100 p-8 space-y-8 overflow-y-auto">
+          
+          {/* SEO Live Preview */}
+          <div className="space-y-4">
+            <h3 className="text-sm font-extrabold text-gray-900 tracking-tight">Preview Google (SEO)</h3>
+            <div className="bg-white border border-gray-100 p-4 rounded-xl shadow-sm space-y-1">
+              <span className="text-[11px] text-gray-500">https://disdukcapil.lamtim.go.id › berita</span>
+              <h4 className="text-lg font-bold text-[#1a0dab] hover:underline cursor-pointer">
+                {seoTitle || title || "Judul Berita Menarik..."}
+              </h4>
+              <p className="text-sm text-[#4d5156] leading-relaxed">
+                {seoDesc || "Silakan isi deskripsi meta di bawah untuk melihat preview hasil pencarian Google di sini..."}
+              </p>
+            </div>
+          </div>
+
+          <div className="h-px bg-gray-50"></div>
+
+          {/* SEO Inputs */}
+          <div className="space-y-4">
+            <h3 className="text-sm font-extrabold text-gray-900 tracking-tight">Kustomisasi SEO</h3>
+            
+            <div>
+              <label className="block text-xs font-bold text-gray-600 mb-1.5">Slug URL</label>
+              <input 
+                type="text" 
+                value={slug}
+                onChange={(e) => setSlug(e.target.value)}
+                className="w-full px-4 py-2.5 text-sm bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:border-[#27ae60] focus:bg-white transition-all font-mono"
+                placeholder="url-artikel-ini"
+              />
+            </div>
+
+            <div>
+              <label className="block text-xs font-bold text-gray-600 mb-1.5">Meta Title</label>
+              <input 
+                type="text" 
+                value={seoTitle}
+                onChange={(e) => setSeoTitle(e.target.value)}
+                className="w-full px-4 py-2.5 text-sm bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:border-[#27ae60] focus:bg-white transition-all"
+                placeholder="Maksimal 60 karakter"
+              />
+            </div>
+
+            <div>
+              <label className="block text-xs font-bold text-gray-600 mb-1.5">Meta Description</label>
+              <textarea 
+                value={seoDesc}
+                onChange={(e) => setSeoDesc(e.target.value)}
+                className="w-full px-4 py-2.5 text-sm bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:border-[#27ae60] h-28 resize-none focus:bg-white transition-all"
+                placeholder="Maksimal 160 karakter agar optimal di Google"
+              />
+            </div>
+
+            <div>
+              <label className="block text-xs font-bold text-gray-600 mb-1.5">Keywords</label>
+              <input 
+                type="text" 
+                value={seoKeywords}
+                onChange={(e) => setSeoKeywords(e.target.value)}
+                className="w-full px-4 py-2.5 text-sm bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:border-[#27ae60] focus:bg-white transition-all"
+                placeholder="Pisahkan dengan koma (contoh: ktp, online)"
+              />
+            </div>
+          </div>
+
+          <div className="h-px bg-gray-50"></div>
+
+          {/* Categories */}
+          <div className="space-y-4">
+            <h3 className="text-sm font-extrabold text-gray-900 tracking-tight">Kategori & Tag</h3>
+            <div className="flex flex-wrap gap-2">
+              {['Pelayanan', 'Kegiatan', 'Edukasi', 'Penting'].map((cat) => (
+                <label key={cat} className="flex items-center gap-2 bg-gray-50 hover:bg-gray-100 border border-gray-100 px-3 py-2 rounded-xl cursor-pointer transition-all">
+                  <input type="checkbox" className="h-4 w-4 text-[#27ae60] focus:ring-[#27ae60] border-gray-300 rounded" />
+                  <span className="text-xs font-bold text-gray-700">{cat}</span>
+                </label>
+              ))}
+            </div>
+          </div>
+
+        </aside>
+
+      </div>
+      
+    </div>
+  );
+}
