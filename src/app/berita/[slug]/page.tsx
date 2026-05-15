@@ -108,7 +108,7 @@ export default function BeritaDetailPage() {
         const item = data.find((n: any) => n.slug === slug);
         
         // Set popular news (excluding current one)
-        setPopularNews(data.filter((n: any) => n.slug !== slug).slice(0, 3));
+        setPopularNews(data.filter((n: any) => n.slug !== slug).slice(0, 5));
 
         if (item) {
           let parsedContent = item.content;
