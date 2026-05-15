@@ -164,6 +164,53 @@ export default function DashboardPage() {
 
       </div>
 
+      {/* Detailed Charts */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6">
+        {/* Audiens Donut Chart */}
+        <div className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm">
+          <h2 className="text-lg font-bold text-gray-900 mb-4">Audiens (Perangkat)</h2>
+          <div className="h-64 flex items-center justify-center">
+            <Chart 
+              options={{
+                labels: ['Mobile', 'Desktop', 'Tablet'],
+                colors: ['#27ae60', '#2980b9', '#f39c12'],
+                legend: { position: 'bottom' },
+                chart: { fontFamily: 'inherit' }
+              }} 
+              series={[65, 30, 5]} 
+              type="donut" 
+              height={250} 
+            />
+          </div>
+        </div>
+
+        {/* Traffic Bar Chart */}
+        <div className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm">
+          <h2 className="text-lg font-bold text-gray-900 mb-4">Akuisisi Traffic</h2>
+          <div className="h-64">
+            <Chart 
+              options={{
+                chart: { toolbar: { show: false }, fontFamily: 'inherit' },
+                xaxis: { 
+                  categories: ['Direct', 'Organic Search', 'Social', 'Referral'],
+                  labels: { style: { colors: '#9ca3af', fontWeight: 600 } }
+                },
+                yaxis: {
+                  labels: { style: { colors: '#9ca3af', fontWeight: 600 } }
+                },
+                colors: ['#27ae60'],
+                plotOptions: { bar: { borderRadius: 4, horizontal: true } },
+                grid: { borderColor: '#f3f4f6', strokeDashArray: 4 },
+                dataLabels: { enabled: false }
+              }} 
+              series={[{ name: 'Pengunjung', data: [1200, 850, 420, 150] }]} 
+              type="bar" 
+              height={250} 
+            />
+          </div>
+        </div>
+      </div>
+
     </div>
   );
 }
