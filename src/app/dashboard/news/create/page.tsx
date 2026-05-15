@@ -11,7 +11,9 @@ const CustomQuillEditor = dynamic(() => import('@/components/CustomQuillEditor')
 
 type Block = {
   type: string;
-  content: string | string[];
+  content?: string | string[] | any;
+  layout?: string;
+  items?: any[];
 };
 
 export default function CreateNewsPage() {
@@ -212,7 +214,11 @@ export default function CreateNewsPage() {
     } else if (type === 'gallery') {
       setBlocks([...blocks, { type: 'gallery', content: [] }]);
     } else if (type === 'carousel') {
-      setBlocks([...blocks, { type: 'carousel', content: [] }]);
+      setBlocks([...blocks, { type: 'carousel', content: [], layout: '1x1' }]);
+    } else if (type === 'grid') {
+      setBlocks([...blocks, { type: 'grid', layout: '1x2', items: [] }]);
+    } else if (type === 'html') {
+      setBlocks([...blocks, { type: 'html', content: '' }]);
     }
   };
 
@@ -444,8 +450,23 @@ export default function CreateNewsPage() {
                   {/* Carousel Block */}
                   {block.type === 'carousel' && Array.isArray(block.content) && (
                     <div className="space-y-3">
-                      <div className="flex items-center justify-between">
-                        <span className="text-xs font-bold text-gray-400 tracking-wider uppercase">Carousel Slider</span>
+                      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                        <div className="flex items-center gap-3">
+                          <span className="text-xs font-bold text-gray-400 tracking-wider uppercase">Carousel Slider</span>
+                          <select 
+                            value={block.layout || '1x1'} 
+                            onChange={(e) => {
+                              const newBlocks = [...blocks];
+                              newBlocks[index].layout = e.target.value;
+                              setBlocks(newBlocks);
+                            }}
+                            className="text-xs border border-gray-200 rounded px-2 py-1 focus:outline-[#27ae60]"
+                          >
+                            <option value="1x1">1x1 (Full Width)</option>
+                            <option value="1x2">1x2 (2 Kolom)</option>
+                            <option value="1x3">1x3 (3 Kolom)</option>
+                          </select>
+                        </div>
                         <label htmlFor={`carousel-upload-${index}`} className="text-xs font-bold text-[#27ae60] hover:text-[#1e8449] flex items-center gap-1 cursor-pointer">
                           <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
                           Tambah Slide
@@ -476,6 +497,122 @@ export default function CreateNewsPage() {
                     </div>
                   )}
 
+                  {/* Grid Block */}
+                  {block.type === 'grid' && (
+                    <div className="space-y-3">
+                      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                        <div className="flex items-center gap-3">
+                          <span className="text-xs font-bold text-gray-400 tracking-wider uppercase">Grid System</span>
+                          <select 
+                            value={block.layout || '1x2'} 
+                            onChange={(e) => {
+                              const newBlocks = [...blocks];
+                              newBlocks[index].layout = e.target.value;
+                              setBlocks(newBlocks);
+                            }}
+                            className="text-xs border border-gray-200 rounded px-2 py-1 focus:outline-[#27ae60]"
+                          >
+                            <option value="1x2">1x2 (2 Kolom)</option>
+                            <option value="2x2">2x2 (Grid 4)</option>
+                            <option value="1x3">1x3 (3 Kolom)</option>
+                            <option value="1x4">1x4 (4 Kolom)</option>
+                          </select>
+                        </div>
+                        <button 
+                          onClick={() => {
+                            const newBlocks = [...blocks];
+                            const currentItems = newBlocks[index].items || [];
+                            newBlocks[index].items = [...currentItems, { image: '', text: '' }];
+                            setBlocks(newBlocks);
+                          }}
+                          className="text-xs font-bold text-[#27ae60] hover:text-[#1e8449] flex items-center gap-1 cursor-pointer"
+                        >
+                          <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                          Tambah Item
+                        </button>
+                      </div>
+                      
+                      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                        {(block.items || []).map((item: any, i: number) => (
+                          <div key={i} className="border border-gray-200 p-3 rounded-xl space-y-3 relative group/item bg-white shadow-sm">
+                            <button 
+                              onClick={() => {
+                                const newBlocks = [...blocks];
+                                newBlocks[index].items.splice(i, 1);
+                                setBlocks(newBlocks);
+                              }}
+                              className="absolute -top-2 -right-2 bg-red-500 text-white p-1 rounded-full text-xs shadow opacity-0 group-hover/item:opacity-100 transition-opacity z-10"
+                            >
+                              <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                            </button>
+                            
+                            <div className="h-28 bg-gray-50 rounded-lg flex flex-col items-center justify-center border border-dashed border-gray-300 relative overflow-hidden">
+                              {item.image ? (
+                                <>
+                                  <img src={item.image} className="w-full h-full object-cover" />
+                                  <label className="absolute inset-0 bg-black/50 opacity-0 hover:opacity-100 flex items-center justify-center text-white text-xs font-bold cursor-pointer transition-opacity">
+                                    Ganti Gambar
+                                    <input type="file" className="hidden" accept="image/*" onChange={async (e) => {
+                                      const file = e.target.files?.[0];
+                                      if (file) {
+                                        const url = await uploadFile(file);
+                                        const newBlocks = [...blocks];
+                                        newBlocks[index].items[i].image = url;
+                                        setBlocks(newBlocks);
+                                      }
+                                    }} />
+                                  </label>
+                                </>
+                              ) : (
+                                <label className="text-xs text-[#27ae60] font-bold cursor-pointer hover:underline">
+                                  + Upload Gambar (Opsional)
+                                  <input type="file" className="hidden" accept="image/*" onChange={async (e) => {
+                                    const file = e.target.files?.[0];
+                                    if (file) {
+                                      const url = await uploadFile(file);
+                                      const newBlocks = [...blocks];
+                                      newBlocks[index].items[i].image = url;
+                                      setBlocks(newBlocks);
+                                    }
+                                  }} />
+                                </label>
+                              )}
+                            </div>
+                            
+                            <textarea 
+                              value={item.text}
+                              onChange={(e) => {
+                                const newBlocks = [...blocks];
+                                newBlocks[index].items[i].text = e.target.value;
+                                setBlocks(newBlocks);
+                              }}
+                              placeholder="Ketik teks atau HTML ringan di sini (Opsional)..."
+                              className="w-full p-2.5 border border-gray-200 rounded-lg text-xs h-20 focus:outline-none focus:border-[#27ae60] focus:ring-1 focus:ring-[#27ae60] resize-none"
+                            />
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* HTML Block */}
+                  {block.type === 'html' && (
+                    <div className="space-y-3">
+                      <div className="flex items-center justify-between">
+                        <span className="text-xs font-bold text-gray-400 tracking-wider uppercase flex items-center gap-2">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>
+                          Widget HTML Kustom
+                        </span>
+                      </div>
+                      <textarea
+                        value={block.content as string}
+                        onChange={(e) => updateBlock(index, e.target.value)}
+                        placeholder="<div style='color: red;'>Ketik HTML & CSS Kustom Anda di sini...</div>"
+                        className="w-full h-40 p-4 font-mono text-sm bg-gray-900 text-green-400 rounded-xl focus:outline-none shadow-inner"
+                      />
+                    </div>
+                  )}
+
                 </div>
               ))}
             </div>
@@ -489,6 +626,8 @@ export default function CreateNewsPage() {
                   { type: 'video', label: 'Video', icon: 'M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z' },
                   { type: 'gallery', label: 'Galeri', icon: 'M4 5a1 1 0 011-1h14a1 1 0 011 1v14a1 1 0 01-1 1H5a1 1 0 01-1-1V5z M9 9m-1 0a1 1 0 102 0a1 1 0 10-2 0 M15 15m-1 0a1 1 0 102 0a1 1 0 10-2 0' },
                   { type: 'carousel', label: 'Slider', icon: 'M8 7h8M8 12h8M8 17h8 M3 3v18 M21 3v18' },
+                  { type: 'grid', label: 'Grid', icon: 'M4 4h4v4H4zm6 0h4v4h-4zm6 0h4v4h-4zM4 10h4v4H4zm6 0h4v4h-4zm6 0h4v4h-4z' },
+                  { type: 'html', label: 'HTML', icon: 'M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4' },
                 ].map((item) => (
                   <button 
                     key={item.type}

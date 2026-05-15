@@ -9,6 +9,48 @@ import Link from "next/link";
 import { useParams } from 'next/navigation';
 import { motion } from 'framer-motion';
 
+const NewsCarousel = ({ block }: { block: any }) => {
+  const [activeIndex, setActiveIndex] = React.useState(0);
+  const scrollRef = React.useRef<HTMLDivElement>(null);
+
+  const handleScroll = () => {
+    if (scrollRef.current) {
+      // Calculate active index based on scroll position
+      const scrollLeft = scrollRef.current.scrollLeft;
+      const width = scrollRef.current.children[0]?.clientWidth || scrollRef.current.clientWidth;
+      const index = Math.round(scrollLeft / width);
+      setActiveIndex(index);
+    }
+  };
+
+  const layout = block.layout || '1x1';
+  let desktopClass = 'md:w-full';
+  if (layout === '1x2') desktopClass = 'md:w-[calc(50%-0.5rem)]';
+  if (layout === '1x3') desktopClass = 'md:w-[calc(33.333%-0.66rem)]';
+
+  return (
+    <div className="relative w-full my-6">
+      <div 
+        ref={scrollRef}
+        onScroll={handleScroll}
+        className="flex gap-4 overflow-x-auto snap-x snap-mandatory scrollbar-hide pb-2"
+        style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+      >
+        {Array.isArray(block.content) && block.content.map((img: string, i: number) => (
+          <div key={i} className={`snap-center shrink-0 w-[85%] ${desktopClass} aspect-video relative rounded-xl overflow-hidden shadow-sm`}>
+            <img src={img} alt="Carousel" className="w-full h-full object-cover" />
+          </div>
+        ))}
+      </div>
+      <div className="flex justify-center gap-1.5 mt-3">
+        {Array.isArray(block.content) && block.content.map((_, i) => (
+          <div key={i} className={`h-1.5 rounded-full transition-all duration-300 ${i === activeIndex ? 'w-6 bg-[#27ae60]' : 'w-1.5 bg-gray-300'}`} />
+        ))}
+      </div>
+    </div>
+  );
+};
+
 export default function BeritaDetailPage() {
   const params = useParams();
   const slug = params.slug;
@@ -169,15 +211,34 @@ export default function BeritaDetailPage() {
                           </div>
                         );
                       } else if (block.type === 'carousel') {
+                        return <NewsCarousel key={index} block={block} />;
+                      } else if (block.type === 'grid') {
+                        const layout = block.layout || '1x2';
+                        let gridClass = 'grid-cols-1 sm:grid-cols-2';
+                        if (layout === '2x2') gridClass = 'grid-cols-2';
+                        if (layout === '1x3') gridClass = 'grid-cols-1 sm:grid-cols-3';
+                        if (layout === '1x4') gridClass = 'grid-cols-2 sm:grid-cols-4';
+
                         return (
-                          <div key={index} className="relative w-full overflow-hidden my-4">
-                            <div className="flex gap-4 overflow-x-auto snap-x scrollbar-hide py-2">
-                              {Array.isArray(block.content) && block.content.map((img: string, i: number) => (
-                                <div key={i} className="snap-center shrink-0 w-full sm:w-2/3 md:w-1/2 aspect-[4/3] relative rounded-xl overflow-hidden">
-                                  <img src={img} alt="Carousel" className="w-full h-full object-cover" />
-                                </div>
-                              ))}
-                            </div>
+                          <div key={index} className={`grid ${gridClass} gap-4 my-6`}>
+                            {(block.items || []).map((item: any, i: number) => (
+                              <div key={i} className="flex flex-col gap-3">
+                                {item.image && (
+                                  <div className="rounded-xl overflow-hidden shadow-sm">
+                                    <img src={item.image} alt="Grid Item" className="w-full h-auto object-cover" />
+                                  </div>
+                                )}
+                                {item.text && (
+                                  <div className="text-sm text-gray-700 leading-relaxed" dangerouslySetInnerHTML={{ __html: item.text }} />
+                                )}
+                              </div>
+                            ))}
+                          </div>
+                        );
+                      } else if (block.type === 'html') {
+                        return (
+                          <div key={index} className="my-6 w-full overflow-hidden">
+                            <div dangerouslySetInnerHTML={{ __html: block.content }} />
                           </div>
                         );
                       }
