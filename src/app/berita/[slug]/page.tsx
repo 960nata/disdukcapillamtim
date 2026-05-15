@@ -89,12 +89,10 @@ export default function BeritaDetailPage() {
         className="p-[20px] w-full"
       >
         <div className="relative h-[700px] overflow-hidden rounded-[20px] shadow-sm">
-          <Image 
+          <img 
             src={newsDetail.coverImage} 
             alt={newsDetail.title} 
-            fill 
-            className="object-cover"
-            priority
+            className="w-full h-full object-cover"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/10"></div>
           

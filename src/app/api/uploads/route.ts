@@ -24,11 +24,13 @@ export async function GET(request: Request) {
 
     try {
       const fileBuffer = await readFile(filePath);
+      const extension = filename.split('.').pop()?.toLowerCase();
+      const contentType = extension === 'webp' ? 'image/webp' : 'image/avif';
       
       // Kembalikan file dengan header yang benar
       return new Response(fileBuffer, {
         headers: {
-          'Content-Type': 'image/avif',
+          'Content-Type': contentType,
           'Cache-Control': 'public, max-age=31536000, immutable',
         },
       });
