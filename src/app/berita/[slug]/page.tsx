@@ -101,7 +101,7 @@ export default function BeritaDetailPage() {
           {/* Breadcrumb & Title - Constrained to max-w-7xl to align with content below */}
           <div className="absolute inset-0 flex flex-col justify-end pb-12">
             <div className="max-w-[1300px] mx-auto w-full text-white px-[20px]">
-              <div className="w-full lg:w-[65%]">
+              <div className="w-full lg:w-[65%] pl-[20px]">
                 <div className="flex items-center gap-2 text-xs md:text-sm font-bold text-[#2ecc71] mb-3">
                   <Link href="/berita" className="hover:underline">Berita</Link>
                   <span>/</span>
