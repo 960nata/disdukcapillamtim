@@ -76,7 +76,7 @@ export default function ProfilPage() {
           >
             <div className="flex flex-col lg:flex-row gap-6">
               {/* Visi - Dark Green Block (Matching Home page banner style) */}
-              <div className="flex-1 bg-[#0b2b26] p-6 md:p-14 rounded-[2rem] flex flex-col justify-between text-white shadow-xl">
+              <div className="flex-1 bg-[#0b2b26] p-4 md:p-14 rounded-2xl md:rounded-[2rem] flex flex-col justify-between text-white shadow-xl">
                 <div>
                   <span className="text-[#27ae60] text-sm font-bold uppercase tracking-widest mb-4 block">Arah Kebijakan</span>
                   <h2 className="text-3xl md:text-4xl font-bold mb-4 md:mb-8">Visi</h2>
@@ -88,7 +88,7 @@ export default function ProfilPage() {
 
               {/* Misi - Light Blocks with Soft Shadows */}
               <div className="flex-1 flex flex-col gap-6">
-                <div className="bg-white border border-gray-100 p-6 md:p-8 rounded-[2rem] flex-1 shadow-md hover:shadow-lg transition-shadow">
+                <div className="bg-white border border-gray-100 p-4 md:p-8 rounded-2xl md:rounded-[2rem] flex-1 shadow-md hover:shadow-lg transition-shadow">
                   <h3 className="text-2xl font-bold text-gray-900 mb-6">Misi Utama</h3>
                   <div className="space-y-4">
                     {[
@@ -104,7 +104,7 @@ export default function ProfilPage() {
                     ))}
                   </div>
                 </div>
-                <div className="bg-white border border-gray-100 p-6 md:p-8 rounded-[2rem] flex-1 shadow-md hover:shadow-lg transition-shadow">
+                <div className="bg-white border border-gray-100 p-4 md:p-8 rounded-2xl md:rounded-[2rem] flex-1 shadow-md hover:shadow-lg transition-shadow">
                   <h3 className="text-2xl font-bold text-gray-900 mb-6">Misi Pendukung</h3>
                   <div className="space-y-4">
                     {[
@@ -136,7 +136,7 @@ export default function ProfilPage() {
             
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               {/* Kedudukan */}
-              <div className="bg-white border border-gray-100 p-6 md:p-10 rounded-[2rem] flex flex-col shadow-md hover:shadow-lg transition-shadow">
+              <div className="bg-white border border-gray-100 p-4 md:p-10 rounded-2xl md:rounded-[2rem] flex flex-col shadow-md hover:shadow-lg transition-shadow">
                 <div className="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center text-[#27ae60] font-bold text-xl mb-6">
                   01
                 </div>
@@ -147,7 +147,7 @@ export default function ProfilPage() {
               </div>
 
               {/* Tugas Pokok */}
-              <div className="bg-[#0b2b26] p-6 md:p-10 rounded-[2rem] flex flex-col text-white shadow-xl transform md:-translate-y-4 transition-transform">
+              <div className="bg-[#0b2b26] p-4 md:p-10 rounded-2xl md:rounded-[2rem] flex flex-col text-white shadow-xl transform md:-translate-y-4 transition-transform">
                 <div className="w-12 h-12 bg-white/10 rounded-full flex items-center justify-center text-[#27ae60] font-bold text-xl mb-6">
                   02
                 </div>
@@ -158,7 +158,7 @@ export default function ProfilPage() {
               </div>
 
               {/* Fungsi Summary */}
-              <div className="bg-white border border-gray-100 p-6 md:p-10 rounded-[2rem] flex flex-col shadow-md hover:shadow-lg transition-shadow">
+              <div className="bg-white border border-gray-100 p-4 md:p-10 rounded-2xl md:rounded-[2rem] flex flex-col shadow-md hover:shadow-lg transition-shadow">
                 <div className="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center text-[#27ae60] font-bold text-xl mb-6">
                   03
                 </div>
@@ -170,7 +170,7 @@ export default function ProfilPage() {
             </div>
 
             {/* Fungsi Detail - Full width block */}
-            <div className="mt-6 bg-white border border-gray-100 p-6 md:p-12 rounded-[2rem] shadow-md">
+            <div className="mt-6 bg-white border border-gray-100 p-4 md:p-12 rounded-2xl md:rounded-[2rem] shadow-md">
               <h3 className="text-2xl font-bold text-gray-900 mb-8">Rincian Fungsi Dinas</h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-6">
                 {[
@@ -203,7 +203,7 @@ export default function ProfilPage() {
             
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               {/* Tujuan & Sasaran */}
-              <div className="bg-[#0b2b26] p-6 md:p-10 rounded-[2rem] text-white shadow-xl">
+              <div className="bg-[#0b2b26] p-4 md:p-10 rounded-2xl md:rounded-[2rem] text-white shadow-xl">
                 <h3 className="text-3xl font-bold text-white mb-8">Tujuan & Sasaran</h3>
                 <div className="space-y-8">
                   <div>
@@ -230,7 +230,7 @@ export default function ProfilPage() {
 
               {/* Kebijakan & Program */}
               <div className="flex flex-col gap-6">
-                <div className="bg-white border border-gray-100 p-6 md:p-10 rounded-[2rem] flex-1 shadow-md hover:shadow-lg transition-shadow">
+                <div className="bg-white border border-gray-100 p-4 md:p-10 rounded-2xl md:rounded-[2rem] flex-1 shadow-md hover:shadow-lg transition-shadow">
                   <h3 className="text-2xl font-bold text-gray-900 mb-4">Kebijakan</h3>
                   <ul className="space-y-3">
                     {['Penyuluhan kesadaran hukum', 'Peningkatan Kinerja Personil', 'Pelaksanaan pelayanan Prima', 'Pemenuhan prasarana'].map((item, i) => (
@@ -241,7 +241,7 @@ export default function ProfilPage() {
                     ))}
                   </ul>
                 </div>
-                <div className="bg-white border border-gray-100 p-6 md:p-10 rounded-[2rem] flex-1 shadow-md hover:shadow-lg transition-shadow">
+                <div className="bg-white border border-gray-100 p-4 md:p-10 rounded-2xl md:rounded-[2rem] flex-1 shadow-md hover:shadow-lg transition-shadow">
                   <h3 className="text-2xl font-bold text-gray-900 mb-4">Program</h3>
                   <ul className="space-y-3">
                     {['Penataan Administrasi Kependudukan', 'Pelayanan Administrasi Perkantoran', 'Pengadaan Sarana Ruang Arsip'].map((item, i) => (
@@ -273,7 +273,7 @@ export default function ProfilPage() {
             
             {/* Kepala Dinas */}
             {structure.filter(p => p.order === 1 || p.role.includes("Kepala")).map((person, i) => (
-              <div key={i} className="bg-white border border-gray-100 rounded-[2rem] p-6 md:p-8 mb-6 flex flex-col md:flex-row items-center gap-8 shadow-md hover:shadow-lg transition-all duration-300">
+              <div key={i} className="bg-white border border-gray-100 rounded-2xl md:rounded-[2rem] p-4 md:p-8 mb-6 flex flex-col md:flex-row items-center gap-8 shadow-md hover:shadow-lg transition-all duration-300">
                 <div className="w-32 h-32 bg-[#27ae60]/10 rounded-full flex items-center justify-center border-2 border-[#27ae60]/20 flex-shrink-0">
                   {person.photoUrl ? (
                     <Image src={person.photoUrl} alt={person.name} width={128} height={128} className="rounded-full object-cover" />
