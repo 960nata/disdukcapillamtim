@@ -81,7 +81,7 @@ export default function ProfilPage() {
                   <span className="text-[#27ae60] text-sm font-bold uppercase tracking-widest mb-4 block">Arah Kebijakan</span>
                   <h2 className="text-3xl md:text-4xl font-bold mb-4 md:mb-8">Visi</h2>
                 </div>
-                <p className="text-xl md:text-3xl font-medium leading-snug text-white/90">
+                <p className="text-lg md:text-3xl font-medium leading-snug text-white/90">
                   "Terwujudnya Tertib Administrasi Kependudukan Menuju Masyarakat Lampung Timur yang Sejahtera dan Berkeadilan"
                 </p>
               </div>
@@ -99,7 +99,7 @@ export default function ProfilPage() {
                         <div className="w-6 h-6 bg-[#27ae60]/10 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
                           <div className="w-2 h-2 bg-[#27ae60] rounded-full"></div>
                         </div>
-                        <p className="text-gray-700 font-medium">{misi}</p>
+                        <p className="text-sm md:text-base text-gray-700 font-medium">{misi}</p>
                       </div>
                     ))}
                   </div>
@@ -115,7 +115,7 @@ export default function ProfilPage() {
                         <div className="w-6 h-6 bg-[#27ae60]/10 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
                           <div className="w-2 h-2 bg-[#27ae60] rounded-full"></div>
                         </div>
-                        <p className="text-gray-700 font-medium">{misi}</p>
+                        <p className="text-sm md:text-base text-gray-700 font-medium">{misi}</p>
                       </div>
                     ))}
                   </div>
@@ -140,8 +140,8 @@ export default function ProfilPage() {
                 <div className="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center text-[#27ae60] font-bold text-xl mb-6">
                   01
                 </div>
-                <h3 className="text-2xl font-bold text-gray-900 mb-4">Kedudukan</h3>
-                <p className="text-gray-600 font-medium leading-relaxed">
+                <h3 className="text-xl md:text-2xl font-bold text-gray-900 mb-4">Kedudukan</h3>
+                <p className="text-sm md:text-base text-gray-600 font-medium leading-relaxed">
                   Dinas Kependudukan dan Pencatatan Sipil merupakan unsur pelaksana Pemerintah Daerah yang dipimpin oleh Kepala Dinas dan berkedudukan di bawah serta bertanggungjawab kepada Bupati melalui Sekretaris Daerah.
                 </p>
               </div>
@@ -151,8 +151,8 @@ export default function ProfilPage() {
                 <div className="w-12 h-12 bg-white/10 rounded-full flex items-center justify-center text-[#27ae60] font-bold text-xl mb-6">
                   02
                 </div>
-                <h3 className="text-2xl font-bold text-white mb-4">Tugas Pokok</h3>
-                <p className="text-white/80 font-medium leading-relaxed">
+                <h3 className="text-xl md:text-2xl font-bold text-white mb-4">Tugas Pokok</h3>
+                <p className="text-sm md:text-base text-white/80 font-medium leading-relaxed">
                   Melaksanakan urusan rumah tangga Pemerintah Daerah dan tugas pembantuan di bidang Kependudukan dan Pencatatan Sipil secara komprehensif.
                 </p>
               </div>
@@ -162,8 +162,8 @@ export default function ProfilPage() {
                 <div className="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center text-[#27ae60] font-bold text-xl mb-6">
                   03
                 </div>
-                <h3 className="text-2xl font-bold text-gray-900 mb-4">Fungsi</h3>
-                <p className="text-gray-600 font-medium leading-relaxed">
+                <h3 className="text-xl md:text-2xl font-bold text-gray-900 mb-4">Fungsi</h3>
+                <p className="text-sm md:text-base text-gray-600 font-medium leading-relaxed">
                   Perumusan, pelaksanaan, evaluasi, dan pelaporan kebijakan bidang pendaftaran penduduk dan pencatatan sipil.
                 </p>
               </div>
@@ -184,7 +184,7 @@ export default function ProfilPage() {
                     <div className="w-8 h-8 rounded-full bg-[#27ae60]/10 flex items-center justify-center flex-shrink-0 mt-1">
                       <div className="w-3 h-3 bg-[#27ae60] rounded-full"></div>
                     </div>
-                    <p className="text-gray-700 font-medium leading-relaxed pt-1">{fungsi}</p>
+                    <p className="text-sm md:text-base text-gray-700 font-medium leading-relaxed pt-1">{fungsi}</p>
                   </div>
                 ))}
               </div>
@@ -211,7 +211,7 @@ export default function ProfilPage() {
                       <div className="w-2 h-2 bg-[#27ae60] rounded-full"></div>
                       Tujuan
                     </h4>
-                    <p className="text-white/80 font-medium leading-relaxed">
+                    <p className="text-sm md:text-base text-white/80 font-medium leading-relaxed">
                       Meningkatkan kesadaran hukum masyarakat, memberi pelayanan prima, mewujudkan database akurat, dan meningkatkan tertib administrasi.
                     </p>
                   </div>
@@ -221,7 +221,7 @@ export default function ProfilPage() {
                       <div className="w-2 h-2 bg-[#27ae60] rounded-full"></div>
                       Sasaran
                     </h4>
-                    <p className="text-white/80 font-medium leading-relaxed">
+                    <p className="text-sm md:text-base text-white/80 font-medium leading-relaxed">
                       Terlayaninya masyarakat dengan prima, terwujudnya sumber informasi publik akurat, dan terpenuhinya sarana/prasarana dinas.
                     </p>
                   </div>
@@ -236,7 +236,7 @@ export default function ProfilPage() {
                     {['Penyuluhan kesadaran hukum', 'Peningkatan Kinerja Personil', 'Pelaksanaan pelayanan Prima', 'Pemenuhan prasarana'].map((item, i) => (
                       <li key={i} className="flex items-start gap-3">
                         <span className="text-[#27ae60] font-bold">→</span>
-                        <span className="text-gray-700 font-medium">{item}</span>
+                        <span className="text-sm md:text-base text-gray-700 font-medium">{item}</span>
                       </li>
                     ))}
                   </ul>
@@ -247,7 +247,7 @@ export default function ProfilPage() {
                     {['Penataan Administrasi Kependudukan', 'Pelayanan Administrasi Perkantoran', 'Pengadaan Sarana Ruang Arsip'].map((item, i) => (
                       <li key={i} className="flex items-start gap-3">
                         <span className="text-[#27ae60] font-bold">→</span>
-                        <span className="text-gray-700 font-medium">{item}</span>
+                        <span className="text-sm md:text-base text-gray-700 font-medium">{item}</span>
                       </li>
                     ))}
                   </ul>
@@ -282,8 +282,8 @@ export default function ProfilPage() {
                   )}
                 </div>
                 <div className="text-center md:text-left">
-                  <h3 className="text-2xl md:text-3xl font-bold text-gray-900 mb-2">{person.name}</h3>
-                  <p className="text-xl font-medium text-[#27ae60] mb-4">{person.role}</p>
+                  <h3 className="text-xl md:text-3xl font-bold text-gray-900 mb-2">{person.name}</h3>
+                  <p className="text-base md:text-xl font-medium text-[#27ae60] mb-4">{person.role}</p>
                   {person.nip && (
                     <span className="inline-block bg-gray-100 text-gray-700 font-mono font-bold px-4 py-2 rounded-full text-sm">
                       NIP. {person.nip}
