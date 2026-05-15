@@ -3,47 +3,53 @@
 import * as React from 'react';
 import Link from 'next/link';
 
-const newsList = [
-  {
-    id: 1,
-    title: 'Disdukcapil Lamtim Luncurkan Inovasi PUAKHI untuk Jemput Bola IKD',
-    description: 'Upaya percepatan kepemilikan Identitas Kependudukan Digital (IKD) di seluruh desa Lampung Timur.',
-    tag: 'PRESS RELEASE',
-    tagColor: 'bg-[#27ae60] text-white', // Green
-    date: '10 April 2025',
-    image: '/images/inovasi/puakhi.avif',
-    featured: true
-  },
-  {
-    id: 2,
-    title: 'Perekaman KTP-el Pemula di Sekolah Capai Target 90%',
-    tag: 'NEWS',
-    tagColor: 'bg-[#27ae60]/10 text-[#27ae60]', // Light Green with Green text
-    date: '10 April 2025',
-    image: '/images/inovasi/lamtim_ceria.avif',
-    featured: false
-  },
-  {
-    id: 3,
-    title: 'Kolaborasi Isbath Nikah Terpadu Berhasil Terbitkan 100 Buku Nikah',
-    tag: 'NEWS',
-    tagColor: 'bg-[#27ae60]/10 text-[#27ae60]',
-    date: '5 April 2025',
-    image: '/images/inovasi/isbath_nikah.avif',
-    featured: false
-  },
-  {
-    id: 4,
-    title: 'Layanan SILAMTIM BERJAYA Kini Bisa Diakses Lewat Aplikasi Mobile',
-    tag: 'UPDATE',
-    tagColor: 'bg-[#27ae60]/10 text-[#27ae60]',
-    date: '2 April 2025',
-    image: '/images/inovasi/silamtim_berjaya.avif',
-    featured: false
-  }
-];
-
 export default function LatestNews() {
+  const [newsList, setNewsList] = React.useState<any[]>([]);
+  const [loading, setLoading] = React.useState(true);
+
+  React.useEffect(() => {
+    const fetchNews = async () => {
+      try {
+        const res = await fetch('/api/news');
+        const data = await res.json();
+        const publishedNews = data.filter((item: any) => item.status === 'Published');
+        
+        const mappedNews = publishedNews.map((item: any, index: number) => ({
+          id: item.id,
+          title: item.title,
+          description: item.seoDesc || 'Baca selengkapnya...',
+          tag: item.category || 'BERITA',
+          tagColor: index === 0 ? 'bg-[#27ae60] text-white' : 'bg-[#27ae60]/10 text-[#27ae60]',
+          date: new Date(item.createdAt).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' }),
+          image: item.coverImage || '/images/foto_kegiatan/kantor_luar.avif',
+          featured: index === 0
+        }));
+
+        if (mappedNews.length === 0) {
+          setNewsList([
+            {
+              id: 1,
+              title: 'Belum ada berita yang diterbitkan.',
+              description: 'Tulis artikel baru di dashboard untuk memunculkannya di sini.',
+              tag: 'INFO',
+              tagColor: 'bg-[#27ae60] text-white',
+              date: 'Hari ini',
+              image: '/images/foto_kegiatan/kantor_luar.avif',
+              featured: true
+            }
+          ]);
+        } else {
+          setNewsList(mappedNews);
+        }
+      } catch (error) {
+        console.error('Failed to fetch news:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchNews();
+  }, []);
+
   const featuredNews = newsList.find(item => item.featured);
   const otherNews = newsList.filter(item => !item.featured);
 

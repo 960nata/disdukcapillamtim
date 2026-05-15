@@ -117,6 +117,13 @@ export default function NewsManagementPage() {
                     </td>
                     <td className="px-6 py-4 text-right">
                       <div className="flex justify-end gap-3">
+                        <Link 
+                          href={`/berita/${item.slug}`} 
+                          target="_blank" 
+                          className="text-xs font-bold text-blue-600 hover:text-blue-700 transition-colors"
+                        >
+                          Lihat
+                        </Link>
                         <button className="text-xs font-bold text-[#27ae60] hover:text-[#1e8449] transition-colors">Edit</button>
                         <button className="text-xs font-bold text-red-600 hover:text-red-700 transition-colors">Hapus</button>
                       </div>
