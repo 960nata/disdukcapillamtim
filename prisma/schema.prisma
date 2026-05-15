@@ -43,6 +43,7 @@ model News {
   isCarousel  Boolean  @default(false)
   category    String?
   tags        String?
+  coverImage  String?
 }
 
 model Innovation {

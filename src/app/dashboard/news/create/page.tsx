@@ -29,6 +29,16 @@ export default function CreateNewsPage() {
   // Cover Image State
   const [coverImage, setCoverImage] = useState('/images/foto_kegiatan/kantor_luar.avif');
 
+  const convertToEmbedUrl = (url: string) => {
+    if (!url) return '';
+    const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+    const match = url.match(regExp);
+    if (match && match[2].length === 11) {
+      return `https://www.youtube.com/embed/${match[2]}`;
+    }
+    return url;
+  };
+
   const compressImage = (file: File): Promise<Blob> => {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
@@ -114,6 +124,7 @@ export default function CreateNewsPage() {
           seoTitle,
           seoDesc,
           seoKeywords,
+          coverImage,
         }),
       });
 
@@ -374,8 +385,8 @@ export default function CreateNewsPage() {
                       <input 
                         type="text"
                         value={block.content as string}
-                        onChange={(e) => updateBlock(index, e.target.value)}
-                        placeholder="Masukkan URL embed YouTube (contoh: https://www.youtube.com/embed/dQw4w9WgXcQ)"
+                        onChange={(e) => updateBlock(index, convertToEmbedUrl(e.target.value))}
+                        placeholder="Masukkan URL YouTube (otomatis di-convert ke embed)"
                         className="w-full px-4 py-2.5 text-sm border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#27ae60]/20 focus:border-[#27ae60] transition-all"
                       />
                     </div>

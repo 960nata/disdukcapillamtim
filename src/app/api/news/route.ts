@@ -44,6 +44,7 @@ export async function POST(request: Request) {
         isCarousel: body.isCarousel || false,
         category: body.category,
         tags: body.tags,
+        coverImage: body.coverImage,
       },
     });
     return NextResponse.json(news);
