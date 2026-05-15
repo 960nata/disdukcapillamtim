@@ -27,7 +27,7 @@ export default function Home() {
         <div id="layanan"><PopularServices /></div>
         <FeaturedPrograms />
         <div id="berita"><LatestNews /></div>
-        <GallerySection />
+        <div id="galeri"><GallerySection /></div>
         <SpeechSection />
         <Achievements />
         <div id="kontak"><ContactSection /></div>

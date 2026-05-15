@@ -31,7 +31,7 @@ export default function Footer() {
               <li><Link href="/" className="hover:text-[#27ae60] transition-colors">Beranda</Link></li>
               <li><Link href="/layanan" className="hover:text-[#27ae60] transition-colors">Layanan Populer</Link></li>
               <li><Link href="/berita" className="hover:text-[#27ae60] transition-colors">Berita Terbaru</Link></li>
-              <li><Link href="/galeri" className="hover:text-[#27ae60] transition-colors">Galeri Kegiatan</Link></li>
+              <li><Link href="/#galeri" className="hover:text-[#27ae60] transition-colors">Galeri Kegiatan</Link></li>
               <li><Link href="/kontak" className="hover:text-[#27ae60] transition-colors">Kontak</Link></li>
             </ul>
           </div>
