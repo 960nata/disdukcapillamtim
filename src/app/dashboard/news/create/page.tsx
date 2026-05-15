@@ -187,27 +187,15 @@ export default function CreateNewsPage() {
 
   const addBlock = (type: string) => {
     if (type === 'text') {
-      setBlocks([...blocks, { type: 'text', content: '<p>Paragraf baru yang menarik...</p>' }]);
+      setBlocks([...blocks, { type: 'text', content: '<p>Tulis paragraf baru di sini...</p>' }]);
     } else if (type === 'image') {
-      setBlocks([...blocks, { type: 'image', content: '/images/foto_kegiatan/pelayanan_ktp.avif' }]);
+      setBlocks([...blocks, { type: 'image', content: '' }]);
     } else if (type === 'video') {
-      setBlocks([...blocks, { type: 'video', content: 'https://www.youtube.com/embed/dQw4w9WgXcQ' }]);
+      setBlocks([...blocks, { type: 'video', content: '' }]);
     } else if (type === 'gallery') {
-      setBlocks([...blocks, { 
-        type: 'gallery', 
-        content: [
-          '/images/foto_kegiatan/pelayanan_ktp.avif',
-          '/images/foto_kegiatan/kantor_luar.avif'
-        ] 
-      }]);
+      setBlocks([...blocks, { type: 'gallery', content: [] }]);
     } else if (type === 'carousel') {
-      setBlocks([...blocks, { 
-        type: 'carousel', 
-        content: [
-          '/images/foto_kegiatan/pelayanan_ktp.avif',
-          '/images/foto_kegiatan/kantor_luar.avif'
-        ] 
-      }]);
+      setBlocks([...blocks, { type: 'carousel', content: [] }]);
     }
   };
 
@@ -343,26 +331,53 @@ export default function CreateNewsPage() {
 
                   {/* Image Block */}
                   {block.type === 'image' && (
-                    <div className="relative rounded-xl overflow-hidden border border-gray-100 shadow-sm">
-                      <img src={block.content as string} alt="Block" className="w-full h-72 object-cover" />
-                      <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center backdrop-blur-sm">
-                        <label htmlFor={`image-upload-${index}`} className="bg-white text-gray-900 px-4 py-2 rounded-xl text-xs font-bold hover:bg-gray-50 transition-all shadow-lg cursor-pointer">
-                          Ganti Gambar
-                        </label>
-                        <input id={`image-upload-${index}`} type="file" className="hidden" accept="image/*" onChange={(e) => handleBlockImageUpload(index, e)} />
-                      </div>
+                    <div className="relative rounded-xl overflow-hidden border border-gray-100 shadow-sm min-h-40 bg-gray-50 flex items-center justify-center">
+                      {block.content ? (
+                        <>
+                          <img src={block.content as string} alt="Block" className="w-full h-72 object-cover" />
+                          <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center backdrop-blur-sm">
+                            <label htmlFor={`image-upload-${index}`} className="bg-white text-gray-900 px-4 py-2 rounded-xl text-xs font-bold hover:bg-gray-50 transition-all shadow-lg cursor-pointer">
+                              Ganti Gambar
+                            </label>
+                            <input id={`image-upload-${index}`} type="file" className="hidden" accept="image/*" onChange={(e) => handleBlockImageUpload(index, e)} />
+                          </div>
+                        </>
+                      ) : (
+                        <div className="text-center p-6">
+                          <p className="text-sm text-gray-400 mb-2">Belum ada gambar</p>
+                          <label htmlFor={`image-upload-${index}`} className="bg-[#27ae60] text-white px-4 py-2 rounded-xl text-xs font-bold hover:bg-[#1e8449] transition-all shadow-lg cursor-pointer inline-block">
+                            Upload Gambar
+                          </label>
+                          <input id={`image-upload-${index}`} type="file" className="hidden" accept="image/*" onChange={(e) => handleBlockImageUpload(index, e)} />
+                        </div>
+                      )}
                     </div>
                   )}
 
                   {/* Video Block */}
                   {block.type === 'video' && (
-                    <div className="relative rounded-xl overflow-hidden border border-gray-100 bg-black aspect-video shadow-sm">
-                      <iframe 
-                        src={block.content as string} 
-                        className="w-full h-full" 
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                        allowFullScreen
-                      ></iframe>
+                    <div className="space-y-3">
+                      <div className="relative rounded-xl overflow-hidden border border-gray-100 bg-black aspect-video shadow-sm">
+                        {block.content ? (
+                          <iframe 
+                            src={block.content as string} 
+                            className="w-full h-full" 
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                            allowFullScreen
+                          ></iframe>
+                        ) : (
+                          <div className="w-full h-full flex items-center justify-center text-gray-400">
+                            Preview Video (Masukkan URL di bawah)
+                          </div>
+                        )}
+                      </div>
+                      <input 
+                        type="text"
+                        value={block.content as string}
+                        onChange={(e) => updateBlock(index, e.target.value)}
+                        placeholder="Masukkan URL embed YouTube (contoh: https://www.youtube.com/embed/dQw4w9WgXcQ)"
+                        className="w-full px-4 py-2.5 text-sm border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#27ae60]/20 focus:border-[#27ae60] transition-all"
+                      />
                     </div>
                   )}
 
@@ -377,21 +392,27 @@ export default function CreateNewsPage() {
                         </label>
                         <input id={`gallery-upload-${index}`} type="file" className="hidden" accept="image/*" onChange={(e) => handleAddImageToBlock(index, e)} />
                       </div>
-                      <div className="grid grid-cols-3 gap-4">
-                        {block.content.map((imgUrl: string, imgIdx: number) => (
-                          <div key={imgIdx} className="relative rounded-xl overflow-hidden border border-gray-100 aspect-square shadow-sm group/img">
-                            <img src={imgUrl} alt={`Gallery ${imgIdx}`} className="w-full h-full object-cover group-hover/img:scale-105 transition-transform duration-500" />
-                            <div className="absolute inset-0 bg-black/30 opacity-0 group-hover/img:opacity-100 transition-opacity flex items-center justify-center">
-                              <button 
-                                onClick={() => removeImageFromBlock(index, imgIdx)}
-                                className="p-1.5 bg-white/90 rounded-lg text-red-500 hover:bg-white hover:text-red-700 transition-colors shadow-lg"
-                              >
-                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
-                              </button>
+                      {block.content.length > 0 ? (
+                        <div className="grid grid-cols-3 gap-4">
+                          {block.content.map((imgUrl: string, imgIdx: number) => (
+                            <div key={imgIdx} className="relative rounded-xl overflow-hidden border border-gray-100 aspect-square shadow-sm group/img">
+                              <img src={imgUrl} alt={`Gallery ${imgIdx}`} className="w-full h-full object-cover group-hover/img:scale-105 transition-transform duration-500" />
+                              <div className="absolute inset-0 bg-black/30 opacity-0 group-hover/img:opacity-100 transition-opacity flex items-center justify-center">
+                                <button 
+                                  onClick={() => removeImageFromBlock(index, imgIdx)}
+                                  className="p-1.5 bg-white/90 rounded-lg text-red-500 hover:bg-white hover:text-red-700 transition-colors shadow-lg"
+                                >
+                                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+                                </button>
+                              </div>
                             </div>
-                          </div>
-                        ))}
-                      </div>
+                          ))}
+                        </div>
+                      ) : (
+                        <div className="h-32 bg-gray-50 rounded-xl flex items-center justify-center text-sm text-gray-400 border border-dashed border-gray-200">
+                          Belum ada foto. Klik "Tambah Foto"
+                        </div>
+                      )}
                     </div>
                   )}
 
@@ -406,29 +427,27 @@ export default function CreateNewsPage() {
                         </label>
                         <input id={`carousel-upload-${index}`} type="file" className="hidden" accept="image/*" onChange={(e) => handleAddImageToBlock(index, e)} />
                       </div>
-                      <div className="relative rounded-xl overflow-hidden border border-gray-100 h-64 bg-gray-50 flex items-center justify-center shadow-sm">
-                        {block.content.length > 0 ? (
-                          <>
-                            <img src={block.content[0]} alt="Carousel" className="w-full h-full object-cover" />
-                            <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent"></div>
-                            <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-1.5 bg-white/20 backdrop-blur-md px-3 py-1.5 rounded-full">
-                              {block.content.map((_, i) => (
-                                <div key={i} className={`w-2 h-2 rounded-full transition-all ${i === 0 ? 'bg-white scale-110' : 'bg-white/40'}`}></div>
-                              ))}
+                      {block.content.length > 0 ? (
+                        <div className="grid grid-cols-3 gap-4">
+                          {block.content.map((imgUrl: string, imgIdx: number) => (
+                            <div key={imgIdx} className="relative rounded-xl overflow-hidden border border-gray-100 aspect-video shadow-sm group/img">
+                              <img src={imgUrl} alt={`Slider ${imgIdx}`} className="w-full h-full object-cover group-hover/img:scale-105 transition-transform duration-500" />
+                              <div className="absolute inset-0 bg-black/30 opacity-0 group-hover/img:opacity-100 transition-opacity flex items-center justify-center">
+                                <button 
+                                  onClick={() => removeImageFromBlock(index, imgIdx)}
+                                  className="p-1.5 bg-white/90 rounded-lg text-red-500 hover:bg-white hover:text-red-700 transition-colors shadow-lg"
+                                >
+                                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+                                </button>
+                              </div>
                             </div>
-                            <div className="absolute top-4 right-4">
-                              <button 
-                                onClick={() => removeImageFromBlock(index, 0)}
-                                className="p-1.5 bg-white/90 rounded-lg text-red-500 hover:bg-white hover:text-red-700 transition-colors shadow-lg"
-                              >
-                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
-                              </button>
-                            </div>
-                          </>
-                        ) : (
-                          <div className="text-sm text-gray-400">Belum ada foto. Klik "Tambah Slide"</div>
-                        )}
-                      </div>
+                          ))}
+                        </div>
+                      ) : (
+                        <div className="h-32 bg-gray-50 rounded-xl flex items-center justify-center text-sm text-gray-400 border border-dashed border-gray-200">
+                          Belum ada slide. Klik "Tambah Slide"
+                        </div>
+                      )}
                     </div>
                   )}
 
