@@ -43,7 +43,7 @@ const NewsCarousel = ({ block }: { block: any }) => {
         ))}
       </div>
       <div className="flex justify-center gap-1.5 mt-3">
-        {Array.isArray(block.content) && block.content.map((_, i) => (
+        {Array.isArray(block.content) && block.content.map((_: any, i: number) => (
           <div key={i} className={`h-1.5 rounded-full transition-all duration-300 ${i === activeIndex ? 'w-6 bg-[#27ae60]' : 'w-1.5 bg-gray-300'}`} />
         ))}
       </div>
