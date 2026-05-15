@@ -86,6 +86,7 @@ export async function POST(request: Request) {
 
     return NextResponse.json(news);
   } catch (error) {
+    console.error('Failed to create news error:', error);
     return NextResponse.json({ error: 'Failed to create news' }, { status: 500 });
   }
 }
