@@ -34,6 +34,8 @@ export default function CreateNewsPage() {
   
   // Category & Tags State
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
+  const [availableTags, setAvailableTags] = useState<string[]>(['Pelayanan', 'Kegiatan', 'Edukasi', 'Penting']);
+  const [newTagInput, setNewTagInput] = useState('');
 
   const convertToEmbedUrl = (url: string) => {
     if (!url) return '';
@@ -717,7 +719,7 @@ export default function CreateNewsPage() {
           <div className="space-y-4">
             <h3 className="text-sm font-extrabold text-gray-900 tracking-tight">Kategori & Tag</h3>
             <div className="flex flex-wrap gap-2">
-              {['Pelayanan', 'Kegiatan', 'Edukasi', 'Penting'].map((cat) => (
+              {availableTags.map((cat) => (
                 <label key={cat} className="flex items-center gap-2 bg-gray-50 hover:bg-gray-100 border border-gray-100 px-3 py-2 rounded-xl cursor-pointer transition-all">
                   <input 
                     type="checkbox" 
@@ -731,6 +733,38 @@ export default function CreateNewsPage() {
                   <span className="text-xs font-bold text-gray-700">{cat}</span>
                 </label>
               ))}
+            </div>
+            
+            <div className="flex gap-2">
+              <input 
+                type="text" 
+                value={newTagInput}
+                onChange={(e) => setNewTagInput(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') {
+                    e.preventDefault();
+                    if (newTagInput.trim() && !availableTags.includes(newTagInput.trim())) {
+                      setAvailableTags([...availableTags, newTagInput.trim()]);
+                      setSelectedTags([...selectedTags, newTagInput.trim()]);
+                      setNewTagInput('');
+                    }
+                  }
+                }}
+                className="flex-grow px-3 py-2 text-xs bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:border-[#27ae60] focus:bg-white transition-all"
+                placeholder="Tambah Tag Baru..."
+              />
+              <button 
+                onClick={() => {
+                  if (newTagInput.trim() && !availableTags.includes(newTagInput.trim())) {
+                    setAvailableTags([...availableTags, newTagInput.trim()]);
+                    setSelectedTags([...selectedTags, newTagInput.trim()]);
+                    setNewTagInput('');
+                  }
+                }}
+                className="px-3 py-2 text-xs font-bold text-white bg-[#27ae60] hover:bg-[#1e8449] rounded-xl transition-colors"
+              >
+                +
+              </button>
             </div>
           </div>
 
