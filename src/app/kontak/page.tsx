@@ -16,7 +16,7 @@ export default function KontakPage() {
           {/* Background Image */}
           <div className="absolute inset-0 z-0">
             <Image 
-              src="/images/foto_kegiatan/kantor_luar.avif" 
+              src="/images/hero kontak/Gemini_Generated_Image_7sd87u7sd87u7sd8.avif" 
               alt="Kantor Disdukcapil" 
               fill 
               className="object-cover"

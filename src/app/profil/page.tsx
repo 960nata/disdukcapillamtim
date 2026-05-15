@@ -43,7 +43,7 @@ export default function ProfilPage() {
           {/* Background Image */}
           <div className="absolute inset-0 z-0">
             <Image 
-              src="/images/foto_kegiatan/kantor_luar.avif" 
+              src="/images/hero/hero1.avif" 
               alt="Kantor Disdukcapil" 
               fill 
               className="object-cover"
@@ -55,7 +55,7 @@ export default function ProfilPage() {
 
           {/* Content */}
           <div className="relative z-10 text-center text-white px-4 mt-10">
-            <h1 className="text-4xl md:text-5xl font-bold mb-4 text-white">Profil Dinas Kependudukan</h1>
+            <h1 className="text-4xl md:text-5xl font-bold mb-4 text-white">DINAS KEPENDUDUKAN DAN PENCATATAN SIPIL KABUPATEN LAMPUNG TIMUR</h1>
             <p className="text-lg text-white/80 max-w-2xl mx-auto">
               Kenali lebih dekat visi, misi, dan struktur organisasi Dinas Kependudukan dan Pencatatan Sipil Kabupaten Lampung Timur.
             </p>
@@ -293,27 +293,29 @@ export default function ProfilPage() {
               </div>
             ))}
 
-            {/* Kabid Grid */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-              {structure.filter(p => !(p.order === 1 || p.role.includes("Kepala"))).map((person, i) => (
-                <div key={i} className="bg-white border border-gray-100 rounded-2xl p-6 flex flex-col relative overflow-hidden shadow-sm hover:shadow-md transition-shadow group">
-                  <div className="w-16 h-16 bg-gray-50 rounded-full flex items-center justify-center text-gray-700 font-bold text-xl mb-6 shadow-sm border border-gray-100">
-                    {person.photoUrl ? (
-                      <Image src={person.photoUrl} alt={person.name} width={64} height={64} className="rounded-full object-cover" />
-                    ) : (
-                      person.name.charAt(0)
-                    )}
+            {/* Kabid Carousel */}
+            <div className="relative">
+              <div className="flex gap-6 overflow-x-auto pb-6 snap-x scrollbar-hide">
+                {structure.filter(p => !(p.order === 1 || p.role.includes("Kepala"))).map((person, i) => (
+                  <div key={i} className="min-w-[280px] md:min-w-[300px] bg-white border border-gray-100 rounded-2xl p-6 flex flex-col relative overflow-hidden snap-align-start shadow-sm hover:shadow-md transition-shadow group">
+                    <div className="w-16 h-16 bg-gray-50 rounded-full flex items-center justify-center text-gray-700 font-bold text-xl mb-6 shadow-sm border border-gray-100">
+                      {person.photoUrl ? (
+                        <Image src={person.photoUrl} alt={person.name} width={64} height={64} className="rounded-full object-cover" />
+                      ) : (
+                        person.name.charAt(0)
+                      )}
+                    </div>
+                    <h3 className="text-lg font-bold text-gray-900 leading-tight">{person.name}</h3>
+                    {person.title && <p className="text-sm font-bold text-gray-400 mb-2">{person.title}</p>}
+                    {!person.title && <div className="h-4 mb-2"></div>}
+                    <p className="text-[#27ae60] font-medium text-sm mb-4">{person.role.includes("Kabid") ? person.role : `Kabid ${person.role}`}</p>
+                    {person.nip && <p className="text-gray-400 text-xs font-mono mt-auto">NIP. {person.nip}</p>}
+                    
+                    {/* Hover accent */}
+                    <div className="absolute bottom-0 left-0 w-full h-1 bg-[#27ae60] transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left"></div>
                   </div>
-                  <h3 className="text-lg font-bold text-gray-900 leading-tight">{person.name}</h3>
-                  {person.title && <p className="text-sm font-bold text-gray-400 mb-2">{person.title}</p>}
-                  {!person.title && <div className="h-4 mb-2"></div>}
-                  <p className="text-[#27ae60] font-medium text-sm mb-4">{person.role.includes("Kabid") ? person.role : `Kabid ${person.role}`}</p>
-                  {person.nip && <p className="text-gray-400 text-xs font-mono mt-auto">NIP. {person.nip}</p>}
-                  
-                  {/* Hover accent */}
-                  <div className="absolute bottom-0 left-0 w-full h-1 bg-[#27ae60] transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left"></div>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
           </motion.section>
 

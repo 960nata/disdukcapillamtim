@@ -8,12 +8,26 @@ import Image from 'next/image';
 export default function LoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // For now, just redirect to dashboard or show alert
-    alert('Fitur login belum terhubung ke backend. Gunakan akun admin@disdukcapil.com / password123');
-    window.location.href = '/dashboard';
+    setError('');
+    try {
+      const res = await fetch('/api/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password }),
+      });
+      const data = await res.json();
+      if (res.ok) {
+        window.location.href = '/dashboard';
+      } else {
+        setError(data.error || 'Email atau password salah');
+      }
+    } catch (err) {
+      setError('Terjadi kesalahan koneksi');
+    }
   };
 
   return (
@@ -39,6 +53,11 @@ export default function LoginPage() {
       <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
         <div className="bg-white py-8 px-4 shadow-sm border border-gray-100 sm:rounded-2xl sm:px-10">
           <form className="space-y-6" onSubmit={handleSubmit}>
+            {error && (
+              <div className="text-red-500 text-xs text-center font-bold bg-red-50 p-2.5 rounded-xl border border-red-100">
+                {error}
+              </div>
+            )}
             
             {/* Email */}
             <div>

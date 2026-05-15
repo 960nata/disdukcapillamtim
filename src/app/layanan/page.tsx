@@ -18,7 +18,7 @@ export default function LayananPage() {
           {/* Background Image */}
           <div className="absolute inset-0 z-0">
             <Image 
-              src="/images/foto_kegiatan/pelayanan_ktp.avif" 
+              src="/images/hero/hero 3.avif" 
               alt="Pelayanan KTP" 
               fill 
               className="object-cover"
