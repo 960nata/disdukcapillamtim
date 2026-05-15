@@ -94,12 +94,12 @@ export default function BeritaDetailPage() {
             alt={newsDetail.title} 
             className="w-full h-full object-cover"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/10"></div>
+          <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/70 to-black/30"></div>
           
           {/* Breadcrumb & Title - Constrained to max-w-7xl to align with content below */}
           <div className="absolute inset-0 flex flex-col justify-end pb-12">
             <div className="max-w-[1300px] mx-auto w-full text-white px-[20px]">
-              <div className="w-full lg:w-[65%] pl-[20px]">
+              <div className="w-full lg:w-[65%] md:pl-[20px]">
                 <div className="flex items-center gap-2 text-xs md:text-sm font-bold text-[#2ecc71] mb-3">
                   <Link href="/berita" className="hover:underline">Berita</Link>
                   <span>/</span>
