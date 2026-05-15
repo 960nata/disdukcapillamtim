@@ -186,25 +186,28 @@ export default function BeritaDetailPage() {
                       href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(typeof window !== 'undefined' ? window.location.href : '')}`}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="w-8 h-8 flex items-center justify-center bg-gray-50 rounded-xl text-gray-600 hover:bg-[#27ae60]/10 hover:text-[#27ae60] transition-all border border-gray-100 text-xs font-bold"
+                      className="w-8 h-8 flex items-center justify-center bg-gray-50 rounded-xl text-gray-600 hover:bg-[#27ae60]/10 hover:text-[#27ae60] transition-all border border-gray-100"
+                      title="Bagikan ke Facebook"
                     >
-                      FB
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M22.675 0h-21.35c-.732 0-1.325.593-1.325 1.325v21.351c0 .731.593 1.324 1.325 1.324h11.495v-8.784h-2.956v-3.425h2.956v-2.525c0-2.93 1.79-4.525 4.403-4.525 1.252 0 2.328.093 2.641.135v3.062h-1.812c-1.422 0-1.697.676-1.697 1.667v2.186h3.391l-.442 3.425h-2.949v8.784h6.035c.732 0 1.325-.593 1.325-1.325v-21.351c0-.732-.593-1.325-1.325-1.325z"/></svg>
                     </a>
                     <a 
                       href={`https://api.whatsapp.com/send?text=${encodeURIComponent(newsDetail.title + ' - ' + (typeof window !== 'undefined' ? window.location.href : ''))}`}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="w-8 h-8 flex items-center justify-center bg-gray-50 rounded-xl text-gray-600 hover:bg-[#27ae60]/10 hover:text-[#27ae60] transition-all border border-gray-100 text-xs font-bold"
+                      className="w-8 h-8 flex items-center justify-center bg-gray-50 rounded-xl text-gray-600 hover:bg-[#27ae60]/10 hover:text-[#27ae60] transition-all border border-gray-100"
+                      title="Bagikan ke WhatsApp"
                     >
-                      WA
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.246 2.248 3.484 5.237 3.483 8.42-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.308 1.648zm5.223-3.23c1.572.933 3.129 1.417 4.75 1.418 5.441 0 9.868-4.427 9.871-9.869.001-2.636-1.026-5.112-2.892-6.98s-4.337-2.891-6.977-2.892c-5.442 0-9.87 4.429-9.872 9.87-.001 1.813.497 3.545 1.44 5.061l-.988 3.61 3.69-.966zm11.434-7.054c-.269-.135-1.594-.787-1.841-.876-.246-.089-.427-.135-.607.135-.18.271-.696.877-.853 1.057-.158.18-.315.203-.584.068-.269-.135-1.138-.42-2.167-1.338-.802-.715-1.343-1.598-1.5-1.869-.158-.271-.017-.417.118-.552.122-.121.269-.315.404-.473.135-.158.18-.271.27-.45.09-.18.045-.338-.022-.473-.068-.135-.607-1.463-.832-2.003-.219-.527-.441-.456-.607-.464-.156-.008-.337-.01-.517-.01-.18 0-.473.068-.72.338-.246.271-.944.923-.944 2.251s.966 2.613 1.101 2.793c.135.18 1.902 2.904 4.609 4.073.645.278 1.148.445 1.54.57.648.205 1.237.176 1.703.106.519-.078 1.594-.653 1.819-1.283.225-.63.225-1.17.157-1.283-.067-.113-.247-.18-.516-.315z"/></svg>
                     </a>
                     <a 
                       href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(newsDetail.title)}&url=${encodeURIComponent(typeof window !== 'undefined' ? window.location.href : '')}`}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="w-8 h-8 flex items-center justify-center bg-gray-50 rounded-xl text-gray-600 hover:bg-[#27ae60]/10 hover:text-[#27ae60] transition-all border border-gray-100 text-xs font-bold"
+                      className="w-8 h-8 flex items-center justify-center bg-gray-50 rounded-xl text-gray-600 hover:bg-[#27ae60]/10 hover:text-[#27ae60] transition-all border border-gray-100"
+                      title="Bagikan ke X"
                     >
-                      X
+                      <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" viewBox="0 0 24 24"><path d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932 6.064-6.933zm-1.292 19.489h2.039L6.486 3.24H4.298L17.61 20.642z"/></svg>
                     </a>
                     <button 
                       onClick={() => {
