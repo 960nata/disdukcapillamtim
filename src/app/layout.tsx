@@ -11,6 +11,9 @@ const plusJakartaSans = Plus_Jakarta_Sans({
 export const metadata: Metadata = {
   title: "Disdukcapil Lampung Timur",
   description: "Layanan Administrasi Kependudukan Kabupaten Lampung Timur",
+  icons: {
+    icon: '/images/logo/logo.avif',
+  }
 };
 
 export default function RootLayout({

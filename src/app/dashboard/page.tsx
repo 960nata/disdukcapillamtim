@@ -2,6 +2,10 @@
 
 import * as React from 'react';
 import { useState, useEffect } from 'react';
+import dynamic from 'next/dynamic';
+
+// Import ApexCharts secara dinamis untuk menghindari error SSR
+const Chart = dynamic(() => import('react-apexcharts'), { ssr: false });
 
 export default function DashboardPage() {
   const [stats, setStats] = useState({
@@ -34,6 +38,47 @@ export default function DashboardPage() {
     { title: 'Total Foto Galeri', value: stats.totalGallery.toString(), icon: 'M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z', color: '#2980b9' },
   ];
 
+  // Konfigurasi Chart untuk Google Analytics Mockup
+  const chartOptions: any = {
+    chart: {
+      id: 'ga4-chart',
+      toolbar: { show: false },
+      fontFamily: 'inherit',
+    },
+    xaxis: {
+      categories: ['Sen', 'Sel', 'Rab', 'Kam', 'Jum', 'Sab', 'Min'],
+      labels: { style: { colors: '#9ca3af', fontWeight: 600 } },
+    },
+    yaxis: {
+      labels: { style: { colors: '#9ca3af', fontWeight: 600 } },
+    },
+    colors: ['#27ae60', '#2980b9'],
+    stroke: { curve: 'smooth', width: 3 },
+    fill: {
+      type: 'gradient',
+      gradient: {
+        shadeIntensity: 1,
+        opacityFrom: 0.45,
+        opacityTo: 0.05,
+        stops: [0, 100],
+      },
+    },
+    grid: { borderColor: '#f3f4f6', strokeDashArray: 4 },
+    dataLabels: { enabled: false },
+    legend: { position: 'top', horizontalAlign: 'right' },
+  };
+
+  const chartSeries = [
+    {
+      name: 'Pengguna Aktif (Mock)',
+      data: [120, 150, 180, 220, 210, 250, 310],
+    },
+    {
+      name: 'Sesi (Mock)',
+      data: [90, 110, 140, 170, 160, 190, 240],
+    },
+  ];
+
   return (
     <div className="p-8 space-y-8 font-sans">
       
@@ -53,7 +98,7 @@ export default function DashboardPage() {
                   <path d={stat.icon}></path>
                 </svg>
               </div>
-              <span className="text-xs font-bold text-[#27ae60] bg-[#27ae60]/10 px-2.5 py-0.5 rounded-full">+0%</span>
+              <span className="text-xs font-bold text-[#27ae60] bg-[#27ae60]/10 px-2.5 py-0.5 rounded-full">+12%</span>
             </div>
             <p className="text-sm font-medium text-gray-500 mb-1">{stat.title}</p>
             <h3 className="text-2xl font-bold text-gray-900">
@@ -66,22 +111,21 @@ export default function DashboardPage() {
       {/* Content Grid (2 columns) */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         
-        {/* Main Chart Area (Mockup) */}
+        {/* Main Chart Area (GA4 Mockup) */}
         <div className="lg:col-span-2 bg-white p-6 rounded-2xl border border-gray-100 shadow-sm">
           <div className="flex items-center justify-between mb-6">
             <div>
-              <h2 className="text-lg font-bold text-gray-900">Grafik Pengunjung</h2>
-              <p className="text-xs text-gray-500">Statistik pengunjung 7 hari terakhir</p>
+              <h2 className="text-lg font-bold text-gray-900">Statistik GA4 (Google Analytics)</h2>
+              <p className="text-xs text-gray-500">Visualisasi data pengunjung 7 hari terakhir</p>
             </div>
-            <select className="text-xs font-medium text-gray-600 bg-gray-50 border border-gray-200 rounded-lg px-3 py-1.5 focus:outline-none">
-              <option>7 Hari Terakhir</option>
-              <option>30 Hari Terakhir</option>
-            </select>
+            <div className="text-xs font-bold text-[#27ae60] bg-[#27ae60]/10 px-3 py-1 rounded-full">
+              Live Preview
+            </div>
           </div>
           
-          {/* Chart Mockup */}
-          <div className="h-64 bg-gray-50 rounded-xl flex items-center justify-center border border-dashed border-gray-200">
-            <p className="text-sm text-gray-400">Grafik akan muncul di sini (Integrasi ApexCharts)</p>
+          {/* Chart */}
+          <div className="h-64">
+            <Chart options={chartOptions} series={chartSeries} type="area" height={250} />
           </div>
         </div>
 

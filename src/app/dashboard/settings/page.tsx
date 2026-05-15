@@ -10,6 +10,7 @@ export default function SettingsPage() {
     address: 'Jl. Sudirman No. 123, Sukadana, Lampung Timur',
     instagram: '',
     whatsapp: '',
+    logo: '',
   });
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
@@ -28,6 +29,7 @@ export default function SettingsPage() {
             address: data.address || prev.address,
             instagram: data.instagram || prev.instagram,
             whatsapp: data.whatsapp || prev.whatsapp,
+            logo: data.logo || prev.logo,
           }));
         }
       } catch (error) {
@@ -42,6 +44,29 @@ export default function SettingsPage() {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setSettings((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleLogoUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    const formData = new FormData();
+    formData.append('file', file);
+
+    try {
+      const res = await fetch('/api/upload', {
+        method: 'POST',
+        body: formData,
+      });
+      const data = await res.json();
+      if (data.url) {
+        setSettings((prev) => ({ ...prev, logo: data.url }));
+        setMessage('Logo berhasil diupload! Klik Simpan untuk mempermanenkan.');
+      }
+    } catch (error) {
+      console.error('Failed to upload logo:', error);
+      setMessage('Gagal mengupload logo.');
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -84,6 +109,29 @@ export default function SettingsPage() {
 
       <form onSubmit={handleSubmit} className="max-w-3xl bg-white p-8 rounded-2xl border border-gray-100 shadow-sm space-y-6 backdrop-blur-sm bg-white/90">
         
+        {/* Logo Website */}
+        <div className="p-4 bg-gray-50 rounded-xl border border-gray-100">
+          <label className="block text-xs font-bold text-gray-600 mb-1.5">Logo Website (Favicon / Bar)</label>
+          <div className="flex items-center gap-4">
+            <div className="w-16 h-16 bg-white border border-gray-200 rounded-xl overflow-hidden flex-shrink-0 flex items-center justify-center">
+              {settings.logo ? (
+                <img src={settings.logo} alt="Logo" className="w-full h-full object-contain" />
+              ) : (
+                <span className="text-xs text-gray-400">No Logo</span>
+              )}
+            </div>
+            <div>
+              <input 
+                type="file" 
+                accept="image/*"
+                onChange={handleLogoUpload}
+                className="text-sm file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-semibold file:bg-[#27ae60]/10 file:text-[#27ae60] hover:file:bg-[#27ae60]/20"
+              />
+              <p className="text-xs text-gray-400 mt-1">Format: JPG, PNG, WebP, AVIF. Selain WebP akan dikompres ke AVIF.</p>
+            </div>
+          </div>
+        </div>
+
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
             <label className="block text-xs font-bold text-gray-600 mb-1.5">Nama Website</label>

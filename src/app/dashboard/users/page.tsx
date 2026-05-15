@@ -48,47 +48,7 @@ export default function UsersPage() {
           <div className="p-6 text-center text-sm text-gray-500">Loading data...</div>
         ) : users.length === 0 ? (
           <div className="p-6 text-center text-sm text-gray-500">
-            <p>Belum ada data user dari database.</p>
-            <p className="text-xs mt-1 text-gray-400">Menampilkan data dummy untuk visualisasi:</p>
-            
-            {/* Fallback Dummy Table */}
-            <table className="w-full text-sm text-left text-gray-500 mt-4">
-              <thead className="text-xs text-gray-700 uppercase bg-gray-50">
-                <tr>
-                  <th scope="col" className="px-6 py-4">Nama</th>
-                  <th scope="col" className="px-6 py-4">Email</th>
-                  <th scope="col" className="px-6 py-4">Role</th>
-                  <th scope="col" className="px-6 py-4">Status</th>
-                  <th scope="col" className="px-6 py-4">Aksi</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr className="bg-white border-b border-gray-50 hover:bg-gray-50">
-                  <td className="px-6 py-4 font-bold text-gray-900">Indra Gandi</td>
-                  <td className="px-6 py-4">admin@lamtim.go.id</td>
-                  <td className="px-6 py-4">Superadmin</td>
-                  <td className="px-6 py-4">
-                    <span className="bg-green-100 text-green-700 text-xs px-2 py-0.5 rounded-full font-medium">Aktif</span>
-                  </td>
-                  <td className="px-6 py-4 flex gap-2">
-                    <button className="text-[#27ae60] hover:underline text-xs font-bold">Edit</button>
-                    <button className="text-red-500 hover:underline text-xs font-bold">Hapus</button>
-                  </td>
-                </tr>
-                <tr className="bg-white border-b border-gray-50 hover:bg-gray-50">
-                  <td className="px-6 py-4 font-bold text-gray-900">Operator 1</td>
-                  <td className="px-6 py-4">operator@lamtim.go.id</td>
-                  <td className="px-6 py-4">Operator</td>
-                  <td className="px-6 py-4">
-                    <span className="bg-green-100 text-green-700 text-xs px-2 py-0.5 rounded-full font-medium">Aktif</span>
-                  </td>
-                  <td className="px-6 py-4 flex gap-2">
-                    <button className="text-[#27ae60] hover:underline text-xs font-bold">Edit</button>
-                    <button className="text-red-500 hover:underline text-xs font-bold">Hapus</button>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+            Belum ada data user dari database.
           </div>
         ) : (
           <table className="w-full text-sm text-left text-gray-500">
