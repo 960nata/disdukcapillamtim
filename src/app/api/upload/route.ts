@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { writeFile, mkdir } from 'fs/promises';
+import { writeFile, mkdir, stat } from 'fs/promises';
 import { join } from 'path';
 import sharp from 'sharp';
 
@@ -16,7 +16,14 @@ export async function POST(request: Request) {
     const fileName = (file as any).name || 'upload.jpg';
     const extension = fileName.split('.').pop()?.toLowerCase();
 
-    const uploadDir = join(process.cwd(), 'public', 'uploads');
+    // Gunakan folder public_html di server jika ada, jika tidak pakai folder project
+    let uploadDir = join(process.cwd(), 'public', 'uploads');
+    try {
+      await stat('/home/seputa55/public_html');
+      uploadDir = '/home/seputa55/public_html/uploads';
+    } catch (e) {
+      // Folder tidak ada (berarti di local), pakai default
+    }
     
     // Pastikan folder uploads ada
     try {
