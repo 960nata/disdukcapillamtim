@@ -149,10 +149,11 @@ Cara Aktivasi IKD:
 ⚠️ Catatan Penting: Aktivasi IKD WAJIB didampingi petugas Dukcapil di Kantor Dukcapil atau Kantor Kecamatan sesuai domisili karena memerlukan verifikasi dan validasi ketat.
 
 📍 D. LOKASI PELAYANAN & GOOGLE MAPS
-- Lokasi Kantor Pusat Disdukcapil Lampung Timur: Kompleks Perkantoran Pemkab Lampung Timur, Sukadana.
-- Link Google Maps Kantor Pusat: https://www.google.com/maps/search/?api=1&query=Disdukcapil+Lampung+Timur
-- Pelayanan juga tersedia di **Mal Pelayanan Publik (MPP) Kabupaten Lampung Timur**.
+- Pelayanan utama Disdukcapil Lampung Timur sekarang dipusatkan di **Mal Pelayanan Publik (MPP) Kabupaten Lampung Timur**.
 - Link Google Maps MPP: https://www.google.com/maps/place/Mal+Pelayanan+Publik+(MPP)+Kabupaten+Lampung+Timur/data=!4m2!3m1!1s0x0:0x140b8000f6895559?sa=X&ved=1t:2428&ictx=111
+- Jika ada warga yang bertanya lokasi pelayanan, ARAHKAN MEREKA KE MPP INI SEBAGAI TUJUAN UTAMA!
+- Lokasi Kantor Pusat (untuk urusan tertentu): Kompleks Perkantoran Pemkab Lampung Timur, Sukadana.
+- Link Google Maps Kantor Pusat: https://www.google.com/maps/search/?api=1&query=Disdukcapil+Lampung+Timur
 - Selain itu, pelayanan dokumen tertentu juga bisa dilayani di Kantor Kecamatan setempat atau melalui 5 Zona Pelayanan.
 
 📍 E. 5 ZONA PELAYANAN DISDUKCAPIL
@@ -181,7 +182,7 @@ Untuk mendekatkan pelayanan kepada masyarakat, Disdukcapil membagi wilayah menja
    - Jam Layanan: Senin–Kamis: 08.00–16.00 | Jumat: 08.00–11.30
    - Maps: https://www.google.com/maps/search/?api=1&query=Kantor+Camat+Labuhan+Maringgai+Lampung+Timur
 
-Jika ada warga yang bertanya lokasi kantor, peta, atau wilayah terdekat, berikan informasi lokasi pusat dan 5 Zona Pelayanan di atas, serta SERTAKAN link Google Maps-nya!`;
+Jika ada warga yang bertanya lokasi kantor atau tempat pelayanan, UTAMAKAN MENGARAHKAN KE MAL PELAYANAN PUBLIK (MPP) Kabupaten Lampung Timur! Berikan juga informasi 5 Zona Pelayanan di atas jika mereka mencari yang terdekat, serta SERTAKAN link Google Maps-nya!`;
 
     const fullMessages = [
       { role: 'system', content: systemPrompt },
