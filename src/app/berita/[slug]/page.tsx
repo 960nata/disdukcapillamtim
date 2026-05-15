@@ -100,15 +100,15 @@ export default function BeritaDetailPage() {
           <div className="absolute inset-0 flex flex-col justify-end pb-12">
             <div className="max-w-[1300px] mx-auto w-full text-white px-[20px]">
               <div className="w-full lg:w-[65%] md:pl-[20px]">
-                <div className="flex items-center gap-2 text-xs md:text-sm font-bold text-[#2ecc71] mb-3">
+                <div className="flex items-center gap-2 text-[11px] md:text-sm font-bold text-[#2ecc71] mb-2">
                   <Link href="/berita" className="hover:underline">Berita</Link>
                   <span>/</span>
                   <span>{newsDetail.category}</span>
                 </div>
-                <h1 className="text-2xl md:text-4xl font-extrabold mb-4 leading-tight">
+                <h1 className="text-xl md:text-3xl font-extrabold mb-3 leading-tight">
                   {newsDetail.title}
                 </h1>
-                <div className="flex items-center gap-4 text-xs md:text-sm text-white/80">
+                <div className="flex items-center gap-4 text-[11px] md:text-xs text-white/80">
                   <div className="flex items-center gap-2">
                     <div className="w-5 h-5 bg-white/20 rounded-full flex items-center justify-center text-xs font-bold text-white">
                       {newsDetail.author.charAt(0)}
