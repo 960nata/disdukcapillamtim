@@ -132,7 +132,7 @@ export default function BeritaDetailPage() {
             
             {/* Left Column (75%) - Main News Card */}
             <div className="w-full lg:w-[65%]">
-              <div className="bg-white p-8 md:p-10 rounded-2xl border border-gray-100 shadow-sm space-y-6">
+              <div className="bg-white p-[20px] rounded-2xl border border-gray-100 shadow-sm space-y-6">
                 
                 {/* Article Content */}
                 <div className="max-w-none [&_h2]:text-2xl [&_h2]:font-extrabold [&_h2]:text-gray-900 [&_h2]:mt-8 [&_h2]:mb-4 [&_h3]:text-xl [&_h3]:font-bold [&_h3]:text-gray-900 [&_h3]:mt-6 [&_h3]:mb-3 [&_h4]:text-lg [&_h4]:font-bold [&_h4]:text-gray-800 [&_h4]:mt-4 [&_h4]:mb-2 [&_p]:text-gray-700 [&_p]:leading-relaxed [&_p]:mb-4 [&_ul]:list-disc [&_ul]:pl-5 [&_ul]:mb-4 [&_li]:text-gray-700 [&_li]:mb-1 [&_a]:text-[#27ae60] [&_a]:hover:text-[#1e8449] [&_a]:font-bold">
