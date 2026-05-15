@@ -240,11 +240,10 @@ export default function BeritaDetailPage() {
                   {popularNews.map((news, i) => (
                     <Link href={`/berita/${news.slug}`} key={i} className="flex gap-3 group cursor-pointer">
                       <div className="relative w-24 h-20 rounded-lg overflow-hidden flex-shrink-0 border border-gray-100">
-                        <Image 
+                        <img 
                           src={news.coverImage || '/images/foto_kegiatan/kantor_luar.avif'} 
                           alt={news.title} 
-                          fill 
-                          className="object-cover group-hover:scale-110 transition-transform duration-500"
+                          className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                         />
                       </div>
                       <div className="flex flex-col justify-between py-0.5">
