@@ -14,6 +14,7 @@ export default function BeritaDetailPage() {
   const slug = params.slug;
 
   const [newsDetail, setNewsDetail] = React.useState<any>(null);
+  const [popularNews, setPopularNews] = React.useState<any[]>([]);
   const [loading, setLoading] = React.useState(true);
 
   React.useEffect(() => {
@@ -22,6 +23,10 @@ export default function BeritaDetailPage() {
         const res = await fetch('/api/news');
         const data = await res.json();
         const item = data.find((n: any) => n.slug === slug);
+        
+        // Set popular news (excluding current one)
+        setPopularNews(data.filter((n: any) => n.slug !== slug).slice(0, 3));
+
         if (item) {
           let parsedContent = item.content;
           try {
@@ -49,11 +54,7 @@ export default function BeritaDetailPage() {
     fetchDetail();
   }, [slug]);
 
-  const relatedNews = [
-    { title: 'Inovasi SIAP: Solusi Cepat Urus KIA', date: '12 Mei 2026', image: '/images/foto_kegiatan/pelayanan_ktp.avif' },
-    { title: 'Sosialisasi IKD di Kecamatan Sukadana', date: '10 Mei 2026', image: '/images/foto_kegiatan/kantor_luar.avif' },
-    { title: 'Peningkatan Pelayanan Ramah Disabilitas', date: '08 Mei 2026', image: '/images/foto_kegiatan/pelayanan_ktp.avif' },
-  ];
+  // Real data is now used from state
 
   const announcements = [
     { title: 'Pemeliharaan Sistem SIAK pada 15 Mei 2026', date: '13 Mei' },
@@ -206,28 +207,30 @@ export default function BeritaDetailPage() {
               
               {/* Card 1: 5 Berita Terpopuler with Images */}
               <div className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm space-y-4">
-                <h3 className="text-sm font-extrabold text-gray-900 tracking-tight flex items-center gap-2">
+                <h3 className="text-lg font-extrabold text-gray-900 tracking-tight flex items-center gap-2">
                   <span className="w-1.5 h-4 bg-[#27ae60] rounded-full inline-block"></span>
                   Berita Populer
                 </h3>
                 <div className="space-y-4">
-                  {relatedNews.map((news, i) => (
-                    <div key={i} className="flex gap-3 group cursor-pointer">
-                      <div className="relative w-16 h-16 rounded-lg overflow-hidden flex-shrink-0 border border-gray-100">
+                  {popularNews.map((news, i) => (
+                    <Link href={`/berita/${news.slug}`} key={i} className="flex gap-3 group cursor-pointer">
+                      <div className="relative w-24 h-20 rounded-lg overflow-hidden flex-shrink-0 border border-gray-100">
                         <Image 
-                          src={news.image} 
+                          src={news.coverImage || '/images/foto_kegiatan/kantor_luar.avif'} 
                           alt={news.title} 
                           fill 
                           className="object-cover group-hover:scale-110 transition-transform duration-500"
                         />
                       </div>
                       <div className="flex flex-col justify-between py-0.5">
-                        <h4 className="text-xs font-bold text-gray-800 group-hover:text-[#27ae60] transition-colors line-clamp-2 leading-snug">
+                        <h4 className="text-sm font-bold text-gray-800 group-hover:text-[#27ae60] transition-colors line-clamp-2 leading-snug">
                           {news.title}
                         </h4>
-                        <p className="text-[10px] text-gray-400 font-medium">{news.date}</p>
+                        <p className="text-xs text-gray-400 font-medium">
+                          {new Date(news.createdAt).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' })}
+                        </p>
                       </div>
-                    </div>
+                    </Link>
                   ))}
                 </div>
               </div>
