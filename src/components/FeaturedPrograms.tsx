@@ -126,7 +126,7 @@ export default function FeaturedPrograms() {
       <div className="max-w-[1140px] mx-auto px-4 sm:px-6 lg:px-8 mb-16">
         <div className="text-center">
           <span className="bg-[#27ae60]/20 text-[#27ae60] text-xs font-semibold px-3 py-1 rounded-full uppercase tracking-wider">Inovasi Layanan</span>
-          <h2 className="text-4xl font-bold mt-4 mb-4">Program Unggulan</h2>
+          <h2 className="text-xl md:text-4xl font-bold mt-4 mb-4">Program Unggulan</h2>
           <p className="text-white/60 text-sm leading-relaxed max-w-2xl mx-auto">
             Program yang memastikan layanan kependudukan menjangkau seluruh pelosok Lampung Timur.
           </p>

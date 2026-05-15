@@ -62,7 +62,7 @@ export default function LatestNews() {
         {/* Header */}
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-12 gap-4">
           <div>
-            <h2 className="text-3xl font-extrabold text-[#0c1a30] tracking-tight">Berita & Informasi Terbaru</h2>
+            <h2 className="text-xl md:text-3xl font-extrabold text-[#0c1a30] tracking-tight">Berita & Informasi Terbaru</h2>
             <p className="text-gray-500 text-sm mt-2 max-w-2xl">
               Pantau perkembangan layanan kependudukan, kebijakan baru, dan inovasi strategis terkini di Kabupaten Lampung Timur.
             </p>

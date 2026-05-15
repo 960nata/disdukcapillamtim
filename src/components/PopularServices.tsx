@@ -75,7 +75,7 @@ export default function PopularServices() {
         {/* Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-10">
           <div>
-            <h2 className="text-3xl font-extrabold text-gray-900 mt-1 mb-2 tracking-tight">Layanan Kependudukan</h2>
+            <h2 className="text-xl md:text-3xl font-extrabold text-gray-900 mt-1 mb-2 tracking-tight">Layanan Kependudukan</h2>
             <p className="text-gray-600 max-w-2xl text-sm font-medium">
               Akses cepat ke dokumen yang paling sering dibutuhkan masyarakat Lampung Timur.
             </p>

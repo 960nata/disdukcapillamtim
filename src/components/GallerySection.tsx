@@ -29,7 +29,7 @@ export default function GallerySection() {
   return (
     <section className="py-24 bg-white overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-16 text-center">
-        <h2 className="text-3xl font-bold text-gray-900 mt-2 mb-4">Dokumentasi Kegiatan Disdukcapil</h2>
+        <h2 className="text-xl md:text-3xl font-bold text-gray-900 mt-2 mb-4">Dokumentasi Kegiatan Disdukcapil</h2>
         <p className="text-lg text-gray-600 max-w-3xl mx-auto">
           Momen-momen pelayanan, kegiatan lapangan, dan koordinasi yang kami lakukan untuk memberikan pelayanan terbaik bagi masyarakat Lampung Timur.
         </p>

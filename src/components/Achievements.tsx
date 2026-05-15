@@ -25,7 +25,7 @@ export default function Achievements() {
         {/* Header */}
         <div className="text-center mb-12">
           <span className="text-[#27ae60] text-sm font-bold uppercase tracking-wider">Prestasi & Capaian</span>
-          <h2 className="text-3xl font-bold text-gray-900 mt-2 mb-4">Bukti Komitmen Pelayanan Prima</h2>
+          <h2 className="text-xl md:text-3xl font-bold text-gray-900 mt-2 mb-4">Bukti Komitmen Pelayanan Prima</h2>
           <p className="text-lg text-gray-600 max-w-3xl mx-auto">
             Disdukcapil Lampung Timur terus melakukan lompatan besar dalam peningkatan kualitas pelayanan publik dan kepatuhan standar nasional.
           </p>

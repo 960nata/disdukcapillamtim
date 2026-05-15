@@ -67,7 +67,7 @@ export default function SpeechSection() {
 
         <div className="text-center mb-10">
           <span className="text-white text-sm font-bold uppercase tracking-wider">Sambutan</span>
-          <h2 className="text-3xl md:text-4xl font-bold text-white tracking-tight mt-2">
+          <h2 className="text-xl md:text-4xl font-bold text-white tracking-tight mt-2">
             Pidato Kepala Daerah
           </h2>
           <div className="w-20 h-1 bg-[#27ae60] mx-auto mt-4 rounded-full"></div>
