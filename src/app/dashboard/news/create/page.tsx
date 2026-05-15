@@ -101,6 +101,32 @@ export default function CreateNewsPage() {
     return data.url;
   };
 
+  const handleSave = async (status: string) => {
+    try {
+      const res = await fetch('/api/news', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          title,
+          slug,
+          content: JSON.stringify(blocks),
+          status,
+          seoTitle,
+          seoDesc,
+          seoKeywords,
+        }),
+      });
+
+      if (!res.ok) throw new Error('Gagal menyimpan berita');
+
+      alert(`Berita berhasil disimpan sebagai ${status}!`);
+      window.location.href = '/dashboard/news';
+    } catch (error) {
+      console.error('Error saving news:', error);
+      alert('Gagal menyimpan berita!');
+    }
+  };
+
   const handleCoverUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
@@ -242,10 +268,16 @@ export default function CreateNewsPage() {
         </div>
         
         <div className="flex items-center gap-3">
-          <button className="px-5 py-2.5 text-sm font-bold text-gray-700 hover:bg-gray-50 rounded-xl border border-gray-200 transition-all shadow-sm">
+          <button 
+            onClick={() => handleSave('Draft')}
+            className="px-5 py-2.5 text-sm font-bold text-gray-700 hover:bg-gray-50 rounded-xl border border-gray-200 transition-all shadow-sm"
+          >
             Simpan ke Draft
           </button>
-          <button className="bg-gradient-to-r from-[#27ae60] to-[#2ecc71] hover:from-[#1e8449] hover:to-[#27ae60] text-white transition-all duration-300 rounded-xl px-6 py-2.5 text-sm font-bold shadow-md shadow-green-100 flex items-center gap-2">
+          <button 
+            onClick={() => handleSave('Published')}
+            className="bg-gradient-to-r from-[#27ae60] to-[#2ecc71] hover:from-[#1e8449] hover:to-[#27ae60] text-white transition-all duration-300 rounded-xl px-6 py-2.5 text-sm font-bold shadow-md shadow-green-100 flex items-center gap-2"
+          >
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
             Terbitkan Artikel
           </button>
