@@ -90,7 +90,7 @@ export default function DashboardLayout({
       </aside>
       
       {/* Main Content */}
-      <div className="flex-grow ml-64 flex flex-col min-h-screen">
+      <div className="flex-grow ml-64 flex flex-col h-screen overflow-hidden">
         
         {/* Header */}
         <header className="bg-white border-b border-gray-100 px-8 py-4 flex items-center justify-between sticky top-0 z-20">
@@ -120,7 +120,7 @@ export default function DashboardLayout({
         </header>
         
         {/* Content Area */}
-        <main className="flex-grow p-8">
+        <main className="flex-grow p-8 overflow-y-auto">
           {children}
         </main>
         
