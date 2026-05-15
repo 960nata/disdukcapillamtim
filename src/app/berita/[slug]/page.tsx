@@ -99,25 +99,27 @@ export default function BeritaDetailPage() {
           <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/10"></div>
           
           {/* Breadcrumb & Title - Constrained to max-w-7xl to align with content below */}
-          <div className="absolute inset-0 flex flex-col justify-end p-8 md:p-12">
+          <div className="absolute inset-0 flex flex-col justify-end pb-12">
             <div className="max-w-[1300px] mx-auto w-full text-white px-[20px]">
-              <div className="flex items-center gap-2 text-xs md:text-sm font-bold text-[#2ecc71] mb-3">
-                <Link href="/berita" className="hover:underline">Berita</Link>
-                <span>/</span>
-                <span>{newsDetail.category}</span>
-              </div>
-              <h1 className="text-2xl md:text-4xl font-extrabold mb-4 leading-tight max-w-4xl">
-                {newsDetail.title}
-              </h1>
-              <div className="flex items-center gap-4 text-xs md:text-sm text-white/80">
-                <div className="flex items-center gap-2">
-                  <div className="w-5 h-5 bg-white/20 rounded-full flex items-center justify-center text-xs font-bold text-white">
-                    {newsDetail.author.charAt(0)}
-                  </div>
-                  <span className="font-bold">{newsDetail.author}</span>
+              <div className="w-full lg:w-[65%]">
+                <div className="flex items-center gap-2 text-xs md:text-sm font-bold text-[#2ecc71] mb-3">
+                  <Link href="/berita" className="hover:underline">Berita</Link>
+                  <span>/</span>
+                  <span>{newsDetail.category}</span>
                 </div>
-                <div className="w-1 h-1 bg-white/40 rounded-full"></div>
-                <span>{newsDetail.date}</span>
+                <h1 className="text-2xl md:text-4xl font-extrabold mb-4 leading-tight">
+                  {newsDetail.title}
+                </h1>
+                <div className="flex items-center gap-4 text-xs md:text-sm text-white/80">
+                  <div className="flex items-center gap-2">
+                    <div className="w-5 h-5 bg-white/20 rounded-full flex items-center justify-center text-xs font-bold text-white">
+                      {newsDetail.author.charAt(0)}
+                    </div>
+                    <span className="font-bold">{newsDetail.author}</span>
+                  </div>
+                  <div className="w-1 h-1 bg-white/40 rounded-full"></div>
+                  <span>{newsDetail.date}</span>
+                </div>
               </div>
             </div>
           </div>
