@@ -295,7 +295,7 @@ export default function ProfilPage() {
 
             {/* Kabid Carousel */}
             <div className="relative">
-              <div className="flex gap-6 overflow-x-auto pb-6 snap-x scrollbar-hide">
+              <div className="flex gap-6 overflow-x-auto pb-6 snap-x [&::-webkit-scrollbar]:hidden [ms-overflow-style:none] [scrollbar-width:none]">
                 {structure.filter(p => !(p.order === 1 || p.role.includes("Kepala"))).map((person, i) => (
                   <div key={i} className="min-w-[280px] md:min-w-[300px] bg-white border border-gray-100 rounded-2xl p-6 flex flex-col relative overflow-hidden snap-align-start shadow-sm hover:shadow-md transition-shadow group">
                     <div className="w-16 h-16 bg-gray-50 rounded-full flex items-center justify-center text-gray-700 font-bold text-xl mb-6 shadow-sm border border-gray-100">
