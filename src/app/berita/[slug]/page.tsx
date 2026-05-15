@@ -182,14 +182,39 @@ export default function BeritaDetailPage() {
                 <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
                   <div className="flex items-center gap-3">
                     <span className="text-sm font-bold text-gray-400">Bagikan:</span>
-                    <button className="w-8 h-8 flex items-center justify-center bg-gray-50 rounded-xl text-gray-600 hover:bg-[#27ae60]/10 hover:text-[#27ae60] transition-all border border-gray-100">
+                    <a 
+                      href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(typeof window !== 'undefined' ? window.location.href : '')}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="w-8 h-8 flex items-center justify-center bg-gray-50 rounded-xl text-gray-600 hover:bg-[#27ae60]/10 hover:text-[#27ae60] transition-all border border-gray-100 text-xs font-bold"
+                    >
                       FB
-                    </button>
-                    <button className="w-8 h-8 flex items-center justify-center bg-gray-50 rounded-xl text-gray-600 hover:bg-[#27ae60]/10 hover:text-[#27ae60] transition-all border border-gray-100">
+                    </a>
+                    <a 
+                      href={`https://api.whatsapp.com/send?text=${encodeURIComponent(newsDetail.title + ' - ' + (typeof window !== 'undefined' ? window.location.href : ''))}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="w-8 h-8 flex items-center justify-center bg-gray-50 rounded-xl text-gray-600 hover:bg-[#27ae60]/10 hover:text-[#27ae60] transition-all border border-gray-100 text-xs font-bold"
+                    >
                       WA
-                    </button>
-                    <button className="w-8 h-8 flex items-center justify-center bg-gray-50 rounded-xl text-gray-600 hover:bg-[#27ae60]/10 hover:text-[#27ae60] transition-all border border-gray-100">
+                    </a>
+                    <a 
+                      href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(newsDetail.title)}&url=${encodeURIComponent(typeof window !== 'undefined' ? window.location.href : '')}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="w-8 h-8 flex items-center justify-center bg-gray-50 rounded-xl text-gray-600 hover:bg-[#27ae60]/10 hover:text-[#27ae60] transition-all border border-gray-100 text-xs font-bold"
+                    >
                       X
+                    </a>
+                    <button 
+                      onClick={() => {
+                        navigator.clipboard.writeText(window.location.href);
+                        alert('Link berhasil disalin!');
+                      }}
+                      className="w-8 h-8 flex items-center justify-center bg-gray-50 rounded-xl text-gray-600 hover:bg-[#27ae60]/10 hover:text-[#27ae60] transition-all border border-gray-100"
+                      title="Salin Link"
+                    >
+                      <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>
                     </button>
                   </div>
                   
