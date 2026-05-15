@@ -19,7 +19,7 @@ export default function Home() {
     <div className={styles.mainContainer}>
       <div className={styles.contentWrapper}>
         <Header />
-        <div className="w-full p-5 bg-white">
+        <div className="w-full p-[10px] md:p-5 bg-white">
           <Hero />
         </div>
         <Statistics />
