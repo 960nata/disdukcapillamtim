@@ -99,7 +99,7 @@ export default function LatestNews() {
                     </span>
                     <span className="text-white/70 text-xs font-medium">{featuredNews.date}</span>
                   </div>
-                  <h3 className="text-2xl font-extrabold mb-2 group-hover:text-[#27ae60] transition-colors leading-tight">
+                  <h3 className="text-lg md:text-2xl font-extrabold mb-2 group-hover:text-[#27ae60] transition-colors leading-tight">
                     {featuredNews.title}
                   </h3>
                   <p className="text-white/70 text-sm line-clamp-2 font-medium">
