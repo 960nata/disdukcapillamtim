@@ -29,6 +29,62 @@ export default function CreateNewsPage() {
   // Cover Image State
   const [coverImage, setCoverImage] = useState('/images/foto_kegiatan/kantor_luar.avif');
 
+  const uploadFile = async (file: File) => {
+    const formData = new FormData();
+    formData.append('file', file);
+    
+    const res = await fetch('/api/upload', {
+      method: 'POST',
+      body: formData,
+    });
+    
+    if (!res.ok) throw new Error('Upload failed');
+    
+    const data = await res.json();
+    return data.url;
+  };
+
+  const handleCoverUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    
+    try {
+      const url = await uploadFile(file);
+      setCoverImage(url);
+    } catch (error) {
+      console.error('Failed to upload cover:', error);
+    }
+  };
+
+  const handleBlockImageUpload = async (index: number, e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    
+    try {
+      const url = await uploadFile(file);
+      updateBlock(index, url);
+    } catch (error) {
+      console.error('Failed to upload image:', error);
+    }
+  };
+
+  const handleAddImageToBlock = async (blockIndex: number, e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    
+    try {
+      const url = await uploadFile(file);
+      const newBlocks = [...blocks];
+      const block = newBlocks[blockIndex];
+      if (Array.isArray(block.content)) {
+        newBlocks[blockIndex].content = [...block.content, url];
+        setBlocks(newBlocks);
+      }
+    } catch (error) {
+      console.error('Failed to upload image:', error);
+    }
+  };
+
   // Helper to generate slug
   const generateSlug = (text: string) => {
     return text
@@ -157,9 +213,10 @@ export default function CreateNewsPage() {
                 <div>
                   <span className="bg-black/50 text-white text-xs font-bold px-3 py-1 rounded-full backdrop-blur-sm">Cover Artikel</span>
                 </div>
-                <button className="bg-white/90 backdrop-blur-sm text-gray-900 px-4 py-2 rounded-xl text-xs font-bold hover:bg-white transition-all shadow-lg flex items-center gap-2 border border-white">
+                <label htmlFor="cover-upload" className="bg-white/90 backdrop-blur-sm text-gray-900 px-4 py-2 rounded-xl text-xs font-bold hover:bg-white transition-all shadow-lg flex items-center gap-2 border border-white cursor-pointer">
                   Ganti Cover
-                </button>
+                </label>
+                <input id="cover-upload" type="file" className="hidden" accept="image/*" onChange={handleCoverUpload} />
               </div>
             </div>
 
@@ -200,9 +257,10 @@ export default function CreateNewsPage() {
                     <div className="relative rounded-xl overflow-hidden border border-gray-100 shadow-sm">
                       <img src={block.content as string} alt="Block" className="w-full h-72 object-cover" />
                       <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center backdrop-blur-sm">
-                        <button className="bg-white text-gray-900 px-4 py-2 rounded-xl text-xs font-bold hover:bg-gray-50 transition-all shadow-lg">
+                        <label htmlFor={`image-upload-${index}`} className="bg-white text-gray-900 px-4 py-2 rounded-xl text-xs font-bold hover:bg-gray-50 transition-all shadow-lg cursor-pointer">
                           Ganti Gambar
-                        </button>
+                        </label>
+                        <input id={`image-upload-${index}`} type="file" className="hidden" accept="image/*" onChange={(e) => handleBlockImageUpload(index, e)} />
                       </div>
                     </div>
                   )}
@@ -224,13 +282,11 @@ export default function CreateNewsPage() {
                     <div className="space-y-3">
                       <div className="flex items-center justify-between">
                         <span className="text-xs font-bold text-gray-400 tracking-wider uppercase">Galeri Foto</span>
-                        <button 
-                          onClick={() => addImageToBlock(index)}
-                          className="text-xs font-bold text-[#27ae60] hover:text-[#1e8449] flex items-center gap-1"
-                        >
+                        <label htmlFor={`gallery-upload-${index}`} className="text-xs font-bold text-[#27ae60] hover:text-[#1e8449] flex items-center gap-1 cursor-pointer">
                           <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
                           Tambah Foto
-                        </button>
+                        </label>
+                        <input id={`gallery-upload-${index}`} type="file" className="hidden" accept="image/*" onChange={(e) => handleAddImageToBlock(index, e)} />
                       </div>
                       <div className="grid grid-cols-3 gap-4">
                         {block.content.map((imgUrl: string, imgIdx: number) => (
@@ -255,13 +311,11 @@ export default function CreateNewsPage() {
                     <div className="space-y-3">
                       <div className="flex items-center justify-between">
                         <span className="text-xs font-bold text-gray-400 tracking-wider uppercase">Carousel Slider</span>
-                        <button 
-                          onClick={() => addImageToBlock(index)}
-                          className="text-xs font-bold text-[#27ae60] hover:text-[#1e8449] flex items-center gap-1"
-                        >
+                        <label htmlFor={`carousel-upload-${index}`} className="text-xs font-bold text-[#27ae60] hover:text-[#1e8449] flex items-center gap-1 cursor-pointer">
                           <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
                           Tambah Slide
-                        </button>
+                        </label>
+                        <input id={`carousel-upload-${index}`} type="file" className="hidden" accept="image/*" onChange={(e) => handleAddImageToBlock(index, e)} />
                       </div>
                       <div className="relative rounded-xl overflow-hidden border border-gray-100 h-64 bg-gray-50 flex items-center justify-center shadow-sm">
                         {block.content.length > 0 ? (
