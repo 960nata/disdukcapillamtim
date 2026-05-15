@@ -39,14 +39,14 @@ export async function POST(request: Request) {
       // Save directly for webp
       const finalPath = join(uploadDir, `${uniqueName}.webp`);
       await writeFile(finalPath, buffer);
-      finalUrl = `/uploads/${uniqueName}.webp`;
+      finalUrl = `/api/uploads?file=${uniqueName}.webp`;
     } else {
       // Compress to AVIF for others using sharp
       const finalPath = join(uploadDir, `${uniqueName}.avif`);
       await sharp(buffer)
         .avif({ quality: 80 })
         .toFile(finalPath);
-      finalUrl = `/uploads/${uniqueName}.avif`;
+      finalUrl = `/api/uploads?file=${uniqueName}.avif`;
     }
 
     return NextResponse.json({ url: finalUrl });
