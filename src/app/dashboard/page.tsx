@@ -129,25 +129,36 @@ export default function DashboardPage() {
           </div>
         </div>
 
-        {/* Recent Activity */}
+        {/* Google Analytics Data Mockup */}
         <div className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm">
-          <h2 className="text-lg font-bold text-gray-900 mb-4">Aktivitas Terbaru</h2>
-          <div className="space-y-4">
-            {[
-              { user: 'Admin', action: 'menambahkan berita baru', time: '2 jam yang lalu' },
-              { user: 'Penulis', action: 'mengubah artikel inovasi', time: '4 jam yang lalu' },
-              { user: 'Superadmin', action: 'mengubah role user', time: '1 hari yang lalu' },
-            ].map((act, idx) => (
-              <div key={idx} className="flex gap-3 text-sm">
-                <div className="w-8 h-8 bg-gray-100 rounded-full flex-shrink-0 flex items-center justify-center text-xs font-bold text-gray-600">
-                  {act.user.charAt(0)}
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-lg font-bold text-gray-900">Tujuan Bisnis</h2>
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-gray-400"><polyline points="18 15 12 9 6 15"></polyline></svg>
+          </div>
+          
+          <div className="mb-4">
+            <div className="flex items-center gap-2 text-sm font-bold text-gray-700 mb-3">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-gray-500"><polyline points="6 9 12 15 18 9"></polyline></svg>
+              Memperoleh prospek
+            </div>
+            
+            <div className="space-y-2 ml-6">
+              {[
+                { name: 'Ringkasan', value: '1.250' },
+                { name: 'Audiens', value: '850' },
+                { name: 'Akuisisi pengguna', value: '420' },
+                { name: 'Akuisisi traffic', value: '3.100' },
+                { name: 'Akuisisi prospek', value: '150' },
+                { name: 'Halaman landing', value: '/berita/test' },
+                { name: 'Kelompok akuisisi pengguna', value: '12' },
+                { name: 'Prospek yang Tidak Berpot...', value: '5' },
+              ].map((item, idx) => (
+                <div key={idx} className="flex justify-between items-center text-sm py-1.5 border-b border-gray-50 last:border-0">
+                  <span className="text-gray-600 font-medium">{item.name}</span>
+                  <span className="text-xs font-bold text-[#27ae60] bg-[#27ae60]/10 px-2 py-0.5 rounded-full">{item.value}</span>
                 </div>
-                <div>
-                  <p className="text-gray-900 font-medium">{act.user} <span className="text-gray-500 font-normal">{act.action}</span></p>
-                  <p className="text-xs text-gray-400">{act.time}</p>
-                </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
         </div>
 
