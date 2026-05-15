@@ -30,7 +30,7 @@ export default function LokasiPelayananPage() {
 
           {/* Content */}
           <div className="relative z-10 text-center text-white px-4 mt-5 md:mt-10">
-            <h1 className="text-xl md:text-5xl font-bold mb-4 text-white">Titik Layanan Disdukcapil</h1>
+            <h1 className="text-xl md:text-5xl font-bold mb-4 text-white uppercase">Titik Layanan Disdukcapil</h1>
             <p className="text-xs md:text-lg text-white/80 max-w-2xl mx-auto">
               Temukan lokasi pelayanan kami yang terdekat dari tempat tinggal Anda. Kami hadir di berbagai titik untuk melayani Anda lebih baik.
             </p>

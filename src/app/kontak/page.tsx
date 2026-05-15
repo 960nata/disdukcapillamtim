@@ -28,7 +28,7 @@ export default function KontakPage() {
 
           {/* Content */}
           <div className="relative z-10 text-center text-white px-4 mt-5 md:mt-10">
-            <h1 className="text-xl md:text-5xl font-bold mb-4 text-white">Kontak Pelayanan</h1>
+            <h1 className="text-xl md:text-5xl font-bold mb-4 text-white uppercase">Kontak Pelayanan</h1>
             <p className="text-xs md:text-lg text-white/80 max-w-2xl mx-auto">
               Hubungi kami melalui berbagai saluran komunikasi resmi untuk mendapatkan informasi dan pelayanan terbaik.
             </p>

@@ -30,7 +30,7 @@ export default function LayananPage() {
 
           {/* Content */}
           <div className="relative z-10 text-center text-white px-4 mt-5 md:mt-10">
-            <h1 className="text-xl md:text-5xl font-bold mb-4 text-white">Layanan Kependudukan</h1>
+            <h1 className="text-xl md:text-5xl font-bold mb-4 text-white uppercase">Layanan Kependudukan</h1>
             <p className="text-xs md:text-lg text-white/80 max-w-2xl mx-auto">
               Akses cepat dan mudah ke dokumen yang paling sering dibutuhkan masyarakat Lampung Timur.
             </p>
