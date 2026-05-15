@@ -13,6 +13,7 @@ export default function DashboardLayout({
   const [userPermissions, setUserPermissions] = React.useState<string[]>([]);
   const [userRole, setUserRole] = React.useState('');
   const [userName, setUserName] = React.useState('Admin');
+  const [isSidebarOpen, setIsSidebarOpen] = React.useState(false);
 
   React.useEffect(() => {
     fetch('/api/users/me')
@@ -45,10 +46,18 @@ export default function DashboardLayout({
   });
 
   return (
-    <div className="min-h-screen bg-[#f8fafc] flex font-sans">
+    <div className="min-h-screen bg-[#f8fafc] flex font-sans relative">
       
+      {/* Backdrop for mobile */}
+      {isSidebarOpen && (
+        <div 
+          className="fixed inset-0 bg-black/50 z-20 md:hidden" 
+          onClick={() => setIsSidebarOpen(false)}
+        />
+      )}
+
       {/* Sidebar */}
-      <aside className="w-64 bg-white border-r border-gray-100 flex flex-col fixed h-screen z-30">
+      <aside className={`w-64 bg-white border-r border-gray-100 flex flex-col fixed h-screen z-30 transition-transform duration-300 ease-in-out ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'} md:translate-x-0`}>
         <div className="p-6 flex items-center gap-3 border-b border-gray-100">
           <div className="w-8 h-8 bg-[#27ae60] rounded-lg flex items-center justify-center text-white font-bold text-sm">
             D
@@ -59,13 +68,14 @@ export default function DashboardLayout({
           </div>
         </div>
         
-        <nav className="flex-grow p-4 space-y-1 mt-4">
+        <nav className="flex-grow p-4 space-y-1 mt-4 overflow-y-auto">
           {filteredMenuItems.map((item) => {
             const isActive = pathname === item.href;
             return (
               <Link
                 key={item.name}
                 href={item.href}
+                onClick={() => setIsSidebarOpen(false)}
                 className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all ${
                   isActive 
                     ? 'bg-[#27ae60]/10 text-[#27ae60]' 
@@ -90,37 +100,46 @@ export default function DashboardLayout({
       </aside>
       
       {/* Main Content */}
-      <div className="flex-grow ml-64 flex flex-col h-screen overflow-hidden">
+      <div className="flex-grow md:ml-64 flex flex-col h-screen overflow-hidden w-full">
         
         {/* Header */}
-        <header className="bg-white border-b border-gray-100 px-8 py-4 flex items-center justify-between sticky top-0 z-20">
-          <div>
-            <h2 className="text-sm font-medium text-gray-500">Selamat datang kembali,</h2>
-            <p className="text-lg font-bold text-gray-900">Admin Disdukcapil</p>
+        <header className="bg-white border-b border-gray-100 px-4 md:px-8 py-4 flex items-center justify-between sticky top-0 z-20">
+          <div className="flex items-center gap-4">
+            {/* Hamburger button */}
+            <button 
+              className="p-2 text-gray-500 hover:text-gray-700 md:hidden"
+              onClick={() => setIsSidebarOpen(true)}
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+            </button>
+            <div>
+              <h2 className="text-xs font-medium text-gray-500">Selamat datang kembali,</h2>
+              <p className="text-base md:text-lg font-bold text-gray-900">{userName}</p>
+            </div>
           </div>
           
-          <div className="flex items-center gap-6">
+          <div className="flex items-center gap-4 md:gap-6">
             {/* Notifications */}
             <button className="relative p-2 text-gray-400 hover:text-gray-600 transition-colors">
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
-              <span className="absolute top-1 right-1 w-2h-2 bg-red-500 rounded-full border-2 border-white"></span>
+              <span className="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full border-2 border-white"></span>
             </button>
             
             {/* Profile */}
             <div className="flex items-center gap-3 cursor-pointer">
-              <div className="w-10 h-10 bg-gray-200 rounded-full overflow-hidden">
-                <div className="w-full h-full flex items-center justify-center text-gray-600 font-bold">A</div>
+              <div className="w-10 h-10 bg-gray-200 rounded-full overflow-hidden flex items-center justify-center text-gray-600 font-bold">
+                {userName.charAt(0)}
               </div>
               <div className="hidden md:block">
-                <p className="text-sm font-bold text-gray-900">Admin</p>
-                <p className="text-xs font-medium text-gray-500">Super Admin</p>
+                <p className="text-sm font-bold text-gray-900">{userName}</p>
+                <p className="text-xs font-medium text-gray-500">{userRole}</p>
               </div>
             </div>
           </div>
         </header>
         
         {/* Content Area */}
-        <main className="flex-grow p-8 overflow-y-auto">
+        <main className="flex-grow p-4 md:p-8 overflow-y-auto">
           {children}
         </main>
         
