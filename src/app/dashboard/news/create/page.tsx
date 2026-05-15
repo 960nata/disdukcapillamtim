@@ -540,7 +540,9 @@ export default function CreateNewsPage() {
                             <button 
                               onClick={() => {
                                 const newBlocks = [...blocks];
-                                newBlocks[index].items.splice(i, 1);
+                                if (newBlocks[index].items) {
+                                  newBlocks[index].items.splice(i, 1);
+                                }
                                 setBlocks(newBlocks);
                               }}
                               className="absolute -top-2 -right-2 bg-red-500 text-white p-1 rounded-full text-xs shadow opacity-0 group-hover/item:opacity-100 transition-opacity z-10"
@@ -559,7 +561,9 @@ export default function CreateNewsPage() {
                                       if (file) {
                                         const url = await uploadFile(file);
                                         const newBlocks = [...blocks];
-                                        newBlocks[index].items[i].image = url;
+                                        if (newBlocks[index].items) {
+                                          newBlocks[index].items[i].image = url;
+                                        }
                                         setBlocks(newBlocks);
                                       }
                                     }} />
@@ -573,7 +577,9 @@ export default function CreateNewsPage() {
                                     if (file) {
                                       const url = await uploadFile(file);
                                       const newBlocks = [...blocks];
-                                      newBlocks[index].items[i].image = url;
+                                      if (newBlocks[index].items) {
+                                        newBlocks[index].items[i].image = url;
+                                      }
                                       setBlocks(newBlocks);
                                     }
                                   }} />
@@ -585,7 +591,9 @@ export default function CreateNewsPage() {
                               value={item.text}
                               onChange={(e) => {
                                 const newBlocks = [...blocks];
-                                newBlocks[index].items[i].text = e.target.value;
+                                if (newBlocks[index].items) {
+                                  newBlocks[index].items[i].text = e.target.value;
+                                }
                                 setBlocks(newBlocks);
                               }}
                               placeholder="Ketik teks atau HTML ringan di sini (Opsional)..."
