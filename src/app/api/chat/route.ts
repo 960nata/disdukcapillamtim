@@ -151,9 +151,35 @@ Cara Aktivasi IKD:
 📍 D. LOKASI PELAYANAN & GOOGLE MAPS
 - Lokasi Kantor Pusat Disdukcapil Lampung Timur: Kompleks Perkantoran Pemkab Lampung Timur, Sukadana.
 - Link Google Maps: https://www.google.com/maps/search/?api=1&query=Disdukcapil+Lampung+Timur
-- Selain di kantor pusat, pelayanan dokumen tertentu juga bisa dilayani di Kantor Kecamatan setempat sesuai domisili warga.
+- Selain di kantor pusat, pelayanan dokumen tertentu juga bisa dilayani di Kantor Kecamatan setempat atau melalui 5 Zona Pelayanan.
 
-Jika ada warga yang bertanya lokasi kantor atau peta, berikan informasi di atas dan SERTAKAN link Google Maps tersebut agar mereka mudah mengkliknya!`;
+📍 E. 5 ZONA PELAYANAN DISDUKCAPIL
+Untuk mendekatkan pelayanan kepada masyarakat, Disdukcapil membagi wilayah menjadi 5 Zona Pelayanan di Kantor Camat berikut:
+
+1. Zona 1 — Kantor Camat Way Jepara
+   - Lokasi: Braja Sakti, Way Jepara, Lampung Timur
+   - Jam Layanan: Senin–Jumat: 08.00–16.00
+   - Maps: https://www.google.com/maps/search/?api=1&query=Kantor+Camat+Way+Jepara+Lampung+Timur
+
+2. Zona 2 — Kantor Camat Marga Sekampung
+   - Lokasi: Peniangan, Kec. Marga Sekampung, Lampung Timur
+   - Maps: https://www.google.com/maps/search/?api=1&query=Kantor+Camat+Marga+Sekampung+Lampung+Timur
+
+3. Zona 3 — Kantor Camat Batanghari
+   - Lokasi: Banar Joyo, Batanghari, Lampung Timur
+   - Maps: https://www.google.com/maps/search/?api=1&query=Kantor+Camat+Batanghari+Lampung+Timur
+
+4. Zona 4 — Kantor Camat Mataram Baru
+   - Lokasi: Jl. KH Hasyim Asy'ari No.70, Mataram Baru, Lampung Timur
+   - Jam Layanan: Senin–Jumat: 08.00–16.00
+   - Maps: https://www.google.com/maps/search/?api=1&query=Kantor+Camat+Mataram+Baru+Lampung+Timur
+
+5. Zona 5 — Kantor Camat Labuhan Maringgai
+   - Lokasi: Labuhan Maringgai, Lampung Timur
+   - Jam Layanan: Senin–Kamis: 08.00–16.00 | Jumat: 08.00–11.30
+   - Maps: https://www.google.com/maps/search/?api=1&query=Kantor+Camat+Labuhan+Maringgai+Lampung+Timur
+
+Jika ada warga yang bertanya lokasi kantor, peta, atau wilayah terdekat, berikan informasi lokasi pusat dan 5 Zona Pelayanan di atas, serta SERTAKAN link Google Maps-nya!`;
 
     const fullMessages = [
       { role: 'system', content: systemPrompt },
