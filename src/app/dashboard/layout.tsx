@@ -2,6 +2,7 @@
 
 import * as React from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 
 export default function DashboardLayout({
@@ -59,8 +60,14 @@ export default function DashboardLayout({
       {/* Sidebar */}
       <aside className={`w-64 bg-white border-r border-gray-100 flex flex-col fixed h-screen z-30 transition-transform duration-300 ease-in-out ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'} md:translate-x-0`}>
         <div className="p-6 flex items-center gap-3 border-b border-gray-100">
-          <div className="w-8 h-8 bg-[#27ae60] rounded-lg flex items-center justify-center text-white font-bold text-sm">
-            D
+          <div className="w-10 h-10 relative flex-shrink-0">
+            <Image 
+              src="/images/logo/logo.avif" 
+              alt="Logo Disdukcapil" 
+              fill
+              className="object-contain"
+              priority
+            />
           </div>
           <div>
             <h1 className="text-sm font-bold text-gray-900">DISDUKCAPIL</h1>
@@ -76,10 +83,10 @@ export default function DashboardLayout({
                 key={item.name}
                 href={item.href}
                 onClick={() => setIsSidebarOpen(false)}
-                className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all ${
+                className={`flex items-center gap-3 px-4 py-3 text-sm font-medium transition-all ${
                   isActive 
-                    ? 'bg-[#27ae60]/10 text-[#27ae60]' 
-                    : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
+                    ? 'bg-gradient-to-r from-[#27ae60]/10 to-transparent text-[#27ae60] border-l-4 border-[#27ae60] rounded-r-xl' 
+                    : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900 rounded-xl'
                 }`}
               >
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={isActive ? 'text-[#27ae60]' : 'text-gray-400'}>
@@ -139,7 +146,7 @@ export default function DashboardLayout({
         </header>
         
         {/* Content Area */}
-        <main className="flex-grow p-4 md:p-8 overflow-y-auto">
+        <main className="flex-grow p-6 overflow-y-auto">
           {children}
         </main>
         
