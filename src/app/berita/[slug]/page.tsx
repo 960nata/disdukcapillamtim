@@ -134,7 +134,7 @@ export default function BeritaDetailPage() {
               <div className="bg-white p-8 md:p-10 rounded-2xl border border-gray-100 shadow-sm space-y-6">
                 
                 {/* Article Content */}
-                <div className="prose prose-lg max-w-none prose-headings:font-bold prose-headings:text-gray-900 prose-p:text-gray-700 prose-p:leading-relaxed prose-a:text-[#27ae60] prose-a:hover:text-[#1e8449] prose-a:font-bold prose-ul:text-gray-700 prose-li:text-gray-700">
+                <div className="max-w-none [&_h2]:text-2xl [&_h2]:font-extrabold [&_h2]:text-gray-900 [&_h2]:mt-8 [&_h2]:mb-4 [&_h3]:text-xl [&_h3]:font-bold [&_h3]:text-gray-900 [&_h3]:mt-6 [&_h3]:mb-3 [&_h4]:text-lg [&_h4]:font-bold [&_h4]:text-gray-800 [&_h4]:mt-4 [&_h4]:mb-2 [&_p]:text-gray-700 [&_p]:leading-relaxed [&_p]:mb-4 [&_ul]:list-disc [&_ul]:pl-5 [&_ul]:mb-4 [&_li]:text-gray-700 [&_li]:mb-1 [&_a]:text-[#27ae60] [&_a]:hover:text-[#1e8449] [&_a]:font-bold">
                   {Array.isArray(newsDetail.content) ? (
                     newsDetail.content.map((block: any, index: number) => {
                       if (block.type === 'text') {
