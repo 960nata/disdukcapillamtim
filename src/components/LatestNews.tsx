@@ -53,7 +53,7 @@ export default function LatestNews() {
   }, []);
 
   const featuredNews = newsList.find(item => item.featured);
-  const otherNews = newsList.filter(item => !item.featured);
+  const otherNews = newsList.filter(item => !item.featured).slice(0, 3);
 
   return (
     <section className="py-16 bg-white text-gray-900">
