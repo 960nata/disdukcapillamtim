@@ -24,6 +24,43 @@ export async function PUT(request: Request, { params }: { params: Promise<{ id: 
         coverImage: body.coverImage,
       },
     });
+
+    // Auto insert images to Gallery
+    try {
+      const blocks = JSON.parse(body.content);
+      const imageUrls: string[] = [];
+      
+      if (body.coverImage) imageUrls.push(body.coverImage);
+      
+      blocks.forEach((block: any) => {
+        if (block.type === 'image' && typeof block.content === 'string') {
+          imageUrls.push(block.content);
+        } else if ((block.type === 'gallery' || block.type === 'carousel') && Array.isArray(block.content)) {
+          imageUrls.push(...block.content);
+        }
+      });
+
+      // Filter out empty or default images
+      const validUrls = imageUrls.filter(url => url && !url.includes('kantor_luar.avif') && !url.includes('pelayanan_ktp.avif'));
+      const uniqueUrls = [...new Set(validUrls)];
+
+      for (const url of uniqueUrls) {
+        // Check if already exists in gallery
+        const exists = await prisma.gallery.findFirst({ where: { url } });
+        if (!exists) {
+          await prisma.gallery.create({
+            data: {
+              url: url,
+              title: body.title,
+              caption: 'Otomatis dari Berita',
+            }
+          });
+        }
+      }
+    } catch (e) {
+      console.error('Failed to auto-save images to gallery:', e);
+    }
+
     return NextResponse.json(news);
   } catch (error) {
     return NextResponse.json({ error: 'Failed to update news' }, { status: 500 });
