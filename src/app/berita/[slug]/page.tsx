@@ -13,32 +13,68 @@ export default function BeritaDetailPage() {
   const params = useParams();
   const slug = params.slug;
 
-  // Dummy data for the template
-  const newsDetail = {
-    title: 'Pelayanan KTP Elektronik Jemput Bola di Desa Sukadana',
-    date: '14 Mei 2026',
-    author: 'Admin Disdukcapil',
-    category: 'Pelayanan',
-    coverImage: '/images/foto_kegiatan/kantor_luar.avif',
-    content: `
-      <p>Pemerintah Kabupaten Lampung Timur melalui Dinas Kependudukan dan Pencatatan Sipil (Disdukcapil) terus berupaya meningkatkan cakupan kepemilikan dokumen kependudukan bagi seluruh lapisan masyarakat. Salah satu upaya nyata yang dilakukan adalah melalui program "Jemput Bola" pelayanan administrasi kependudukan (Adminduk) yang kali ini menyasar Desa Sukadana.</p>
-    `,
-  };
+  const [newsDetail, setNewsDetail] = React.useState<any>(null);
+  const [loading, setLoading] = React.useState(true);
+
+  React.useEffect(() => {
+    const fetchDetail = async () => {
+      try {
+        const res = await fetch('/api/news');
+        const data = await res.json();
+        const item = data.find((n: any) => n.slug === slug);
+        if (item) {
+          let parsedContent = item.content;
+          try {
+            parsedContent = JSON.parse(item.content);
+          } catch (e) {
+            // Not JSON
+          }
+          
+          setNewsDetail({
+            title: item.title,
+            date: new Date(item.createdAt).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' }),
+            author: item.author?.name || 'Admin Disdukcapil',
+            category: item.category || 'Berita',
+            coverImage: item.coverImage || '/images/foto_kegiatan/kantor_luar.avif',
+            content: parsedContent,
+            tags: item.tags ? item.tags.split(',') : ['Pelayanan']
+          });
+        }
+      } catch (error) {
+        console.error('Failed to fetch news detail:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchDetail();
+  }, [slug]);
 
   const relatedNews = [
     { title: 'Inovasi SIAP: Solusi Cepat Urus KIA', date: '12 Mei 2026', image: '/images/foto_kegiatan/pelayanan_ktp.avif' },
     { title: 'Sosialisasi IKD di Kecamatan Sukadana', date: '10 Mei 2026', image: '/images/foto_kegiatan/kantor_luar.avif' },
     { title: 'Peningkatan Pelayanan Ramah Disabilitas', date: '08 Mei 2026', image: '/images/foto_kegiatan/pelayanan_ktp.avif' },
-    { title: 'Peringatan Hari Jadi Disdukcapil Ke-25', date: '05 Mei 2026', image: '/images/foto_kegiatan/kantor_luar.avif' },
-    { title: 'Kerjasama dengan RSIA untuk Akta Kelahiran', date: '01 Mei 2026', image: '/images/foto_kegiatan/pelayanan_ktp.avif' },
   ];
-
-  const tags = ['KTP-el', 'Jemput Bola', 'Sukadana', 'Pelayanan', 'Gratis'];
 
   const announcements = [
     { title: 'Pemeliharaan Sistem SIAK pada 15 Mei 2026', date: '13 Mei' },
     { title: 'Lowongan Tenaga Harian Lepas (THL)', date: '10 Mei' },
   ];
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-white text-gray-500 font-bold">
+        Memuat artikel...
+      </div>
+    );
+  }
+
+  if (!newsDetail) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-white text-gray-500 font-bold">
+        Artikel tidak ditemukan!
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-white flex flex-col font-sans">
@@ -99,7 +135,32 @@ export default function BeritaDetailPage() {
                 
                 {/* Article Content */}
                 <div className="prose prose-lg max-w-none prose-headings:font-bold prose-headings:text-gray-900 prose-p:text-gray-700 prose-p:leading-relaxed prose-a:text-[#27ae60] prose-a:hover:text-[#1e8449] prose-a:font-bold prose-ul:text-gray-700 prose-li:text-gray-700">
-                  <div dangerouslySetInnerHTML={{ __html: newsDetail.content }} />
+                  {Array.isArray(newsDetail.content) ? (
+                    newsDetail.content.map((block: any, index: number) => {
+                      if (block.type === 'text') {
+                        return <div key={index} dangerouslySetInnerHTML={{ __html: block.content }} />;
+                      } else if (block.type === 'image') {
+                        return <img key={index} src={block.content} alt="Content" className="w-full rounded-xl my-4" />;
+                      } else if (block.type === 'video') {
+                        return (
+                          <div key={index} className="relative aspect-video rounded-xl overflow-hidden my-4">
+                            <iframe src={block.content} className="w-full h-full" allowFullScreen></iframe>
+                          </div>
+                        );
+                      } else if (block.type === 'gallery' || block.type === 'carousel') {
+                        return (
+                          <div key={index} className="grid grid-cols-2 gap-4 my-4">
+                            {Array.isArray(block.content) && block.content.map((img: string, i: number) => (
+                              <img key={i} src={img} alt="Gallery" className="w-full rounded-lg" />
+                            ))}
+                          </div>
+                        );
+                      }
+                      return null;
+                    })
+                  ) : (
+                    <div dangerouslySetInnerHTML={{ __html: newsDetail.content }} />
+                  )}
                 </div>
 
                 <div className="h-px bg-gray-100 my-6"></div>

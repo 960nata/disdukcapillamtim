@@ -21,6 +21,7 @@ export async function PUT(request: Request, { params }: { params: Promise<{ id: 
         isCarousel: body.isCarousel,
         category: body.category,
         tags: body.tags,
+        coverImage: body.coverImage,
       },
     });
     return NextResponse.json(news);

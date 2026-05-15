@@ -36,6 +36,24 @@ export default function NewsManagementPage() {
     fetchNews();
   }, []);
 
+  const handleDelete = async (id: number) => {
+    if (!confirm('Apakah Anda yakin ingin menghapus berita ini?')) return;
+    
+    try {
+      const res = await fetch(`/api/news/${id}`, {
+        method: 'DELETE',
+      });
+      
+      if (!res.ok) throw new Error('Gagal menghapus berita');
+      
+      alert('Berita berhasil dihapus!');
+      setNews(news.filter(item => item.id !== id));
+    } catch (error) {
+      console.error('Error deleting news:', error);
+      alert('Gagal menghapus berita');
+    }
+  };
+
   return (
     <div className="space-y-6 font-sans">
       
@@ -124,8 +142,18 @@ export default function NewsManagementPage() {
                         >
                           Lihat
                         </Link>
-                        <button className="text-xs font-bold text-[#27ae60] hover:text-[#1e8449] transition-colors">Edit</button>
-                        <button className="text-xs font-bold text-red-600 hover:text-red-700 transition-colors">Hapus</button>
+                        <Link 
+                          href={`/dashboard/news/edit/${item.id}`}
+                          className="text-xs font-bold text-[#27ae60] hover:text-[#1e8449] transition-colors"
+                        >
+                          Edit
+                        </Link>
+                        <button 
+                          onClick={() => handleDelete(item.id)}
+                          className="text-xs font-bold text-red-600 hover:text-red-700 transition-colors"
+                        >
+                          Hapus
+                        </button>
                       </div>
                     </td>
                   </tr>
