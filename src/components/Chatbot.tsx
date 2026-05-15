@@ -14,6 +14,7 @@ export default function Chatbot() {
   ]);
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
+  const [timer, setTimer] = useState(120); // 2 menit dalam detik
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const scrollToBottom = () => {
@@ -25,6 +26,39 @@ export default function Chatbot() {
       scrollToBottom();
     }
   }, [messages, isOpen]);
+
+  // Efek untuk Hitung Mundur Reset (2 Menit)
+  useEffect(() => {
+    let interval: NodeJS.Timeout;
+    
+    // Hanya hitung mundur jika sudah ada percakapan (lebih dari 1 pesan pesan awal)
+    if (messages.length > 1) {
+      interval = setInterval(() => {
+        setTimer((prev) => {
+          if (prev <= 1) {
+            // Reset Chat ke awal
+            setMessages([
+              { 
+                role: 'assistant', 
+                content: 'Sesi sebelumnya telah berakhir karena tidak ada aktivitas. Halo! Saya **Sobat Dukcapil**, ada yang bisa saya bantu lagi?' 
+              }
+            ]);
+            return 120; // Reset timer ke 2 menit
+          }
+          return prev - 1;
+        });
+      }, 1000);
+    }
+    
+    return () => clearInterval(interval);
+  }, [messages]);
+
+  // Reset timer ke 120 detik setiap kali ada pesan baru
+  useEffect(() => {
+    if (messages.length > 1) {
+      setTimer(120);
+    }
+  }, [messages]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -81,7 +115,15 @@ export default function Chatbot() {
         {isOpen ? (
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
         ) : (
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+          <div className="relative w-full h-full flex items-center justify-center">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+            {/* Tampilkan sisa menit jika chat sedang aktif tapi ditutup */}
+            {messages.length > 1 && !isOpen && (
+              <span className="absolute -top-1 -right-1 bg-red-500 text-white text-[10px] w-5 h-5 rounded-full flex items-center justify-center font-bold">
+                {Math.ceil(timer / 60)}m
+              </span>
+            )}
+          </div>
         )}
       </button>
 
@@ -105,6 +147,13 @@ export default function Chatbot() {
               <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
             </button>
           </div>
+
+          {/* Warning Timer (Muncul jika waktu sisa <= 10 detik) */}
+          {timer <= 10 && messages.length > 1 && (
+            <div className="bg-red-50 text-red-600 text-xs text-center py-1.5 font-bold animate-pulse">
+              ⚠️ Sesi akan direset dalam {timer} detik karena tidak ada aktivitas!
+            </div>
+          )}
 
           {/* Messages Area */}
           <div className="flex-grow p-4 overflow-y-auto space-y-4 bg-gray-50">
@@ -173,8 +222,9 @@ export default function Chatbot() {
             </button>
           </form>
           
-          <div className="bg-gray-50 text-[10px] text-gray-400 text-center py-1.5 border-t border-gray-100">
-            Hanya melayani informasi kependudukan.
+          <div className="bg-gray-50 text-[10px] text-gray-400 text-center py-1.5 border-t border-gray-100 flex justify-between px-4">
+            <span>Hanya informasi kependudukan.</span>
+            <span className="font-bold text-[#27ae60]">{Math.floor(timer / 60)}:{(timer % 60).toString().padStart(2, '0')}</span>
           </div>
         </div>
       )}
