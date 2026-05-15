@@ -28,6 +28,7 @@ export default function CreateNewsPage() {
   
   // Cover Image State
   const [coverImage, setCoverImage] = useState('/images/foto_kegiatan/kantor_luar.avif');
+  const [showCoverDeleteModal, setShowCoverDeleteModal] = useState(false);
 
   const convertToEmbedUrl = (url: string) => {
     if (!url) return '';
@@ -301,9 +302,17 @@ export default function CreateNewsPage() {
                 <div>
                   <span className="bg-black/50 text-white text-xs font-bold px-3 py-1 rounded-full backdrop-blur-sm">Cover Artikel</span>
                 </div>
-                <label htmlFor="cover-upload" className="bg-white/90 backdrop-blur-sm text-gray-900 px-4 py-2 rounded-xl text-xs font-bold hover:bg-white transition-all shadow-lg flex items-center gap-2 border border-white cursor-pointer">
-                  Ganti Cover
-                </label>
+                <div className="flex gap-2">
+                  <button 
+                    onClick={() => setShowCoverDeleteModal(true)}
+                    className="bg-red-500/90 backdrop-blur-sm text-white px-4 py-2 rounded-xl text-xs font-bold hover:bg-red-600 transition-all shadow-lg flex items-center gap-2 border border-red-500"
+                  >
+                    Hapus Cover
+                  </button>
+                  <label htmlFor="cover-upload" className="bg-white/90 backdrop-blur-sm text-gray-900 px-4 py-2 rounded-xl text-xs font-bold hover:bg-white transition-all shadow-lg flex items-center gap-2 border border-white cursor-pointer">
+                    Ganti Cover
+                  </label>
+                </div>
                 <input id="cover-upload" type="file" className="hidden" accept="image/*" onChange={handleCoverUpload} />
               </div>
             </div>
@@ -577,6 +586,31 @@ export default function CreateNewsPage() {
 
       </div>
       
+      {showCoverDeleteModal && (
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50">
+          <div className="bg-white p-6 rounded-2xl shadow-xl max-w-sm w-full mx-4">
+            <h3 className="text-lg font-bold text-gray-900 mb-2">Hapus Cover?</h3>
+            <p className="text-sm text-gray-500 mb-6">Apakah Anda yakin ingin menghapus foto cover ini? Foto akan dikembalikan ke default.</p>
+            <div className="flex justify-end gap-3">
+              <button 
+                onClick={() => setShowCoverDeleteModal(false)}
+                className="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-xl transition-colors"
+              >
+                Batal
+              </button>
+              <button 
+                onClick={() => {
+                  setCoverImage('/images/foto_kegiatan/kantor_luar.avif');
+                  setShowCoverDeleteModal(false);
+                }}
+                className="px-4 py-2 text-sm font-medium text-white bg-red-600 hover:bg-red-700 rounded-xl transition-colors"
+              >
+                Hapus
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
