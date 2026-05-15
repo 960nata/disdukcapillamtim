@@ -79,9 +79,9 @@ export default function ProfilPage() {
               <div className="flex-1 bg-[#0b2b26] p-4 md:p-14 rounded-2xl md:rounded-[2rem] flex flex-col justify-between text-white shadow-xl">
                 <div>
                   <span className="text-[#27ae60] text-sm font-bold uppercase tracking-widest mb-4 block">Arah Kebijakan</span>
-                  <h2 className="text-3xl md:text-4xl font-bold mb-4 md:mb-8">Visi</h2>
+                  <h2 className="text-xl md:text-4xl font-bold mb-3 md:mb-8">Visi</h2>
                 </div>
-                <p className="text-base md:text-3xl font-medium leading-snug text-white/90">
+                <p className="text-sm md:text-3xl font-medium leading-snug text-white/90">
                   "Terwujudnya Tertib Administrasi Kependudukan Menuju Masyarakat Lampung Timur yang Sejahtera dan Berkeadilan"
                 </p>
               </div>
