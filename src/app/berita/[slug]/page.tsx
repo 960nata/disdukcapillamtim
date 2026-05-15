@@ -87,7 +87,7 @@ export default function BeritaDetailPage() {
         transition={{ duration: 0.6 }}
         className="p-[20px] w-full"
       >
-        <div className="relative h-[350px] md:h-[400px] overflow-hidden rounded-[20px] shadow-sm">
+        <div className="relative h-[700px] overflow-hidden rounded-[20px] shadow-sm">
           <Image 
             src={newsDetail.coverImage} 
             alt={newsDetail.title} 
@@ -99,7 +99,7 @@ export default function BeritaDetailPage() {
           
           {/* Breadcrumb & Title - Constrained to max-w-7xl to align with content below */}
           <div className="absolute inset-0 flex flex-col justify-end p-8 md:p-12">
-            <div className="max-w-7xl mx-auto w-full text-white px-[20px]">
+            <div className="max-w-[1300px] mx-auto w-full text-white px-[20px]">
               <div className="flex items-center gap-2 text-xs md:text-sm font-bold text-[#2ecc71] mb-3">
                 <Link href="/berita" className="hover:underline">Berita</Link>
                 <span>/</span>
@@ -125,7 +125,7 @@ export default function BeritaDetailPage() {
 
       {/* Content Area (Split Layout 75% / 25%) */}
       <main className="flex-grow pt-4 pb-16 bg-[#f8fafc]">
-        <div className="max-w-7xl mx-auto px-[20px] relative z-10">
+        <div className="max-w-[1300px] mx-auto px-[20px] relative z-10">
           
           <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
             
@@ -147,12 +147,24 @@ export default function BeritaDetailPage() {
                             <iframe src={block.content} className="w-full h-full" allowFullScreen></iframe>
                           </div>
                         );
-                      } else if (block.type === 'gallery' || block.type === 'carousel') {
+                      } else if (block.type === 'gallery') {
                         return (
                           <div key={index} className="grid grid-cols-2 gap-4 my-4">
                             {Array.isArray(block.content) && block.content.map((img: string, i: number) => (
                               <img key={i} src={img} alt="Gallery" className="w-full rounded-lg" />
                             ))}
+                          </div>
+                        );
+                      } else if (block.type === 'carousel') {
+                        return (
+                          <div key={index} className="relative w-full overflow-hidden my-4">
+                            <div className="flex gap-4 overflow-x-auto snap-x scrollbar-hide py-2">
+                              {Array.isArray(block.content) && block.content.map((img: string, i: number) => (
+                                <div key={i} className="snap-center shrink-0 w-full sm:w-2/3 md:w-1/2 aspect-[4/3] relative rounded-xl overflow-hidden">
+                                  <img src={img} alt="Carousel" className="w-full h-full object-cover" />
+                                </div>
+                              ))}
+                            </div>
                           </div>
                         );
                       }
