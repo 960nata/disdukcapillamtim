@@ -86,7 +86,7 @@ export default function BeritaDetailPage() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
-        className="p-[20px] w-full"
+        className="p-[10px] md:p-[20px] w-full"
       >
         <div className="relative h-[500px] md:h-[700px] overflow-hidden rounded-[20px] shadow-sm">
           <img 
