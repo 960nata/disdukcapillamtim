@@ -29,6 +29,9 @@ export default function CreateNewsPage() {
   // Cover Image State
   const [coverImage, setCoverImage] = useState('/images/foto_kegiatan/kantor_luar.avif');
   const [showCoverDeleteModal, setShowCoverDeleteModal] = useState(false);
+  
+  // Category & Tags State
+  const [selectedTags, setSelectedTags] = useState<string[]>([]);
 
   const convertToEmbedUrl = (url: string) => {
     if (!url) return '';
@@ -126,6 +129,8 @@ export default function CreateNewsPage() {
           seoDesc,
           seoKeywords,
           coverImage,
+          category: selectedTags.length > 0 ? selectedTags[0] : 'Berita',
+          tags: selectedTags.join(','),
         }),
       });
 
@@ -575,7 +580,15 @@ export default function CreateNewsPage() {
             <div className="flex flex-wrap gap-2">
               {['Pelayanan', 'Kegiatan', 'Edukasi', 'Penting'].map((cat) => (
                 <label key={cat} className="flex items-center gap-2 bg-gray-50 hover:bg-gray-100 border border-gray-100 px-3 py-2 rounded-xl cursor-pointer transition-all">
-                  <input type="checkbox" className="h-4 w-4 text-[#27ae60] focus:ring-[#27ae60] border-gray-300 rounded" />
+                  <input 
+                    type="checkbox" 
+                    checked={selectedTags.includes(cat)}
+                    onChange={(e) => {
+                      if (e.target.checked) setSelectedTags([...selectedTags, cat]);
+                      else setSelectedTags(selectedTags.filter(t => t !== cat));
+                    }}
+                    className="h-4 w-4 text-[#27ae60] focus:ring-[#27ae60] border-gray-300 rounded" 
+                  />
                   <span className="text-xs font-bold text-gray-700">{cat}</span>
                 </label>
               ))}

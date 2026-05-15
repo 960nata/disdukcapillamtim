@@ -42,7 +42,10 @@ export default function BeritaDetailPage() {
             category: item.category || 'Berita',
             coverImage: item.coverImage || '/images/foto_kegiatan/kantor_luar.avif',
             content: parsedContent,
-            tags: item.tags ? item.tags.split(',') : ['Pelayanan']
+            tags: item.tags ? item.tags.split(',') : ['Pelayanan'],
+            seoTitle: item.seoTitle,
+            seoDesc: item.seoDesc,
+            seoKeywords: item.seoKeywords
           });
         }
       } catch (error) {
@@ -79,6 +82,15 @@ export default function BeritaDetailPage() {
 
   return (
     <div className="min-h-screen bg-white flex flex-col font-sans">
+      {newsDetail && (
+        <title>{newsDetail.seoTitle || newsDetail.title}</title>
+      )}
+      {newsDetail?.seoDesc && (
+        <meta name="description" content={newsDetail.seoDesc} />
+      )}
+      {newsDetail?.seoKeywords && (
+        <meta name="keywords" content={newsDetail.seoKeywords} />
+      )}
       <Header />
       
       {/* Hero Section - Full Width with Padding (Matching Main Pages) */}

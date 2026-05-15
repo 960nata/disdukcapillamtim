@@ -34,6 +34,9 @@ export default function EditNewsPage() {
   const [coverImage, setCoverImage] = useState('/images/foto_kegiatan/kantor_luar.avif');
   const [showCoverDeleteModal, setShowCoverDeleteModal] = useState(false);
   const [loading, setLoading] = useState(true);
+  
+  // Category & Tags State
+  const [selectedTags, setSelectedTags] = useState<string[]>([]);
 
   useEffect(() => {
     const fetchNews = async () => {
@@ -54,6 +57,11 @@ export default function EditNewsPage() {
           setSeoDesc(item.seoDesc || '');
           setSeoKeywords(item.seoKeywords || '');
           setCoverImage(item.coverImage || '/images/foto_kegiatan/kantor_luar.avif');
+          if (item.tags) {
+            setSelectedTags(item.tags.split(','));
+          } else if (item.category) {
+            setSelectedTags([item.category]);
+          }
         }
       } catch (error) {
         console.error('Failed to fetch news for edit:', error);
@@ -159,6 +167,8 @@ export default function EditNewsPage() {
           seoDesc,
           seoKeywords,
           coverImage,
+          category: selectedTags.length > 0 ? selectedTags[0] : 'Berita',
+          tags: selectedTags.join(','),
         }),
       });
 
@@ -584,6 +594,29 @@ export default function EditNewsPage() {
                 className="w-full px-4 py-2.5 text-sm bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:border-[#27ae60] focus:bg-white transition-all"
                 placeholder="Pisahkan dengan koma"
               />
+            </div>
+          </div>
+
+          <div className="h-px bg-gray-50"></div>
+
+          {/* Categories */}
+          <div className="space-y-4">
+            <h3 className="text-sm font-extrabold text-gray-900 tracking-tight">Kategori & Tag</h3>
+            <div className="flex flex-wrap gap-2">
+              {['Pelayanan', 'Kegiatan', 'Edukasi', 'Penting'].map((cat) => (
+                <label key={cat} className="flex items-center gap-2 bg-gray-50 hover:bg-gray-100 border border-gray-100 px-3 py-2 rounded-xl cursor-pointer transition-all">
+                  <input 
+                    type="checkbox" 
+                    checked={selectedTags.includes(cat)}
+                    onChange={(e) => {
+                      if (e.target.checked) setSelectedTags([...selectedTags, cat]);
+                      else setSelectedTags(selectedTags.filter(t => t !== cat));
+                    }}
+                    className="h-4 w-4 text-[#27ae60] focus:ring-[#27ae60] border-gray-300 rounded" 
+                  />
+                  <span className="text-xs font-bold text-gray-700">{cat}</span>
+                </label>
+              ))}
             </div>
           </div>
 
