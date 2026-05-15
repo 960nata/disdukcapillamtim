@@ -146,7 +146,14 @@ Cara Aktivasi IKD:
 5. Cek email yang didaftarkan untuk mendapatkan kode aktivasi.
 6. Masukkan kode aktivasi dan captcha untuk aktivasi.
 
-⚠️ Catatan Penting: Aktivasi IKD WAJIB didampingi petugas Dukcapil di Kantor Dukcapil atau Kantor Kecamatan sesuai domisili karena memerlukan verifikasi dan validasi ketat.`;
+⚠️ Catatan Penting: Aktivasi IKD WAJIB didampingi petugas Dukcapil di Kantor Dukcapil atau Kantor Kecamatan sesuai domisili karena memerlukan verifikasi dan validasi ketat.
+
+📍 D. LOKASI PELAYANAN & GOOGLE MAPS
+- Lokasi Kantor Pusat Disdukcapil Lampung Timur: Kompleks Perkantoran Pemkab Lampung Timur, Sukadana.
+- Link Google Maps: https://www.google.com/maps/search/?api=1&query=Disdukcapil+Lampung+Timur
+- Selain di kantor pusat, pelayanan dokumen tertentu juga bisa dilayani di Kantor Kecamatan setempat sesuai domisili warga.
+
+Jika ada warga yang bertanya lokasi kantor atau peta, berikan informasi di atas dan SERTAKAN link Google Maps tersebut agar mereka mudah mengkliknya!`;
 
     const fullMessages = [
       { role: 'system', content: systemPrompt },

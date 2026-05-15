@@ -165,7 +165,12 @@ export default function Chatbot() {
                     : 'bg-white text-gray-800 shadow-sm border border-gray-100 rounded-bl-none'
                 }`}>
                   {msg.role === 'assistant' ? (
-                    <div className="prose prose-sm max-w-none" dangerouslySetInnerHTML={{ __html: msg.content.replace(/\n/g, '<br/>').replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') }} />
+                    <div className="prose prose-sm max-w-none" dangerouslySetInnerHTML={{ 
+                      __html: msg.content
+                        .replace(/\n/g, '<br/>')
+                        .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                        .replace(/(https?:\/\/[^\s]+)/g, '<a href="$1" target="_blank" class="text-blue-600 underline hover:text-blue-800 break-all">$1</a>')
+                    }} />
                   ) : (
                     <p>{msg.content}</p>
                   )}
