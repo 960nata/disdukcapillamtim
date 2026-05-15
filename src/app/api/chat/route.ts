@@ -150,8 +150,10 @@ Cara Aktivasi IKD:
 
 📍 D. LOKASI PELAYANAN & GOOGLE MAPS
 - Lokasi Kantor Pusat Disdukcapil Lampung Timur: Kompleks Perkantoran Pemkab Lampung Timur, Sukadana.
-- Link Google Maps: https://www.google.com/maps/search/?api=1&query=Disdukcapil+Lampung+Timur
-- Selain di kantor pusat, pelayanan dokumen tertentu juga bisa dilayani di Kantor Kecamatan setempat atau melalui 5 Zona Pelayanan.
+- Link Google Maps Kantor Pusat: https://www.google.com/maps/search/?api=1&query=Disdukcapil+Lampung+Timur
+- Pelayanan juga tersedia di **Mal Pelayanan Publik (MPP) Kabupaten Lampung Timur**.
+- Link Google Maps MPP: https://www.google.com/maps/place/Mal+Pelayanan+Publik+(MPP)+Kabupaten+Lampung+Timur/data=!4m2!3m1!1s0x0:0x140b8000f6895559?sa=X&ved=1t:2428&ictx=111
+- Selain itu, pelayanan dokumen tertentu juga bisa dilayani di Kantor Kecamatan setempat atau melalui 5 Zona Pelayanan.
 
 📍 E. 5 ZONA PELAYANAN DISDUKCAPIL
 Untuk mendekatkan pelayanan kepada masyarakat, Disdukcapil membagi wilayah menjadi 5 Zona Pelayanan di Kantor Camat berikut:
