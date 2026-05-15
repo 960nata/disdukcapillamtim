@@ -276,7 +276,7 @@ export default function EditNewsPage() {
     <div className="min-h-screen bg-[#f4f6f8] flex flex-col font-sans">
       
       {/* Premium Header */}
-      <div className="bg-white/80 backdrop-blur-md border-b border-gray-100 px-8 py-4 flex items-center justify-between sticky top-0 z-30 shadow-sm">
+      <div className="bg-white/80 backdrop-blur-md border-b border-gray-100 px-4 md:px-8 py-3 md:py-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sticky top-0 z-30 shadow-sm">
         <div className="flex items-center gap-4">
           <Link href="/dashboard/news" className="w-10 h-10 flex items-center justify-center bg-gray-50 rounded-xl text-gray-500 hover:text-gray-900 hover:bg-gray-100 transition-all border border-gray-100">
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
@@ -290,7 +290,7 @@ export default function EditNewsPage() {
           </div>
         </div>
         
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2 w-full sm:w-auto justify-between sm:justify-end">
           <button 
             onClick={() => handleSave('Draft')}
             className="px-5 py-2.5 text-sm font-bold text-gray-700 hover:bg-gray-50 rounded-xl border border-gray-200 transition-all shadow-sm"
@@ -314,7 +314,7 @@ export default function EditNewsPage() {
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="max-w-4xl w-full bg-white p-12 rounded-3xl border border-gray-100/80 shadow-sm space-y-8 min-h-[800px]"
+            className="max-w-4xl w-full bg-white p-6 md:p-12 rounded-2xl md:rounded-3xl border border-gray-100/80 shadow-sm space-y-6 md:space-y-8 min-h-[800px]"
           >
             
             {/* Cover Image Area */}
@@ -338,7 +338,7 @@ export default function EditNewsPage() {
               placeholder="Tulis Judul Artikel yang Menarik di Sini..." 
               value={title}
               onChange={handleTitleChange}
-              className="w-full text-4xl font-extrabold text-gray-900 placeholder-gray-200 focus:outline-none border-b-2 border-transparent focus:border-gray-50 pb-4 tracking-tight"
+              className="w-full text-2xl md:text-4xl font-extrabold text-gray-900 placeholder-gray-200 focus:outline-none border-b-2 border-transparent focus:border-gray-50 pb-2 md:pb-4 tracking-tight"
             />
 
             {/* Dynamic Blocks */}
@@ -512,7 +512,7 @@ export default function EditNewsPage() {
         </main>
 
         {/* Sidebar */}
-        <aside className="w-full lg:w-96 bg-white border-l border-gray-100 p-8 space-y-8 overflow-y-auto">
+        <aside className="w-full lg:w-96 bg-white border-l border-gray-100 p-4 md:p-8 space-y-6 md:space-y-8 overflow-y-auto">
           
           {/* SEO Preview */}
           <div className="space-y-4">

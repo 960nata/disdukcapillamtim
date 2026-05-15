@@ -43,6 +43,7 @@ export async function POST(request: Request) {
       const finalPath = join(uploadDir, `${uniqueName}.webp`);
       await writeFile(finalPath, buffer);
       finalUrl = `/api/uploads?file=${uniqueName}.webp`;
+      console.log('Upload API - Saved webp to:', finalPath);
     } else {
       // Compress to AVIF for others using sharp
       const finalPath = join(uploadDir, `${uniqueName}.avif`);
@@ -50,8 +51,10 @@ export async function POST(request: Request) {
         .avif({ quality: 80 })
         .toFile(finalPath);
       finalUrl = `/api/uploads?file=${uniqueName}.avif`;
+      console.log('Upload API - Saved avif to:', finalPath);
     }
 
+    console.log('Upload API - Returning URL:', finalUrl);
     return NextResponse.json({ url: finalUrl });
   } catch (error) {
     console.error('Upload error:', error);
