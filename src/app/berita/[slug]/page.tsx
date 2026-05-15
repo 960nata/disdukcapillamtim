@@ -12,14 +12,50 @@ import { motion } from 'framer-motion';
 const NewsCarousel = ({ block }: { block: any }) => {
   const [activeIndex, setActiveIndex] = React.useState(0);
   const scrollRef = React.useRef<HTMLDivElement>(null);
+  const content = Array.isArray(block.content) ? block.content : [];
+
+  // Auto-slide functionality
+  React.useEffect(() => {
+    if (content.length <= 1) return;
+    const interval = setInterval(() => {
+      if (scrollRef.current) {
+        const width = scrollRef.current.children[0]?.clientWidth || scrollRef.current.clientWidth;
+        // Adding gap to width calculation: child width + gap (1rem = 16px)
+        const gap = 16; 
+        const totalItemWidth = width + gap;
+        
+        let nextIndex = activeIndex + 1;
+        if (nextIndex >= content.length) nextIndex = 0;
+        
+        scrollRef.current.scrollTo({
+          left: nextIndex * totalItemWidth,
+          behavior: 'smooth'
+        });
+      }
+    }, 4000); // 4 seconds per slide
+    return () => clearInterval(interval);
+  }, [activeIndex, content.length]);
 
   const handleScroll = () => {
     if (scrollRef.current) {
-      // Calculate active index based on scroll position
       const scrollLeft = scrollRef.current.scrollLeft;
       const width = scrollRef.current.children[0]?.clientWidth || scrollRef.current.clientWidth;
-      const index = Math.round(scrollLeft / width);
+      const gap = 16;
+      const totalItemWidth = width + gap;
+      const index = Math.round(scrollLeft / totalItemWidth);
       setActiveIndex(index);
+    }
+  };
+
+  const scrollToSlide = (index: number) => {
+    if (scrollRef.current) {
+      const width = scrollRef.current.children[0]?.clientWidth || scrollRef.current.clientWidth;
+      const gap = 16;
+      const totalItemWidth = width + gap;
+      scrollRef.current.scrollTo({
+        left: index * totalItemWidth,
+        behavior: 'smooth'
+      });
     }
   };
 
@@ -36,15 +72,20 @@ const NewsCarousel = ({ block }: { block: any }) => {
         className="flex gap-4 overflow-x-auto snap-x snap-mandatory scrollbar-hide pb-2"
         style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
       >
-        {Array.isArray(block.content) && block.content.map((img: string, i: number) => (
-          <div key={i} className={`snap-center shrink-0 w-[85%] ${desktopClass} aspect-video relative rounded-xl overflow-hidden shadow-sm`}>
+        {content.map((img: string, i: number) => (
+          <div key={i} className={`snap-center shrink-0 w-[85%] ${desktopClass} aspect-square relative rounded-xl overflow-hidden shadow-sm`}>
             <img src={img} alt="Carousel" className="w-full h-full object-cover" />
           </div>
         ))}
       </div>
       <div className="flex justify-center gap-1.5 mt-3">
-        {Array.isArray(block.content) && block.content.map((_: any, i: number) => (
-          <div key={i} className={`h-1.5 rounded-full transition-all duration-300 ${i === activeIndex ? 'w-6 bg-[#27ae60]' : 'w-1.5 bg-gray-300'}`} />
+        {content.map((_: any, i: number) => (
+          <button 
+            key={i} 
+            onClick={() => scrollToSlide(i)}
+            className={`h-1.5 rounded-full transition-all duration-300 ${i === activeIndex ? 'w-6 bg-[#27ae60]' : 'w-1.5 bg-gray-300 hover:bg-gray-400'}`} 
+            aria-label={`Go to slide ${i + 1}`}
+          />
         ))}
       </div>
     </div>
