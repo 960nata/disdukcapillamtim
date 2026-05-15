@@ -88,7 +88,7 @@ export default function BeritaDetailPage() {
         transition={{ duration: 0.6 }}
         className="p-[10px] md:p-[20px] w-full"
       >
-        <div className="relative h-[500px] md:h-[700px] overflow-hidden rounded-[20px] shadow-sm">
+        <div className="relative h-[400px] md:h-[700px] overflow-hidden rounded-[20px] shadow-sm">
           <img 
             src={newsDetail.coverImage} 
             alt={newsDetail.title} 
