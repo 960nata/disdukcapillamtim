@@ -245,7 +245,7 @@ export default function BeritaDetailPage() {
                   Tag Populer
                 </h3>
                 <div className="flex flex-wrap gap-1.5">
-                  {tags.map((tag, i) => (
+                  {newsDetail.tags.map((tag: string, i: number) => (
                     <span key={i} className="text-[10px] font-bold text-gray-600 bg-gray-50 hover:bg-gray-100 px-2 py-1 rounded-lg border border-gray-100 cursor-pointer transition-colors">
                       #{tag}
                     </span>
