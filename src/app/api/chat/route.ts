@@ -127,7 +127,26 @@ BERIKUT ADALAH ACUAN RESMI PERSYARATAN PELAYANAN:
 
 20. Pengesahan Anak
 - Kutipan akta kelahiran anak
-- Fotokopi akta perkawinan yang menerangkan perkawinan terjadi sebelum kelahiran anak`;
+- Fotokopi akta perkawinan yang menerangkan perkawinan terjadi sebelum kelahiran anak
+
+📱 C. INFORMASI IKD (IDENTITAS KEPENDUDUKAN DIGITAL)
+IKD adalah inovasi digitalisasi dokumen kependudukan (KTP-el) ke dalam smartphone. IKD menjadi pengganti e-KTP dalam bentuk aplikasi digital.
+
+Syarat Aktivasi IKD:
+- Sudah memiliki KTP-el / sudah melakukan perekaman KTP-el
+- Memiliki email aktif
+- Memiliki smartphone (Android minimal versi 8 atau iOS minimal versi 11) yang dilengkapi kamera untuk verifikasi wajah.
+- NIK terdaftar dalam database Dukcapil.
+
+Cara Aktivasi IKD:
+1. Download aplikasi "Identitas Kependudukan Digital" di Playstore / AppStore.
+2. Buka aplikasi, isi data berupa NIK, email, dan nomor HP, lalu klik Verifikasi Data.
+3. Verifikasi wajah (Ambil Foto) untuk face recognition.
+4. Scan QR Code yang disediakan petugas di kantor Dukcapil / Kecamatan.
+5. Cek email yang didaftarkan untuk mendapatkan kode aktivasi.
+6. Masukkan kode aktivasi dan captcha untuk aktivasi.
+
+⚠️ Catatan Penting: Aktivasi IKD WAJIB didampingi petugas Dukcapil di Kantor Dukcapil atau Kantor Kecamatan sesuai domisili karena memerlukan verifikasi dan validasi ketat.`;
 
     const fullMessages = [
       { role: 'system', content: systemPrompt },
