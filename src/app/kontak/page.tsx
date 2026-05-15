@@ -10,9 +10,9 @@ export default function KontakPage() {
       <Header />
       
       {/* Hero Section Wrapper with Padding (Same as Profile) */}
-      <div className="p-[20px]">
+      <div className="p-[10px] md:p-[20px]">
         {/* Hero Section Inner with Border Radius */}
-        <div className="relative h-[450px] flex items-center justify-center overflow-hidden rounded-[20px]">
+        <div className="relative h-[300px] md:h-[450px] flex items-center justify-center overflow-hidden rounded-[20px]">
           {/* Background Image */}
           <div className="absolute inset-0 z-0">
             <Image 
@@ -27,9 +27,9 @@ export default function KontakPage() {
           </div>
 
           {/* Content */}
-          <div className="relative z-10 text-center text-white px-4 mt-10">
-            <h1 className="text-4xl md:text-5xl font-bold mb-4 text-white">Kontak Pelayanan</h1>
-            <p className="text-lg text-white/80 max-w-2xl mx-auto">
+          <div className="relative z-10 text-center text-white px-4 mt-5 md:mt-10">
+            <h1 className="text-xl md:text-5xl font-bold mb-4 text-white">Kontak Pelayanan</h1>
+            <p className="text-xs md:text-lg text-white/80 max-w-2xl mx-auto">
               Hubungi kami melalui berbagai saluran komunikasi resmi untuk mendapatkan informasi dan pelayanan terbaik.
             </p>
           </div>
@@ -89,18 +89,18 @@ export default function KontakPage() {
           </div>
           
           {/* Additional Info / Map Section (Styled like Home page banner) */}
-          <div className="mt-16 bg-[#0b2b26] p-10 md:p-14 rounded-[2.5rem] text-white shadow-xl">
+          <div className="mt-16 bg-[#0b2b26] p-4 md:p-14 rounded-2xl md:rounded-[2.5rem] text-white shadow-xl">
             <div className="max-w-3xl">
               <span className="text-[#27ae60] text-sm font-bold uppercase tracking-wider mb-2 block">Lokasi Fisik</span>
-              <h2 className="text-3xl font-bold mb-4">Kunjungi Kantor Kami</h2>
-              <p className="text-white/80 font-medium leading-relaxed mb-6">
+              <h2 className="text-xl md:text-3xl font-bold mb-4">Kunjungi Kantor Kami</h2>
+              <p className="text-xs md:text-base text-white/80 font-medium leading-relaxed mb-6">
                 Jl. Buay Subing No. 7, Desa Sukadana Ilir, Kecamatan Sukadana, Lampung Timur
               </p>
               <div className="flex flex-wrap gap-4">
-                <div className="bg-white/10 backdrop-blur-sm px-4 py-2 rounded-full border border-white/20 text-sm font-bold text-white">
+                <div className="bg-white/10 backdrop-blur-sm px-4 py-2 rounded-full border border-white/20 text-xs md:text-sm font-bold text-white">
                   Senin - Kamis: 08:00 - 15:30
                 </div>
-                <div className="bg-white/10 backdrop-blur-sm px-4 py-2 rounded-full border border-white/20 text-sm font-bold text-white">
+                <div className="bg-white/10 backdrop-blur-sm px-4 py-2 rounded-full border border-white/20 text-xs md:text-sm font-bold text-white">
                   Jumat: 08:00 - 15:00
                 </div>
               </div>

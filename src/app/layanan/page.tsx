@@ -12,9 +12,9 @@ export default function LayananPage() {
       <Header />
       
       {/* Hero Section Wrapper with Padding */}
-      <div className="p-[20px]">
+      <div className="p-[10px] md:p-[20px]">
         {/* Hero Section Inner with Border Radius */}
-        <div className="relative h-[450px] flex items-center justify-center overflow-hidden rounded-[20px]">
+        <div className="relative h-[300px] md:h-[450px] flex items-center justify-center overflow-hidden rounded-[20px]">
           {/* Background Image */}
           <div className="absolute inset-0 z-0">
             <Image 
@@ -29,9 +29,9 @@ export default function LayananPage() {
           </div>
 
           {/* Content */}
-          <div className="relative z-10 text-center text-white px-4 mt-10">
-            <h1 className="text-4xl md:text-5xl font-bold mb-4 text-white">Layanan Kependudukan</h1>
-            <p className="text-lg text-white/80 max-w-2xl mx-auto">
+          <div className="relative z-10 text-center text-white px-4 mt-5 md:mt-10">
+            <h1 className="text-xl md:text-5xl font-bold mb-4 text-white">Layanan Kependudukan</h1>
+            <p className="text-xs md:text-lg text-white/80 max-w-2xl mx-auto">
               Akses cepat dan mudah ke dokumen yang paling sering dibutuhkan masyarakat Lampung Timur.
             </p>
           </div>
