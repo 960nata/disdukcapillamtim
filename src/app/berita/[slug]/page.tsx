@@ -127,10 +127,10 @@ export default function BeritaDetailPage() {
       <main className="flex-grow pt-4 pb-16 bg-[#f8fafc]">
         <div className="max-w-[1300px] mx-auto px-[20px] relative z-10">
           
-          <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
+          <div className="flex flex-col lg:flex-row gap-8">
             
             {/* Left Column (75%) - Main News Card */}
-            <div className="lg:col-span-3">
+            <div className="w-full lg:w-[65%]">
               <div className="bg-white p-8 md:p-10 rounded-2xl border border-gray-100 shadow-sm space-y-6">
                 
                 {/* Article Content */}
@@ -202,7 +202,7 @@ export default function BeritaDetailPage() {
             </div>
 
             {/* Right Column (25%) - Sidebar */}
-            <div className="lg:col-span-1 space-y-6">
+            <div className="w-full lg:w-[35%] space-y-6">
               
               {/* Card 1: 5 Berita Terpopuler with Images */}
               <div className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm space-y-4">
@@ -240,7 +240,7 @@ export default function BeritaDetailPage() {
                 </h3>
                 <div className="space-y-3">
                   {announcements.map((ann, i) => (
-                    <div key={i} className="bg-orange-50/50 p-3 rounded-lg border border-orange-100/50 cursor-pointer hover:bg-orange-50 transition-colors">
+                    <div key={i} className="bg-orange-50/50 p-3 rounded-lg border border-orange-100/50">
                       <h4 className="text-xs font-bold text-gray-800 line-clamp-2">
                         {ann.title}
                       </h4>
