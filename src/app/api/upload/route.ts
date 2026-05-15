@@ -8,6 +8,9 @@ export async function POST(request: Request) {
     const formData = await request.formData();
     const file = formData.get('file') as Blob | null;
 
+    console.log('Upload API - file:', file);
+    console.log('Upload API - file name:', (file as any)?.name);
+
     if (!file) {
       return NextResponse.json({ error: 'No file uploaded' }, { status: 400 });
     }
