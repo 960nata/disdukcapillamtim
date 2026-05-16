@@ -104,10 +104,10 @@ export default function BeritaPage() {
                 {/* Grid Title */}
                 <div className="mb-8 md:mb-12">
                   <div className="flex items-center gap-3">
-                    <h3 className="text-xl md:text-3xl font-black text-[#0c1a30] tracking-tight uppercase italic">
+                    <h3 className="text-xl md:text-2xl font-bold text-slate-900 tracking-tight uppercase">
                       Berita Terkini
                     </h3>
-                    <div className="flex-grow h-[2px] bg-gradient-to-r from-[#27ae60] to-transparent opacity-20"></div>
+                    <div className="flex-grow h-[1px] bg-slate-200"></div>
                   </div>
                 </div>
 
