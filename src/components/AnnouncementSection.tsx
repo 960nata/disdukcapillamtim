@@ -29,7 +29,7 @@ export default function AnnouncementSection() {
   if (!announcement || !isVisible) return null;
 
   return (
-    <div className="w-full px-[10px] md:px-5 mb-8">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-8">
       <motion.div 
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
