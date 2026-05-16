@@ -271,7 +271,8 @@ export default function CekDataPage() {
             </div>
           </div>
         </div>
-      </main>
+      </div>
+    </main>
 
       <Footer />
     </div>
