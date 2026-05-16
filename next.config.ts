@@ -4,10 +4,6 @@ const nextConfig: NextConfig = {
   images: {
     formats: ['image/avif', 'image/webp'],
   },
-  experimental: {
-    workerThreads: false,
-    cpus: 1,
-  },
   typescript: {
     ignoreBuildErrors: true,
   },
