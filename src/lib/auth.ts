@@ -1,7 +1,9 @@
 import crypto from 'crypto';
 import { cookies } from 'next/headers';
 
-const SECRET = process.env.JWT_SECRET || 'super-secret-key-disdukcapil-lamtim-2026';
+const SECRET = process.env.JWT_SECRET || (process.env.NODE_ENV === 'production' 
+  ? (() => { throw new Error('JWT_SECRET must be set in production environment!'); })()
+  : 'dev-secret-key-disdukcapil-lamtim-2026');
 
 // Fungsi untuk membuat token JWT sederhana
 export function signToken(payload: any): string {

@@ -3,9 +3,31 @@ import { NextResponse } from 'next/server';
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const { type, nomor, nik, captcha } = body;
+    let { type, nomor, nik, captcha } = body;
 
-    // The external API URL provided by the user
+    // 1. Basic Sanitization & Validation
+    nomor = String(nomor).trim().substring(0, 50);
+    nik = String(nik).trim().substring(0, 16);
+    captcha = String(captcha).trim().substring(0, 10);
+
+    // 2. Strict Format Validation
+    const nikRegex = /^[0-9]{16}$/;
+    if (!nikRegex.test(nik)) {
+      return NextResponse.json({ error: 'Format NIK tidak valid. Harus 16 digit angka.' }, { status: 400 });
+    }
+
+    if (type === 'registrasi' && nomor.length < 5) {
+      return NextResponse.json({ error: 'Nomor registrasi terlalu pendek.' }, { status: 400 });
+    }
+
+    if (type === 'kk' && !nikRegex.test(nomor)) {
+      return NextResponse.json({ error: 'Format Nomor KK tidak valid. Harus 16 digit angka.' }, { status: 400 });
+    }
+
+    // 3. Rate Limiting (Conceptual for now, can be implemented with Redis/etc if needed)
+    // To protect against automated scraping of sensitive data.
+
+    // 4. Secure API Call
     // Note: This URL might only be accessible from the server's network
     const SIAK_API_URL = 'http://siak.disdukcapil-lamtim.com:8080/api/cek_status'; // Example endpoint
 
