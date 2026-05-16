@@ -142,10 +142,6 @@ export default function BeritaDetailPage() {
 
   // Real data is now used from state
 
-  const announcements = [
-    { title: 'Pemeliharaan Sistem SIAK pada 15 Mei 2026', date: '13 Mei' },
-    { title: 'Lowongan Tenaga Harian Lepas (THL)', date: '10 Mei' },
-  ];
 
   if (loading) {
     return (
@@ -376,23 +372,6 @@ export default function BeritaDetailPage() {
                 </div>
               </div>
 
-              {/* Card 2: Pengumuman */}
-              <div className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm space-y-4">
-                <h3 className="text-sm font-extrabold text-gray-900 tracking-tight flex items-center gap-2">
-                  <span className="w-1.5 h-4 bg-[#e67e22] rounded-full inline-block"></span>
-                  Pengumuman
-                </h3>
-                <div className="space-y-3">
-                  {announcements.map((ann, i) => (
-                    <div key={i} className="bg-orange-50/50 p-3 rounded-lg border border-orange-100/50">
-                      <h4 className="text-xs font-bold text-gray-800 line-clamp-2">
-                        {ann.title}
-                      </h4>
-                      <p className="text-[10px] text-orange-600 font-bold mt-1">{ann.date}</p>
-                    </div>
-                  ))}
-                </div>
-              </div>
 
               {/* Card 3: Tags */}
               <div className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm space-y-4">
