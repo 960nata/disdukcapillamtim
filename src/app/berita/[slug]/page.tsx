@@ -185,21 +185,20 @@ export default function BeritaDetailPage() {
             alt={newsDetail.title} 
             className="w-full h-full object-cover"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/70 to-black/30"></div>
           
-          {/* Breadcrumb & Title - Constrained to max-w-7xl to align with content below */}
+          {/* Localized content backdrop instead of global overlay */}
           <div className="absolute inset-0 flex flex-col justify-end pb-12">
             <div className="max-w-[1300px] mx-auto w-full text-white px-[20px]">
-              <div className="w-full lg:w-[65%] md:pl-[20px]">
+              <div className="w-full lg:w-[65%] md:pl-[20px] bg-black/30 backdrop-blur-md p-8 rounded-2xl border border-white/10">
                 <div className="flex items-center gap-2 text-[11px] md:text-sm font-bold text-[#2ecc71] mb-2">
                   <Link href="/berita" className="hover:underline">Berita</Link>
                   <span>/</span>
                   <span>{newsDetail.category}</span>
                 </div>
-                <h1 className="text-xl md:text-4xl font-extrabold mb-3 leading-tight">
+                <h1 className="text-xl md:text-4xl font-extrabold mb-3 leading-tight drop-shadow-lg">
                   {newsDetail.title}
                 </h1>
-                <div className="flex items-center gap-4 text-[11px] md:text-xs text-white/80">
+                <div className="flex items-center gap-4 text-[11px] md:text-xs text-white/90">
                   <div className="flex items-center gap-2">
                     <div className="w-5 h-5 bg-white/20 rounded-full flex items-center justify-center text-xs font-bold text-white">
                       {newsDetail.author.charAt(0)}
