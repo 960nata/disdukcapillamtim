@@ -374,7 +374,7 @@ export default function EditNewsPage() {
       <div className="flex-grow flex flex-col lg:flex-row">
         
         {/* Main Editor Area */}
-        <main className="flex-grow p-6 flex justify-center overflow-y-auto">
+        <main className="flex-grow sm:p-6 p-0 flex justify-center overflow-y-auto">
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -448,7 +448,7 @@ export default function EditNewsPage() {
             {/* Dynamic Blocks */}
             <div className="space-y-6">
               {blocks.map((block, index) => (
-                <div key={index} className="relative group border border-transparent hover:border-gray-100 rounded-xl p-3 transition-all hover:bg-gray-50/50">
+                <div key={index} className="relative group border border-transparent hover:border-gray-100 rounded-xl sm:p-3 p-0 transition-all hover:bg-gray-50/50">
                   
                   {/* Block Actions */}
                   <div className="absolute -right-2 -top-2 hidden group-hover:flex gap-1 bg-white border border-gray-200 rounded-lg shadow-sm p-1 z-10">
