@@ -199,7 +199,7 @@ export default function CreateNewsPage() {
       .replace(/ +/g, '-');
   };
 
-  const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleTitleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const val = e.target.value;
     setTitle(val);
     // Auto generate slug if it hasn't been manually edited or is empty
@@ -367,45 +367,52 @@ export default function CreateNewsPage() {
               </div>
             </div>
 
-            <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center">
-              <input 
-                type="text" 
+            <div className="flex flex-col gap-4">
+              <textarea 
                 placeholder="Tulis Judul Artikel yang Menarik di Sini..." 
                 value={title}
                 onChange={handleTitleChange}
-                className="flex-1 text-4xl font-extrabold text-gray-900 placeholder-gray-200 focus:outline-none border-b-2 border-transparent focus:border-gray-50 pb-4 tracking-tight"
+                rows={1}
+                onInput={(e) => {
+                  const target = e.target as HTMLTextAreaElement;
+                  target.style.height = 'auto';
+                  target.style.height = target.scrollHeight + 'px';
+                }}
+                className="w-full text-2xl md:text-4xl font-extrabold text-gray-900 placeholder-gray-200 focus:outline-none border-none pb-2 md:pb-4 tracking-tight resize-none bg-transparent overflow-hidden"
               />
+            </div>
+
+            {/* AI Prompt Input (Optional) */}
+            <div className="bg-purple-50/50 p-4 rounded-2xl border border-purple-100/50 flex items-center gap-4">
+              <div className="flex-1 space-y-2">
+                <label className="text-[10px] font-black uppercase tracking-widest text-purple-400 flex items-center gap-2">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+                  Instruksi Tambahan AI (Opsional)
+                </label>
+                <input 
+                  type="text"
+                  value={aiPrompt}
+                  onChange={(e) => setAiPrompt(e.target.value)}
+                  placeholder="Contoh: Fokus pada pelayanan KIA gratis atau tambahkan info jadwal di Desa X..."
+                  className="w-full bg-transparent border-none focus:ring-0 p-0 text-sm font-bold text-purple-900 placeholder-purple-200"
+                />
+              </div>
               <button 
                 onClick={generateAIContent}
                 disabled={isGeneratingAI}
-                className={`shrink-0 flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-black transition-all shadow-lg ${
+                title="Tuliskan Artikel (AI)"
+                className={`shrink-0 w-12 h-12 flex items-center justify-center rounded-xl transition-all shadow-lg ${
                   isGeneratingAI 
                   ? 'bg-gray-100 text-gray-400 cursor-not-allowed' 
                   : 'bg-gradient-to-r from-purple-600 to-indigo-600 text-white hover:from-purple-700 hover:to-indigo-700 shadow-purple-100'
                 }`}
               >
                 {isGeneratingAI ? (
-                  <div className="w-4 h-4 border-2 border-gray-400 border-t-transparent rounded-full animate-spin"></div>
+                  <div className="w-5 h-5 border-2 border-gray-400 border-t-transparent rounded-full animate-spin"></div>
                 ) : (
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"></path><path d="M5 3v4"></path><path d="M19 17v4"></path><path d="M3 5h4"></path><path d="M17 19h4"></path></svg>
                 )}
-                {isGeneratingAI ? 'AI Menulis...' : 'Tuliskan Artikel (AI)'}
               </button>
-            </div>
-
-            {/* AI Prompt Input (Optional) */}
-            <div className="bg-purple-50/50 p-4 rounded-2xl border border-purple-100/50 space-y-2">
-              <label className="text-[10px] font-black uppercase tracking-widest text-purple-400 flex items-center gap-2">
-                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
-                Instruksi Tambahan AI (Opsional)
-              </label>
-              <input 
-                type="text"
-                value={aiPrompt}
-                onChange={(e) => setAiPrompt(e.target.value)}
-                placeholder="Contoh: Fokus pada pelayanan KIA gratis atau tambahkan info jadwal di Desa X..."
-                className="w-full bg-transparent border-none focus:ring-0 p-0 text-sm font-bold text-purple-900 placeholder-purple-200"
-              />
             </div>
 
             {/* Dynamic Blocks */}
