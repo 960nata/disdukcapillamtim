@@ -109,22 +109,26 @@ model Slider {
   updatedAt DateTime @updatedAt
 }
 
-model ChatSession {
-  id        String   @id @default(cuid())
-  name      String?
-  phone     String?
-  ip        String?
-  location  String?
-  messages  ChatMessage[]
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+model AIChat {
+  id          Int            @id @default(autoincrement())
+  name        String
+  phone       String
+  ipAddress   String?
+  city        String?
+  region      String?
+  country     String?
+  latitude    Float?
+  longitude   Float?
+  messages    AIChatMessage[]
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt
 }
 
-model ChatMessage {
-  id        String   @id @default(cuid())
-  sessionId String
-  session   ChatSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
-  role      String   // "user" or "assistant"
-  content   String   @db.Text
-  createdAt DateTime @default(now())
+model AIChatMessage {
+  id             Int      @id @default(autoincrement())
+  chatId         Int
+  chat           AIChat   @relation(fields: [chatId], references: [id], onDelete: Cascade)
+  role           String   // "user", "assistant"
+  content        String   @db.Text
+  createdAt      DateTime @default(now())
 }
