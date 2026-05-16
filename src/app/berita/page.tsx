@@ -88,69 +88,79 @@ export default function BeritaPage() {
             <>
               {/* Top Section: Featured + 3 Small Cards */}
               <section className="py-8">
-                <div className="grid grid-cols-1 lg:grid-cols-5 gap-8">
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
                   
                   {/* Featured Card (Left) */}
-                  {featuredNews && (
-                    <Link 
-                      href={`/berita/${featuredNews.slug}`}
-                      className="lg:col-span-3 relative group cursor-pointer overflow-hidden rounded-[20px] h-[400px] lg:h-[500px] shadow-sm bg-white"
-                    >
-                      <img 
-                        src={featuredNews.coverImage || "/images/news/hero_berita.avif"} 
-                        alt={featuredNews.title} 
-                        className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-t from-[#0c1a30]/90 via-[#0c1a30]/30 to-transparent"></div>
-                      <div className="absolute bottom-0 p-8 text-white">
-                        <div className="flex items-center gap-4 mb-4">
-                          <span className="bg-[#27ae60] text-white text-xs font-bold px-3 py-1 rounded-lg uppercase tracking-wide">
-                            {featuredNews.category || 'Berita'}
-                          </span>
-                          <span className="text-white/70 text-xs font-medium">{formatDate(featuredNews.createdAt)}</span>
+                  <div className="lg:col-span-7">
+                    {featuredNews && (
+                      <Link 
+                        href={`/berita/${featuredNews.slug}`} 
+                        className="group block relative h-[360px] md:h-[500px] rounded-xl overflow-hidden border border-slate-100 shadow-sm hover:border-[#27ae60] hover:shadow-2xl hover:shadow-green-900/10 transition-all duration-500"
+                      >
+                        <div className="absolute inset-0">
+                          <img 
+                            src={featuredNews.coverImage || "/images/news/hero_berita.avif"} 
+                            alt={featuredNews.title} 
+                            className="w-full h-full object-cover transition-transform duration-[1000ms] group-hover:scale-105"
+                          />
                         </div>
-                        <h3 className="text-2xl lg:text-3xl font-extrabold mb-2 group-hover:text-[#27ae60] transition-colors leading-tight">
-                          {featuredNews.title}
-                        </h3>
-                      </div>
-                    </Link>
-                  )}
+                        {/* Overlay Gradient */}
+                        <div className="absolute inset-0 bg-gradient-to-t from-[#0b2b26]/90 via-black/20 to-transparent"></div>
+                        
+                        {/* Content Overlay */}
+                        <div className="absolute bottom-0 left-0 p-8 md:p-12 w-full">
+                          <div className="flex items-center gap-4 mb-5">
+                            <span className="bg-[#27ae60] text-white text-[10px] font-bold px-3 py-1.5 rounded-sm uppercase tracking-wider">
+                              {featuredNews.category || 'BERITA'}
+                            </span>
+                            <span className="text-white/70 text-xs font-medium tracking-wide">
+                              {formatDate(featuredNews.createdAt)}
+                            </span>
+                          </div>
+                          <h3 className="text-2xl md:text-3xl font-bold text-white leading-tight group-hover:text-green-300 transition-colors tracking-tight">
+                            {featuredNews.title}
+                          </h3>
+                        </div>
+                      </Link>
+                    )}
+                  </div>
 
                   {/* 3 Small Cards (Right) */}
-                  <div className="flex flex-col gap-4 lg:col-span-2">
-                    {sideNews.map((news) => (
+                  <div className="lg:col-span-5 flex flex-col gap-4">
+                    {sideNews.map((news, idx) => (
                       <Link 
-                        key={news.id}
-                        href={`/berita/${news.slug}`}
-                        className="flex flex-col sm:flex-row gap-4 group cursor-pointer border border-gray-100 rounded-[15px] p-4 hover:border-[#27ae60] transition-all duration-300 bg-white hover:shadow-md h-auto sm:h-[120px]"
+                        key={news.id} 
+                        href={`/berita/${news.slug}`} 
+                        className={`flex gap-6 group transition-all p-4 rounded-xl border border-transparent hover:border-slate-100 hover:bg-white hover:shadow-md ${
+                          idx !== sideNews.length - 1 ? "border-b-slate-100" : ""
+                        }`}
                       >
-                        <div className="w-full h-32 sm:w-32 sm:h-full flex-shrink-0 overflow-hidden rounded-lg">
+                        <div className="relative w-28 h-20 md:w-40 md:h-28 flex-shrink-0 rounded-xl overflow-hidden bg-slate-100 shadow-sm">
                           <img 
                             src={news.coverImage || "/images/news/hero_berita.avif"} 
                             alt={news.title} 
-                            className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" 
+                            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                           />
                         </div>
-                        <div className="flex flex-col justify-between py-1">
-                          <div>
-                            <div className="flex items-center gap-2 mb-1">
-                              <span className="bg-[#27ae60]/10 text-[#27ae60] text-[10px] font-bold px-2 py-0.5 rounded uppercase">
-                                {news.category || 'News'}
-                              </span>
-                              <span className="text-gray-400 text-xs">{formatDate(news.createdAt)}</span>
-                            </div>
-                            <h4 className="text-sm font-bold group-hover:text-[#27ae60] transition-colors line-clamp-2 text-[#0c1a30]">
-                              {news.title}
-                            </h4>
+                        <div className="flex flex-col justify-center flex-1">
+                          <div className="flex items-center gap-3 mb-2">
+                            <span className="text-[10px] font-bold text-[#27ae60] bg-green-50 px-2 py-0.5 rounded uppercase tracking-widest">
+                              {news.category || 'NEWS'}
+                            </span>
+                            <span className="text-slate-400 text-[11px] font-medium">
+                              {formatDate(news.createdAt)}
+                            </span>
                           </div>
+                          <h4 className="text-base md:text-lg font-bold text-slate-900 leading-snug group-hover:text-[#27ae60] transition-colors line-clamp-2 tracking-tight">
+                            {news.title}
+                          </h4>
                         </div>
                       </Link>
                     ))}
                     
-                    {/* Fallback if less than 3 side news */}
                     {sideNews.length === 0 && (
-                      <div className="text-center py-10 text-gray-400 text-sm">
-                        Belum ada berita lainnya.
+                      <div className="text-center py-10 text-gray-400 text-sm italic">
+                        Belum ada berita tambahan.
                       </div>
                     )}
                   </div>
