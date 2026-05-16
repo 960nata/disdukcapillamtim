@@ -1,13 +1,14 @@
 'use client';
 
+import React, { useState, useEffect } from 'react';
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import Image from "next/image";
 
 export default function KontakPage() {
-  const [settings, setSettings] = React.useState<any>(null);
+  const [settings, setSettings] = useState<any>(null);
 
-  React.useEffect(() => {
+  useEffect(() => {
     async function fetchSettings() {
       try {
         const res = await fetch('/api/settings');

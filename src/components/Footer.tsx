@@ -1,16 +1,17 @@
 'use client';
 
-import * as React from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 
 export default function Footer() {
-  const [settings, setSettings] = React.useState<any>(null);
+  const [settings, setSettings] = useState<any>(null);
 
-  React.useEffect(() => {
+  useEffect(() => {
     async function fetchSettings() {
       try {
         const res = await fetch('/api/settings');
+        if (!res.ok) throw new Error('Network response was not ok');
         const data = await res.json();
         if (data && !data.error) {
           setSettings(data);
