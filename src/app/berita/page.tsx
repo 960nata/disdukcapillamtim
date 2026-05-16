@@ -11,6 +11,8 @@ import Link from "next/link";
 export default function BeritaPage() {
   const [newsList, setNewsList] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 9;
 
   useEffect(() => {
     fetch('/api/news')
@@ -37,7 +39,18 @@ export default function BeritaPage() {
 
   const featuredNews = newsList[0];
   const sideNews = newsList.slice(1, 4);
-  const bottomNews = newsList.slice(4);
+  const allBottomNews = newsList.slice(4);
+
+  // Pagination logic
+  const totalPages = Math.ceil(allBottomNews.length / itemsPerPage);
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentBottomNews = allBottomNews.slice(indexOfFirstItem, indexOfLastItem);
+
+  const paginate = (pageNumber: number) => {
+    setCurrentPage(pageNumber);
+    window.scrollTo({ top: 600, behavior: 'smooth' });
+  };
 
   return (
     <div className="min-h-screen bg-white flex flex-col font-sans">
@@ -170,7 +183,7 @@ export default function BeritaPage() {
               </section>
 
               {/* Middle Section: Heading */}
-              {bottomNews.length > 0 && (
+              {allBottomNews.length > 0 && (
                 <>
                   <div className="mt-12 mb-8">
                     <h2 className="text-2xl font-extrabold text-[#0c1a30] tracking-tight">Berita Lainnya</h2>
@@ -179,7 +192,7 @@ export default function BeritaPage() {
 
                   {/* Bottom Section: Grid of 3 Cards */}
                   <section className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                    {bottomNews.map((news) => (
+                    {currentBottomNews.map((news) => (
                       <Link 
                         key={news.id}
                         href={`/berita/${news.slug}`}
@@ -204,6 +217,37 @@ export default function BeritaPage() {
                       </Link>
                     ))}
                   </section>
+
+                  {/* Pagination Section */}
+                  {totalPages > 1 && (
+                    <div className="mt-16 flex justify-center items-center gap-2">
+                      <button 
+                        onClick={() => paginate(currentPage - 1)}
+                        disabled={currentPage === 1}
+                        className={`p-2 rounded-full border transition-all ${currentPage === 1 ? 'text-gray-300 border-gray-100 cursor-not-allowed' : 'text-[#27ae60] border-gray-200 hover:border-[#27ae60] hover:bg-[#27ae60] hover:text-white'}`}
+                      >
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+                      </button>
+
+                      {Array.from({ length: totalPages }, (_, i) => i + 1).map((number) => (
+                        <button
+                          key={number}
+                          onClick={() => paginate(number)}
+                          className={`w-10 h-10 rounded-xl font-bold transition-all ${currentPage === number ? 'bg-[#27ae60] text-white shadow-lg shadow-green-900/20' : 'bg-white text-gray-500 border border-gray-100 hover:border-[#27ae60] hover:text-[#27ae60]'}`}
+                        >
+                          {number}
+                        </button>
+                      ))}
+
+                      <button 
+                        onClick={() => paginate(currentPage + 1)}
+                        disabled={currentPage === totalPages}
+                        className={`p-2 rounded-full border transition-all ${currentPage === totalPages ? 'text-gray-300 border-gray-100 cursor-not-allowed' : 'text-[#27ae60] border-gray-200 hover:border-[#27ae60] hover:bg-[#27ae60] hover:text-white'}`}
+                      >
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                      </button>
+                    </div>
+                  )}
                 </>
               )}
             </>
