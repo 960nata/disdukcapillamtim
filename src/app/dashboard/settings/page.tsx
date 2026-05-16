@@ -229,10 +229,14 @@ export default function SettingsPage() {
                   name="mapsUrl"
                   value={settings.mapsUrl}
                   onChange={handleChange}
-                  placeholder="https://maps.google.com/maps?q=..."
+                  placeholder="https://www.google.com/maps/embed?pb=..."
                   className="w-full px-5 py-4 bg-gray-50 border border-gray-100 rounded-2xl focus:outline-none focus:border-[#27ae60] focus:bg-white transition-all font-bold text-blue-600"
                 />
-                <p className="text-[10px] text-gray-400 italic">Gunakan link embed dari Google Maps (bagian src di iframe).</p>
+                <div className="mt-2 p-4 bg-blue-50 rounded-xl border border-blue-100">
+                  <p className="text-[10px] text-blue-700 leading-relaxed">
+                    <strong>Cara ambil Link Maps:</strong> Buka Google Maps &gt; Cari Lokasi &gt; Klik <strong>Bagikan (Share)</strong> &gt; Pilih tab <strong>Sematkan Peta (Embed a map)</strong> &gt; Copy link yang ada di dalam tanda petik <code>src="..."</code> saja.
+                  </p>
+                </div>
               </div>
             </div>
           </div>
