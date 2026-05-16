@@ -108,8 +108,8 @@ export default function LatestNews() {
                       className="w-full h-full object-cover transition-transform duration-[1000ms] group-hover:scale-105"
                     />
                   </div>
-                  {/* Overlay Gradient */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#0b2b26]/90 via-black/20 to-transparent"></div>
+                  {/* Overlay Gradient - Limited to bottom with 40% opacity */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent"></div>
                   
                   {/* Content Overlay */}
                   <div className="absolute bottom-0 left-0 p-6 md:p-12 w-full">
