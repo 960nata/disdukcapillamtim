@@ -30,11 +30,11 @@ export default function NotFound() {
                   <div className="w-1 h-1 bg-white/40 rounded-full"></div>
                   <span>Error Page</span>
                 </div>
-                <h1 className="text-2xl md:text-6xl font-black mb-4 leading-tight drop-shadow-2xl tracking-tight">
-                  Ups! Halaman Yang Kamu Cari <span className="text-[#2ecc71]">Gak Ada</span> Cuy
+                <h1 className="text-2xl md:text-4xl font-black mb-4 leading-tight drop-shadow-2xl tracking-tight">
+                  Ups! Halaman Tidak Ditemukan
                 </h1>
-                <p className="text-sm md:text-xl text-white/80 font-bold max-w-2xl drop-shadow-lg leading-relaxed">
-                  Mungkin jalannya lagi ditutup atau kamu salah belok. Yuk balik lagi ke jalan yang benar!
+                <p className="text-sm md:text-lg text-white/80 font-bold max-w-xl drop-shadow-lg leading-relaxed">
+                  Maaf cuy, sepertinya kamu salah belok. Yuk balik lagi ke jalan yang benar!
                 </p>
               </div>
             </div>
