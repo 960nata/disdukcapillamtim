@@ -12,7 +12,7 @@ export default function NotFound() {
       
       {/* Premium Hero Banner Section (News Style) */}
       <div className="p-[10px] md:p-[20px]">
-        <div className="relative h-[350px] md:h-[600px] overflow-hidden rounded-[20px] shadow-sm">
+        <div className="relative h-[300px] md:h-[450px] overflow-hidden rounded-[20px] shadow-sm">
           <img 
             src="/images/hero/hero1.avif" 
             alt="Not Found" 

@@ -23,7 +23,7 @@ export default function Error({
       
       {/* Hero Banner Section */}
       <div className="p-[10px] md:p-[20px]">
-        <div className="relative h-[250px] md:h-[400px] flex items-center justify-center overflow-hidden rounded-[20px] shadow-sm">
+        <div className="relative h-[300px] md:h-[450px] flex items-center justify-center overflow-hidden rounded-[20px] shadow-sm">
           <img 
             src="/images/hero/hero 2.avif" 
             alt="Error" 
