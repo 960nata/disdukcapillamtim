@@ -2,7 +2,7 @@
 
 import * as React from 'react';
 import { useState, useEffect } from 'react';
-import Image from 'next/image';
+
 
 type Photo = {
   id: number;
@@ -88,12 +88,10 @@ export default function GallerySection() {
               {fullRow1.map((item, index) => (
                 <div key={`${item.id}-${index}`} className="inline-block w-[300px] flex-shrink-0 group">
                   <div className="relative h-[200px] rounded-2xl overflow-hidden shadow-sm group-hover:shadow-lg transition-all duration-300 border border-gray-100">
-                    <Image
+                    <img
                       src={item.url}
                       alt={item.title || 'Foto Kegiatan'}
-                      fill
-                      sizes="300px"
-                      className="object-cover group-hover:scale-105 transition-transform duration-500"
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4">
                       <span className="text-xs font-bold text-[#27ae60] bg-white/90 px-2 py-0.5 rounded-full w-fit mb-1">
@@ -117,12 +115,10 @@ export default function GallerySection() {
               {fullRow2.map((item, index) => (
                 <div key={`${item.id}-${index}`} className="inline-block w-[300px] flex-shrink-0 group">
                   <div className="relative h-[200px] rounded-2xl overflow-hidden shadow-sm group-hover:shadow-lg transition-all duration-300 border border-gray-100">
-                    <Image
+                    <img
                       src={item.url}
                       alt={item.title || 'Foto Kegiatan'}
-                      fill
-                      sizes="300px"
-                      className="object-cover group-hover:scale-105 transition-transform duration-500"
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4">
                       <span className="text-xs font-bold text-[#27ae60] bg-white/90 px-2 py-0.5 rounded-full w-fit mb-1">
