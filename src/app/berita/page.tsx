@@ -69,12 +69,14 @@ export default function BeritaPage() {
               className="object-cover"
               priority
             />
+            {/* Reverted to Global Dark Overlay Gradient for better readability */}
+            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent"></div>
           </div>
 
-          {/* Content with localized bottom-only shadow for legibility */}
-          <div className="relative z-10 text-center text-white px-4 mt-5 md:mt-10 bg-gradient-to-t from-black/40 via-transparent to-transparent py-8 rounded-2xl max-w-3xl mx-auto">
-            <h1 className="text-xl md:text-5xl font-bold mb-4 text-white uppercase drop-shadow-xl">Berita Terbaru</h1>
-            <p className="text-xs md:text-lg text-white font-medium max-w-2xl mx-auto drop-shadow-lg">
+          {/* Content */}
+          <div className="relative z-10 text-center text-white px-4 mt-5 md:mt-10">
+            <h1 className="text-xl md:text-5xl font-bold mb-4 text-white uppercase">Berita Terbaru</h1>
+            <p className="text-xs md:text-lg text-white/80 max-w-2xl mx-auto">
               Ikuti kabar terkini dan liputan kegiatan terbaru dari Dinas Kependudukan dan Pencatatan Sipil Kabupaten Lampung Timur.
             </p>
           </div>
