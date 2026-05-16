@@ -5,7 +5,7 @@ import { headers } from 'next/headers';
 export async function POST(request: Request) {
   try {
     const { messages, chatId, userInfo } = await request.json();
-    const headersList = headers();
+    const headersList = await headers();
     
     // Get IP Address
     const ip = headersList.get('x-forwarded-for') || headersList.get('x-real-ip') || 'unknown';
