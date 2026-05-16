@@ -42,6 +42,7 @@ export default function EditNewsPage() {
   const [availableTags, setAvailableTags] = useState<string[]>(['Pelayanan', 'Kegiatan', 'Edukasi', 'Penting']);
   const [newTagInput, setNewTagInput] = useState('');
   const [isGeneratingAI, setIsGeneratingAI] = useState(false);
+  const [aiPrompt, setAiPrompt] = useState('');
 
   useEffect(() => {
     const fetchNews = async () => {
@@ -265,7 +266,7 @@ export default function EditNewsPage() {
       const res = await fetch('/api/ai/generate', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ title }),
+        body: JSON.stringify({ title, prompt: aiPrompt }),
       });
       const data = await res.json();
       if (data.content) {
@@ -427,6 +428,21 @@ export default function EditNewsPage() {
                 )}
                 {isGeneratingAI ? 'AI Menulis...' : 'Tuliskan Artikel (AI)'}
               </button>
+            </div>
+
+            {/* AI Prompt Input (Optional) */}
+            <div className="bg-purple-50/50 p-4 rounded-2xl border border-purple-100/50 space-y-2">
+              <label className="text-[10px] font-black uppercase tracking-widest text-purple-400 flex items-center gap-2">
+                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+                Instruksi Tambahan AI (Opsional)
+              </label>
+              <input 
+                type="text"
+                value={aiPrompt}
+                onChange={(e) => setAiPrompt(e.target.value)}
+                placeholder="Contoh: Fokus pada pelayanan KIA gratis atau tambahkan info jadwal di Desa X..."
+                className="w-full bg-transparent border-none focus:ring-0 p-0 text-sm font-bold text-purple-900 placeholder-purple-200"
+              />
             </div>
 
             {/* Dynamic Blocks */}
