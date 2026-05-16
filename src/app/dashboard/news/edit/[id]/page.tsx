@@ -357,16 +357,17 @@ export default function EditNewsPage() {
         <div className="flex items-center gap-2 w-full sm:w-auto justify-between sm:justify-end">
           <button 
             onClick={() => handleSave('Draft')}
-            className="px-5 py-2.5 text-sm font-bold text-gray-700 hover:bg-gray-50 rounded-xl border border-gray-200 transition-all shadow-sm"
+            title="Simpan ke Draft"
+            className="p-2.5 text-gray-700 hover:bg-gray-50 rounded-xl border border-gray-200 transition-all shadow-sm flex items-center justify-center"
           >
-            Simpan ke Draft
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v13a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg>
           </button>
           <button 
             onClick={() => handleSave('Published')}
-            className="bg-gradient-to-r from-[#27ae60] to-[#2ecc71] hover:from-[#1e8449] hover:to-[#27ae60] text-white transition-all duration-300 rounded-xl px-6 py-2.5 text-sm font-bold shadow-md shadow-green-100 flex items-center gap-2"
+            title="Perbarui Artikel"
+            className="bg-gradient-to-r from-[#27ae60] to-[#2ecc71] hover:from-[#1e8449] hover:to-[#27ae60] text-white transition-all duration-300 rounded-xl p-2.5 shadow-md shadow-green-100 flex items-center justify-center"
           >
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
-            Perbarui Artikel
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
           </button>
         </div>
       </div>
