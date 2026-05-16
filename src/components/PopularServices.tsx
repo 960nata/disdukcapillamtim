@@ -68,7 +68,7 @@ const services = [
   },
 ];
 
-export default function PopularServices() {
+export default function PopularServices({ hideLink = false }: { hideLink?: boolean }) {
   return (
     <section className="py-16 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -80,9 +80,11 @@ export default function PopularServices() {
               Akses cepat ke dokumen yang paling sering dibutuhkan masyarakat Lampung Timur.
             </p>
           </div>
-          <Link href="/layanan" className="text-[#27ae60] font-bold hover:text-[#1e8449] transition-colors mt-4 md:mt-0 flex items-center gap-1 text-sm">
-            Semua layanan <span>→</span>
-          </Link>
+          {!hideLink && (
+            <Link href="/layanan" className="text-[#27ae60] font-bold hover:text-[#1e8449] transition-colors mt-4 md:mt-0 flex items-center gap-1 text-sm">
+              Semua layanan <span>→</span>
+            </Link>
+          )}
         </div>
 
         {/* Grid */}

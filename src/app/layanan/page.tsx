@@ -40,7 +40,7 @@ export default function LayananPage() {
       
       <main className="flex-grow">
         {/* Reuse the PopularServices component */}
-        <PopularServices />
+        <PopularServices hideLink={true} />
         
         {/* Contact Section */}
         <ContactSection />
