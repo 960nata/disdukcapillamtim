@@ -148,7 +148,7 @@ export default function SlidersPage() {
         </button>
       </div>
 
-      <div className="px-[14px] py-4 md:p-0 space-y-4 md:space-y-6">
+      <div className="px-0 py-4 md:p-0 space-y-4 md:space-y-6">
         <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
           <div className="overflow-x-auto">
             <table className="w-full text-sm text-left">

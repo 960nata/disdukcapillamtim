@@ -123,11 +123,14 @@ export default function SpeechesPage() {
   };
 
   return (
-    <div className="p-8 space-y-6">
-      <div className="flex justify-between items-center">
+    <div className="p-0 md:p-8 space-y-0 md:space-y-6 font-sans min-h-screen bg-gray-50/50">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-white p-[14px] md:p-6 md:rounded-2xl shadow-sm border-b md:border border-gray-100">
         <div>
-          <h1 className="text-xl font-bold text-gray-900">Manajemen Sambutan</h1>
-          <p className="text-xs text-gray-500">Kelola pidato/sambutan kepala daerah</p>
+          <h1 className="text-2xl font-bold text-gray-900 mb-1 flex items-center gap-2">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#27ae60" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v14zm-7-10H7v2h5v-2zm0 4H7v2h5v-2zm5-8H7v2h10V6z"/></svg>
+            Manajemen Sambutan
+          </h1>
+          <p className="text-sm text-gray-500">Kelola pidato/sambutan kepala daerah</p>
         </div>
         <button 
           onClick={() => {
@@ -135,11 +138,14 @@ export default function SpeechesPage() {
             setFormData({ name: '', title: '', quote: '', image: '' });
             setIsModalOpen(true);
           }}
-          className="bg-[#27ae60] hover:bg-[#1e8449] text-white transition-all duration-300 rounded-lg px-4 py-2 text-sm font-semibold shadow-sm"
+          className="w-full sm:w-auto bg-[#27ae60] hover:bg-[#1e8449] text-white transition-all duration-300 rounded-xl px-5 py-3 text-sm font-bold shadow-lg shadow-green-100 flex items-center justify-center gap-2"
         >
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
           Tambah Sambutan
         </button>
       </div>
+
+      <div className="px-0 py-4 md:p-0 space-y-4 md:space-y-6">
 
       {/* Table */}
       <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
@@ -275,6 +281,7 @@ export default function SpeechesPage() {
           </div>
         </div>
       )}
+      </div>
     </div>
   );
 }

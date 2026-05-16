@@ -195,7 +195,7 @@ export default function GalleryPage() {
         </div>
       </div>
 
-      <div className="px-[14px] py-4 md:p-0 space-y-4 md:space-y-6">
+      <div className="px-0 py-4 md:p-0 space-y-4 md:space-y-6">
         <div className="bg-blue-50 border border-blue-100 p-4 rounded-2xl flex items-center gap-3">
           <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center text-blue-600 font-bold shadow-sm">
             {featuredIds.length}

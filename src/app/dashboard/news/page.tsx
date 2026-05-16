@@ -90,7 +90,7 @@ export default function NewsManagementPage() {
         </Link>
       </div>
 
-      <div className="px-[14px] py-4 md:p-0 space-y-4 md:space-y-6">
+      <div className="px-0 py-4 md:p-0 space-y-4 md:space-y-6">
         {/* Filters & Search */}
         <div className="bg-white p-[10px] md:p-5 rounded-2xl border border-gray-100 shadow-sm flex flex-col md:flex-row gap-4 items-center justify-between">
           <div className="relative w-full md:w-96">

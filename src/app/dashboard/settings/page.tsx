@@ -123,7 +123,7 @@ export default function SettingsPage() {
         </button>
       </div>
 
-      <div className="px-[14px] py-4 md:p-0 space-y-4 md:space-y-6">
+      <div className="px-0 py-4 md:p-0 space-y-4 md:space-y-6">
         <form onSubmit={handleSubmit} className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           
           {/* Identitas & Logo */}
