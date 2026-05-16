@@ -36,21 +36,21 @@ export default function AnnouncementSection() {
         className="relative overflow-hidden bg-white rounded-[32px] p-1 shadow-xl shadow-gray-200/50 border border-gray-100"
       >
         <div className="flex flex-col lg:flex-row items-stretch">
-          {/* Label Section */}
-          <div className="bg-[#27ae60] p-4 lg:p-6 flex items-center gap-3 lg:rounded-l-[31px] rounded-t-[31px] lg:rounded-tr-none shrink-0">
-            <div className="w-10 h-10 bg-white/20 rounded-xl flex items-center justify-center border border-white/20">
-              <MegaphoneIcon className="w-6 h-6 text-white" />
+          {/* Label Section - NOW WHITE */}
+          <div className="bg-white p-4 lg:p-6 flex items-center gap-3 lg:rounded-l-[31px] rounded-t-[31px] lg:rounded-tr-none shrink-0 border-b lg:border-b-0 lg:border-r border-gray-50">
+            <div className="w-10 h-10 bg-[#27ae60]/10 rounded-xl flex items-center justify-center border border-[#27ae60]/20">
+              <MegaphoneIcon className="w-6 h-6 text-[#27ae60]" />
             </div>
             <div className="flex flex-col">
-              <span className="text-[10px] font-black uppercase tracking-[0.2em] text-white/70">Update</span>
-              <span className="text-sm font-black text-white uppercase tracking-wider">Pengumuman</span>
+              <span className="text-[10px] font-black uppercase tracking-[0.2em] text-[#27ae60]/60">Update</span>
+              <span className="text-sm font-black text-[#0c1a30] uppercase tracking-wider">Pengumuman</span>
             </div>
           </div>
 
-          {/* List Section */}
+          {/* List Section - WHITE */}
           <div className="flex-grow p-4 lg:p-6 flex flex-col gap-4 overflow-hidden">
             <div className="flex flex-col gap-4">
-              {announcements.map((ann, idx) => (
+              {announcements.map((ann) => (
                 <div key={ann.id} className="flex items-start lg:items-center justify-between gap-4 group">
                   <div className="flex items-start lg:items-center gap-3 min-w-0">
                     <div className="w-1.5 h-1.5 rounded-full bg-[#27ae60] mt-2 lg:mt-0 shrink-0 animate-pulse" />
@@ -69,7 +69,7 @@ export default function AnnouncementSection() {
             </div>
           </div>
 
-          {/* Close Button Section */}
+          {/* Close Button Section - WHITE */}
           <div className="border-t lg:border-t-0 lg:border-l border-gray-100 flex items-center justify-center p-4">
             <button 
               onClick={() => setIsVisible(false)}
