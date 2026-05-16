@@ -36,6 +36,7 @@ export default function CreateNewsPage() {
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const [availableTags, setAvailableTags] = useState<string[]>(['Pelayanan', 'Kegiatan', 'Edukasi', 'Penting']);
   const [newTagInput, setNewTagInput] = useState('');
+  const [isGeneratingAI, setIsGeneratingAI] = useState(false);
 
   const convertToEmbedUrl = (url: string) => {
     if (!url) return '';
@@ -206,6 +207,40 @@ export default function CreateNewsPage() {
     }
   };
 
+  const generateAIContent = async () => {
+    if (!title) {
+      alert('Masukkan judul artikel terlebih dahulu agar AI memiliki konteks!');
+      return;
+    }
+    
+    setIsGeneratingAI(true);
+    try {
+      const res = await fetch('/api/ai/generate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ title }),
+      });
+      const data = await res.json();
+      if (data.content) {
+        // Find the first empty text block or add a new one
+        const newBlocks = [...blocks];
+        const textBlockIndex = newBlocks.findIndex(b => b.type === 'text' && (b.content === '<p>Mulai menulis artikel yang memukau di sini...</p>' || !b.content));
+        
+        if (textBlockIndex !== -1) {
+          newBlocks[textBlockIndex].content = data.content;
+          setBlocks(newBlocks);
+        } else {
+          setBlocks([...blocks, { type: 'text', content: data.content }]);
+        }
+      }
+    } catch (error) {
+      console.error('AI Generation failed:', error);
+      alert('Gagal menghasilkan konten AI. Silakan coba lagi.');
+    } finally {
+      setIsGeneratingAI(false);
+    }
+  };
+
   const addBlock = (type: string) => {
     if (type === 'text') {
       setBlocks([...blocks, { type: 'text', content: '<p>Tulis paragraf baru di sini...</p>' }]);
@@ -330,14 +365,31 @@ export default function CreateNewsPage() {
               </div>
             </div>
 
-            {/* Title Block */}
-            <input 
-              type="text" 
-              placeholder="Tulis Judul Artikel yang Menarik di Sini..." 
-              value={title}
-              onChange={handleTitleChange}
-              className="w-full text-4xl font-extrabold text-gray-900 placeholder-gray-200 focus:outline-none border-b-2 border-transparent focus:border-gray-50 pb-4 tracking-tight"
-            />
+            <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center">
+              <input 
+                type="text" 
+                placeholder="Tulis Judul Artikel yang Menarik di Sini..." 
+                value={title}
+                onChange={handleTitleChange}
+                className="flex-1 text-4xl font-extrabold text-gray-900 placeholder-gray-200 focus:outline-none border-b-2 border-transparent focus:border-gray-50 pb-4 tracking-tight"
+              />
+              <button 
+                onClick={generateAIContent}
+                disabled={isGeneratingAI}
+                className={`shrink-0 flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-black transition-all shadow-lg ${
+                  isGeneratingAI 
+                  ? 'bg-gray-100 text-gray-400 cursor-not-allowed' 
+                  : 'bg-gradient-to-r from-purple-600 to-indigo-600 text-white hover:from-purple-700 hover:to-indigo-700 shadow-purple-100'
+                }`}
+              >
+                {isGeneratingAI ? (
+                  <div className="w-4 h-4 border-2 border-gray-400 border-t-transparent rounded-full animate-spin"></div>
+                ) : (
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
+                )}
+                {isGeneratingAI ? 'AI Menulis...' : 'Tuliskan Artikel (AI)'}
+              </button>
+            </div>
 
             {/* Dynamic Blocks */}
             <div className="space-y-6">
