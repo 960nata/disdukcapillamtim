@@ -1,0 +1,48 @@
+set timeout 300
+
+spawn ssh -p 64000 seputa55@seputardigital.com
+expect "password:"
+send "@Foila123\r"
+expect "$ "
+send "cd disdukcapil.lampungtimurkab.go.id\r"
+expect "$ "
+
+# Reset git state on server karena bentrok dengan rsync tadi
+send "git reset --hard\r"
+expect "$ "
+
+# Pull from git
+send "git pull origin main\r"
+expect "$ "
+
+# Install dependencies
+send "npm install\r"
+expect "$ "
+
+# Generate Prisma Client on server to match server OS
+send "npx prisma generate\r"
+expect "$ "
+
+# Push schema to database to fix missing tables
+send "npx prisma db push\r"
+expect "$ "
+# Build Next.js app with limited workers to avoid OS resource limits
+send "npm run build\r"
+expect "$ "
+
+# Create dummy prerender-manifest.json with preview object to fix 500 error
+send "echo '\{\"version\":4,\"routes\":\{\},\"dynamicRoutes\":\{\},\"preview\":\{\"previewModeId\":\"dummy\",\"previewModeSigningKey\":\"dummy\",\"previewModeEncryptionKey\":\"dummy\"\}\}' > .next/prerender-manifest.json\r"
+expect "$ "
+
+# Delete PM2 process
+send "pm2 delete disdukcapil\r"
+expect "$ "
+
+# Start PM2 process fresh
+send "pm2 start \"npm start\" --name \"disdukcapil\"\r"
+expect "$ "
+
+send "exit\r"
+expect eof
+
+puts "=== Deploy Via Git Selesai Cuy! ==="

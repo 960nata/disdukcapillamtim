@@ -1,7 +1,11 @@
 'use client';
 
 import * as React from 'react';
+import { cn } from '@/lib/utils';
+import { ArrowRight } from 'lucide-react';
+import Image from 'next/image';
 import Link from 'next/link';
+import { motion } from 'framer-motion';
 
 export default function LatestNews() {
   const [newsList, setNewsList] = React.useState<any[]>([]);
@@ -20,12 +24,13 @@ export default function LatestNews() {
           title: item.title,
           slug: item.slug,
           description: item.seoDesc || 'Baca selengkapnya...',
-          tag: item.category || 'BERITA',
+          category: item.category || 'BERITA',
           date: new Date(item.createdAt).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' }),
           image: item.coverImage || '/images/foto_kegiatan/kantor_luar.avif',
+          isFeatured: index === 0
         }));
 
-        setNewsList(mappedNews.slice(0, 3));
+        setNewsList(mappedNews);
 
       } catch (error) {
         console.error('Failed to fetch data:', error);
@@ -36,77 +41,130 @@ export default function LatestNews() {
     fetchData();
   }, []);
 
+  const featuredNews = newsList.find(item => item.isFeatured);
+  const otherNews = newsList.filter(item => !item.isFeatured).slice(0, 3);
+
+  if (loading) {
+    return (
+      <div className="flex justify-center py-32 bg-white">
+        <div className="w-12 h-12 border-4 border-[#00529C]/20 border-t-[#00529C] rounded-full animate-spin"></div>
+      </div>
+    );
+  }
+
   return (
-    <section className="py-20 bg-white text-gray-900 overflow-hidden border-t border-gray-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section className="relative py-32 bg-white overflow-hidden font-sans border-t border-slate-100">
+      
+      <div className="relative z-10 max-w-7xl mx-auto px-6">
         
-        {/* Header */}
-        <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
-          <div className="flex-grow">
-            <div className="flex items-center gap-2 mb-4">
-               <div className="w-10 h-[2px] bg-[#27ae60]"></div>
-               <span className="text-xs font-black text-[#27ae60] uppercase tracking-[0.3em]">Update Terkini</span>
-            </div>
-            <h2 className="text-3xl md:text-5xl font-black text-[#0c1a30] tracking-tight leading-none mb-4">
-              Berita Terbaru
+        {/* Standardized Header Section */}
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-10 mb-16">
+          <div className="flex-1">
+            <h2 className="text-3xl md:text-[42px] font-bold text-slate-900 tracking-tight leading-[1.1] mb-6">
+              Berita & Informasi Terbaru
             </h2>
-            <p className="text-gray-400 text-sm md:text-base max-w-2xl font-medium">
-              Dapatkan informasi dan berita terbaru seputar pelayanan publik di Kabupaten Lampung Timur.
+            <p className="text-slate-500 text-base md:text-lg font-normal leading-relaxed max-w-2xl">
+              Pantau perkembangan kependudukan, kebijakan terbaru, dan informasi strategis terkini di Kabupaten Lampung Timur.
             </p>
           </div>
-          <Link href="/berita" className="group flex items-center gap-3 bg-white px-6 py-4 rounded-2xl shadow-sm border border-gray-100 hover:border-[#27ae60] transition-all duration-300">
-            <span className="text-sm font-black text-[#0c1a30] group-hover:text-[#27ae60]">SEMUA BERITA</span>
-            <div className="w-8 h-8 rounded-full bg-gray-50 flex items-center justify-center group-hover:bg-[#27ae60] group-hover:text-white transition-all">
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
-            </div>
+          
+          <Link 
+            href="/berita" 
+            className="bg-[#27ae60] text-white px-8 py-4 rounded-full text-[15px] font-bold flex items-center gap-3 hover:bg-white hover:text-[#27ae60] border border-transparent hover:border-[#27ae60] transition-all duration-300 shadow-xl shadow-green-900/20 group"
+          >
+            <span>Lihat Semua Berita</span> <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />
           </Link>
         </div>
 
-        {/* Content Grid */}
-        {loading ? (
-          <div className="flex justify-center py-20">
-            <div className="w-12 h-12 border-4 border-[#27ae60]/20 border-t-[#27ae60] rounded-full animate-spin"></div>
-          </div>
-        ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {newsList.map(item => (
-              <Link 
-                key={item.id} 
-                href={`/berita/${item.slug}`}
-                className="group flex flex-col bg-white rounded-[32px] overflow-hidden border border-gray-100 hover:border-[#27ae60] transition-all duration-500 hover:shadow-2xl hover:shadow-green-900/5 hover:-translate-y-2"
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
+          
+          {/* Left Column - Featured News Card */}
+          <div className="lg:col-span-7">
+            {featuredNews && (
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, ease: [0.4, 0, 0.2, 1] }}
               >
-                <div className="aspect-[4/3] w-full overflow-hidden relative">
-                  <img 
-                    src={item.image} 
-                    alt={item.title} 
-                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
-                  />
-                  <div className="absolute top-4 left-4">
-                    <span className="bg-white/90 backdrop-blur-md text-[#27ae60] text-[10px] font-black px-4 py-1.5 rounded-full uppercase tracking-widest shadow-sm">
-                      {item.tag}
-                    </span>
+                <Link 
+                  href={`/berita/${featuredNews.slug}`} 
+                  className="group block relative h-[360px] md:h-[464px] rounded-xl overflow-hidden border border-slate-100 shadow-sm hover:border-[#27ae60] hover:shadow-2xl hover:shadow-green-900/10 transition-all duration-500"
+                >
+                  <div className="absolute inset-0">
+                    <Image 
+                      src={featuredNews.image} 
+                      alt={featuredNews.title} 
+                      fill 
+                      className="object-cover transition-transform duration-[1000ms] group-hover:scale-105"
+                    />
                   </div>
-                </div>
-                <div className="p-8">
-                  <div className="flex items-center gap-2 mb-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
-                    {item.date}
+                  {/* Overlay Gradient */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#0b2b26]/90 via-black/20 to-transparent"></div>
+                  
+                  {/* Content Overlay */}
+                  <div className="absolute bottom-0 left-0 p-8 md:p-12 w-full">
+                    <div className="flex items-center gap-4 mb-5">
+                      <span className="bg-[#27ae60] text-white text-[10px] font-bold px-3 py-1.5 rounded-sm uppercase tracking-wider">
+                        {featuredNews.category}
+                      </span>
+                      <span className="text-white/70 text-xs font-medium tracking-wide">
+                        {featuredNews.date}
+                      </span>
+                    </div>
+                    <h3 className="text-2xl md:text-3xl font-bold text-white leading-tight group-hover:text-green-300 transition-colors tracking-tight">
+                      {featuredNews.title}
+                    </h3>
                   </div>
-                  <h4 className="text-xl font-black text-[#0c1a30] group-hover:text-[#27ae60] transition-colors line-clamp-2 leading-tight mb-4">
-                    {item.title}
-                  </h4>
-                  <p className="text-gray-500 text-sm line-clamp-3 leading-relaxed mb-6 font-medium">
-                    {item.description}
-                  </p>
-                  <div className="flex items-center gap-2 text-[10px] font-black text-[#27ae60] uppercase tracking-widest group-hover:gap-3 transition-all">
-                    Baca Selengkapnya
-                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                </Link>
+              </motion.div>
+            )}
+          </div>
+
+          {/* Right Column - News List items with refined style */}
+          <div className="lg:col-span-5 flex flex-col gap-4">
+            {otherNews.map((news, idx) => (
+              <motion.div
+                key={news.id}
+                initial={{ opacity: 0, x: 30 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: idx * 0.1, ease: [0.4, 0, 0.2, 1] }}
+              >
+                <Link 
+                  href={`/berita/${news.slug}`} 
+                  className={cn(
+                    "flex gap-6 group transition-all p-4 rounded-xl border border-transparent hover:border-slate-100 hover:bg-slate-50/50 hover:shadow-sm",
+                    idx !== otherNews.length - 1 ? "border-b-slate-100" : ""
+                  )}
+                >
+                  <div className="relative w-28 h-20 md:w-40 md:h-28 flex-shrink-0 rounded-xl overflow-hidden bg-slate-100 shadow-sm">
+                    <Image 
+                      src={news.image} 
+                      alt={news.title} 
+                      fill 
+                      className="object-cover transition-transform duration-700 group-hover:scale-110"
+                    />
                   </div>
-                </div>
-              </Link>
+                  <div className="flex flex-col justify-center flex-1">
+                    <div className="flex items-center gap-3 mb-2">
+                      <span className="text-[10px] font-bold text-[#27ae60] bg-green-50 px-2 py-0.5 rounded uppercase tracking-widest">
+                        {news.category}
+                      </span>
+                      <span className="text-slate-400 text-[11px] font-medium">
+                        {news.date}
+                      </span>
+                    </div>
+                    <h4 className="text-base md:text-lg font-bold text-slate-900 leading-snug group-hover:text-[#27ae60] transition-colors line-clamp-2 tracking-tight">
+                      {news.title}
+                    </h4>
+                  </div>
+                </Link>
+              </motion.div>
             ))}
           </div>
-        )}
+
+        </div>
       </div>
     </section>
   );
