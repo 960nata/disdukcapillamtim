@@ -88,14 +88,14 @@ export default function BeritaPage() {
             <>
               {/* Top Section: Featured + 3 Small Cards */}
               <section className="py-8">
-                <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-stretch">
                   
                   {/* Featured Card (Left) */}
-                  <div className="lg:col-span-7">
+                  <div className="lg:col-span-7 h-full">
                     {featuredNews && (
                       <Link 
                         href={`/berita/${featuredNews.slug}`} 
-                        className="group block relative h-[360px] md:h-[500px] rounded-xl overflow-hidden border border-slate-100 shadow-sm hover:border-[#27ae60] hover:shadow-2xl hover:shadow-green-900/10 transition-all duration-500"
+                        className="group block relative h-[360px] md:h-[512px] rounded-xl overflow-hidden border border-slate-100 shadow-sm hover:border-[#27ae60] hover:shadow-2xl hover:shadow-green-900/10 transition-all duration-500"
                       >
                         <div className="absolute inset-0">
                           <img 
@@ -126,36 +126,37 @@ export default function BeritaPage() {
                   </div>
 
                   {/* 3 Small Cards (Right) */}
-                  <div className="lg:col-span-5 flex flex-col gap-4">
+                  <div className="lg:col-span-5 flex flex-col gap-4 h-full">
                     {sideNews.map((news, idx) => (
-                      <Link 
-                        key={news.id} 
-                        href={`/berita/${news.slug}`} 
-                        className={`flex gap-6 group transition-all p-4 rounded-xl border border-transparent hover:border-slate-100 hover:bg-white hover:shadow-md ${
-                          idx !== sideNews.length - 1 ? "border-b-slate-100" : ""
-                        }`}
-                      >
-                        <div className="relative w-28 h-20 md:w-40 md:h-28 flex-shrink-0 rounded-xl overflow-hidden bg-slate-100 shadow-sm">
-                          <img 
-                            src={news.coverImage || "/images/news/hero_berita.avif"} 
-                            alt={news.title} 
-                            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                          />
-                        </div>
-                        <div className="flex flex-col justify-center flex-1">
-                          <div className="flex items-center gap-3 mb-2">
-                            <span className="text-[10px] font-bold text-[#27ae60] bg-green-50 px-2 py-0.5 rounded uppercase tracking-widest">
-                              {news.category || 'NEWS'}
-                            </span>
-                            <span className="text-slate-400 text-[11px] font-medium">
-                              {formatDate(news.createdAt)}
-                            </span>
+                      <div key={news.id} className="flex-1">
+                        <Link 
+                          href={`/berita/${news.slug}`} 
+                          className={`flex gap-6 group transition-all p-4 rounded-xl border border-transparent hover:border-slate-100 hover:bg-white hover:shadow-md h-full ${
+                            idx !== sideNews.length - 1 ? "border-b-slate-100" : ""
+                          }`}
+                        >
+                          <div className="relative w-28 h-auto md:w-40 flex-shrink-0 rounded-xl overflow-hidden bg-slate-100 shadow-sm">
+                            <img 
+                              src={news.coverImage || "/images/news/hero_berita.avif"} 
+                              alt={news.title} 
+                              className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                            />
                           </div>
-                          <h4 className="text-base md:text-lg font-bold text-slate-900 leading-snug group-hover:text-[#27ae60] transition-colors line-clamp-2 tracking-tight">
-                            {news.title}
-                          </h4>
-                        </div>
-                      </Link>
+                          <div className="flex flex-col justify-center flex-1">
+                            <div className="flex items-center gap-3 mb-2">
+                              <span className="text-[10px] font-bold text-[#27ae60] bg-green-50 px-2 py-0.5 rounded uppercase tracking-widest">
+                                {news.category || 'NEWS'}
+                              </span>
+                              <span className="text-slate-400 text-[11px] font-medium">
+                                {formatDate(news.createdAt)}
+                              </span>
+                            </div>
+                            <h4 className="text-base md:text-lg font-bold text-slate-900 leading-snug group-hover:text-[#27ae60] transition-colors line-clamp-2 tracking-tight">
+                              {news.title}
+                            </h4>
+                          </div>
+                        </Link>
+                      </div>
                     ))}
                     
                     {sideNews.length === 0 && (
