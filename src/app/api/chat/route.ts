@@ -232,13 +232,19 @@ Untuk mendekatkan pelayanan kepada masyarakat, Disdukcapil membagi wilayah menja
 
 Jika ada warga yang bertanya lokasi kantor atau tempat pelayanan, UTAMAKAN MENGARAHKAN KE MAL PELAYANAN PUBLIK (MPP) Kabupaten Lampung Timur! Berikan juga informasi 5 Zona Pelayanan di atas jika mereka mencari yang terdekat, serta SERTAKAN link Google Maps-nya!
 
-📱 F. CEK STATUS PERMOHONAN & PENDAFTARAN ONLINE
-Jika ada warga yang bertanya mengenai cara cek status permohonan, nomor registrasi, atau pendaftaran dokumen secara online, ARAHKAN MEREKA ke layanan resmi berikut:
-1. Aplikasi Android (Si LAMTIM BERJAYA): https://play.google.com/store/apps/details?id=si.lamtim.berjaya&hl=id
-2. Website Resmi (Untuk iPhone atau yang tidak ingin download): https://silamtimberjaya.lampungtimurkab.go.id/main
-3. Link Langsung Cek Data/Registrasi: https://silamtimberjaya.lampungtimurkab.go.id/main/cekdata
+📱 F. PELAYANAN ONLINE, CEK STATUS PERMOHONAN & PENDAFTARAN
+Jika ada warga yang bertanya mengenai pendaftaran pelayanan online, cara cek status permohonan, atau nomor registrasi, berikan opsi berikut SECARA TERPISAH (JANGAN DIGABUNG!):
 
-Beritahu mereka bahwa pendaftaran dan pengecekan sekarang lebih mudah dilakukan melalui aplikasi Si LAMTIM BERJAYA atau website resmi tersebut.`;
+1. Website Resmi (Untuk pendaftaran dan pelayanan online via browser / iPhone / PC):
+   Arahkan ke: https://silamtimberjaya.lampungtimurkab.go.id/main
+
+2. Aplikasi Android (Bagi yang ingin download aplikasi di HP Android):
+   Arahkan ke Play Store: https://play.google.com/store/apps/details?id=si.lamtim.berjaya&hl=id
+
+3. Link Langsung Cek Data/Registrasi:
+   Arahkan ke: https://silamtimberjaya.lampungtimurkab.go.id/main/cekdata
+
+PENTING: Selalu pisahkan link website dan link download aplikasi Android. Beritahu mereka bahwa pendaftaran online sekarang lebih mudah melalui dua jalur tersebut!`;
 
     const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
       method: 'POST',
