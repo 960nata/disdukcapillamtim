@@ -188,9 +188,9 @@ export default function BeritaDetailPage() {
           {/* Overlay Gradient for readability */}
           <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent"></div>
           
-          {/* Breadcrumb & Title Overlay - Shifted to the left */}
+          {/* Breadcrumb & Title Overlay - Constrained content width to 1180px */}
           <div className="absolute inset-0 flex flex-col justify-end pb-12">
-            <div className="w-full text-white px-6 md:px-16">
+            <div className="max-w-[1180px] mx-auto w-full text-white px-6 md:px-12">
               <div className="w-full lg:w-[75%]">
                 <div className="flex items-center gap-2 text-xs md:text-sm font-bold text-[#2ecc71] mb-2 uppercase tracking-widest">
                   <Link href="/berita" className="hover:underline">Berita</Link>
