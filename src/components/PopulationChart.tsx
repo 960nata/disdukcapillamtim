@@ -135,7 +135,6 @@ export default function PopulationChart() {
       horizontalAlign: 'right',
       fontSize: '12px',
       fontWeight: 600,
-      markers: { radius: 12 },
       labels: { colors: '#4b5563' },
     },
     grid: {
