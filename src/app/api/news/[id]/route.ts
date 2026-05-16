@@ -22,6 +22,7 @@ export async function PUT(request: Request, { params }: { params: Promise<{ id: 
         category: body.category,
         tags: body.tags,
         coverImage: body.coverImage,
+        createdAt: body.createdAt ? new Date(body.createdAt) : undefined,
       },
     });
 

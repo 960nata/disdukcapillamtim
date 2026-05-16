@@ -43,6 +43,7 @@ export default function EditNewsPage() {
   const [newTagInput, setNewTagInput] = useState('');
   const [isGeneratingAI, setIsGeneratingAI] = useState(false);
   const [aiPrompt, setAiPrompt] = useState('');
+  const [createdAt, setCreatedAt] = useState('');
 
   useEffect(() => {
     const fetchNews = async () => {
@@ -63,6 +64,7 @@ export default function EditNewsPage() {
           setSeoDesc(item.seoDesc || '');
           setSeoKeywords(item.seoKeywords || '');
           setCoverImage(item.coverImage || '/images/foto_kegiatan/kantor_luar.avif');
+          setCreatedAt(item.createdAt ? new Date(item.createdAt).toISOString().split('T')[0] : '');
           if (item.tags) {
             const tagsArr = item.tags.split(',');
             setSelectedTags(tagsArr);
@@ -186,6 +188,7 @@ export default function EditNewsPage() {
           coverImage,
           category: selectedTags.length > 0 ? selectedTags[0] : 'Berita',
           tags: selectedTags.join(','),
+          createdAt: createdAt ? new Date(createdAt).toISOString() : undefined,
         }),
       });
 
@@ -882,6 +885,25 @@ export default function EditNewsPage() {
               >
                 +
               </button>
+            </div>
+          </div>
+
+          <div className="h-px bg-gray-50"></div>
+
+          {/* Date Picker */}
+          <div className="space-y-4">
+            <h3 className="text-sm font-extrabold text-gray-900 tracking-tight">Tanggal Publikasi</h3>
+            <div>
+              <label className="block text-xs font-bold text-gray-600 mb-1.5 uppercase">Tanggal Berita</label>
+              <input 
+                type="date" 
+                value={createdAt}
+                onChange={(e) => setCreatedAt(e.target.value)}
+                className="w-full px-4 py-2.5 text-sm bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:border-[#27ae60] focus:bg-white transition-all font-bold"
+              />
+              <p className="text-[10px] text-gray-400 mt-2 font-medium italic">
+                * Mengubah tanggal ini akan mempengaruhi urutan berita di halaman depan.
+              </p>
             </div>
           </div>
 
