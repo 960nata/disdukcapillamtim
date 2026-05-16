@@ -23,7 +23,7 @@ export async function POST(request: Request) {
       );
     }
 
-    const { title, prompt, context } = await request.json();
+    const { title, prompt } = await request.json();
 
     let generatedContent = '';
 
@@ -31,6 +31,7 @@ export async function POST(request: Request) {
       generatedContent = `
         <p><strong>Sukadana, Lampung Timur</strong> – Dalam upaya meningkatkan kualitas pelayanan administrasi kependudukan bagi masyarakat, Dinas Kependudukan dan Pencatatan Sipil (Disdukcapil) Kabupaten Lampung Timur terus melakukan berbagai inovasi strategis.</p>
         <p>Berita mengenai <strong>${title}</strong> ini menjadi salah satu tonggak penting dalam pencapaian target kinerja instansi tahun ini. Melalui program ini, diharapkan masyarakat dapat lebih mudah dalam mengakses layanan kependudukan tanpa harus menghadapi kendala birokrasi yang rumit.</p>
+        ${prompt ? `<p><strong>Catatan Tambahan:</strong> Menanggapi instruksi khusus mengenai "${prompt}", kami telah menyesuaikan draf ini agar lebih selaras dengan konteks tersebut.</p>` : ''}
         <p>Kepala Disdukcapil Lampung Timur menyatakan bahwa transformasi digital menjadi kunci utama dalam pelayanan masa kini. "Kami berkomitmen untuk terus menghadirkan layanan yang cepat, transparan, dan gratis bagi seluruh warga Lampung Timur," ujarnya saat memberikan keterangan resmi.</p>
         <p>Beberapa poin penting yang menjadi fokus dalam kegiatan ini antara lain:</p>
         <ul>

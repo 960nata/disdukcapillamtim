@@ -11,6 +11,24 @@ type Photo = {
   tags: string | null;
 };
 
+const fallbackRow1 = [
+  { id: -1, url: '/images/foto_kegiatan/pelayanan_ktp.avif', title: 'Pelayanan KTP', tags: 'Pelayanan' },
+  { id: -2, url: '/images/foto_kegiatan/jemput_bola.avif', title: 'Jemput Bola Adminduk', tags: 'Kegiatan' },
+  { id: -3, url: '/images/foto_kegiatan/rapat_koordinasi.avif', title: 'Rapat Koordinasi', tags: 'Internal' },
+  { id: -4, url: '/images/foto_kegiatan/penyerahan_ktp.avif', title: 'Penyerahan KTP-el', tags: 'Pelayanan' },
+  { id: -5, url: '/images/foto_kegiatan/ruang_tunggu.avif', title: 'Ruang Tunggu Nyaman', tags: 'Fasilitas' },
+  { id: -6, url: '/images/foto_kegiatan/penjelasan_prosedur.avif', title: 'Penjelasan Prosedur', tags: 'Edukasi' },
+];
+
+const fallbackRow2 = [
+  { id: -7, url: '/images/foto_kegiatan/penyerahan_kia.avif', title: 'Penyerahan KIA', tags: 'Pelayanan' },
+  { id: -8, url: '/images/foto_kegiatan/sosialisasi_sekolah.avif', title: 'Sosialisasi di Sekolah', tags: 'Edukasi' },
+  { id: -9, url: '/images/foto_kegiatan/verifikasi_berkas.avif', title: 'Verifikasi Berkas', tags: 'Pelayanan' },
+  { id: -10, url: '/images/foto_kegiatan/kantor_luar.avif', title: 'Kantor Disdukcapil', tags: 'Fasilitas' },
+  { id: -11, url: '/images/foto_kegiatan/pelayanan_online.avif', title: 'Pelayanan Online', tags: 'Digital' },
+  { id: -12, url: '/images/foto_kegiatan/membantu_lansia.avif', title: 'Pelayanan Prioritas', tags: 'Pelayanan' },
+];
+
 export default function GallerySection() {
   const [row1, setRow1] = useState<Photo[]>([]);
   const [row2, setRow2] = useState<Photo[]>([]);
@@ -20,7 +38,7 @@ export default function GallerySection() {
     fetch('/api/gallery')
       .then(res => res.json())
       .then(data => {
-        if (data.gallery && data.featuredIds) {
+        if (data.gallery && data.featuredIds && data.featuredIds.length > 0) {
           // Filter only featured photos
           const featuredPhotos = data.gallery.filter((p: any) => 
             data.featuredIds.includes(p.id)
@@ -42,11 +60,14 @@ export default function GallerySection() {
   }, []);
 
   if (loading) return null;
-  if (row1.length === 0 && row2.length === 0) return null;
+
+  // Use fallback if database is empty
+  const displayRow1 = row1.length > 0 ? row1 : fallbackRow1;
+  const displayRow2 = row2.length > 0 ? row2 : fallbackRow2;
 
   // Duplicate items for seamless loop
-  const fullRow1 = [...row1, ...row1, ...row1, ...row1];
-  const fullRow2 = [...row2, ...row2, ...row2, ...row2];
+  const fullRow1 = [...displayRow1, ...displayRow1, ...displayRow1, ...displayRow1];
+  const fullRow2 = [...displayRow2, ...displayRow2, ...displayRow2, ...displayRow2];
 
   return (
     <section className="py-24 bg-white overflow-hidden">
