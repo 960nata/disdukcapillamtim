@@ -10,18 +10,28 @@ export default function NotFound() {
     <div className="min-h-screen bg-white flex flex-col font-sans">
       <Header />
       
-      <main className="flex-grow relative flex items-center justify-center overflow-hidden">
-        {/* Blurred Hero Background Background */}
-        <div className="absolute inset-0 z-0">
+      {/* Hero Banner Section */}
+      <div className="p-[10px] md:p-[20px]">
+        <div className="relative h-[250px] md:h-[400px] flex items-center justify-center overflow-hidden rounded-[20px] shadow-sm">
           <img 
             src="/images/hero/hero1.avif" 
-            alt="Background" 
-            className="w-full h-full object-cover opacity-10 blur-xl scale-110"
+            alt="Not Found" 
+            className="w-full h-full object-cover"
           />
-          <div className="absolute inset-0 bg-white/60"></div>
+          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
+          <div className="relative z-10 text-center text-white px-4">
+            <h1 className="text-3xl md:text-6xl font-black mb-2 uppercase tracking-tighter drop-shadow-2xl">
+              Ups! Nyasar Cuy
+            </h1>
+            <p className="text-sm md:text-xl text-white/80 font-bold uppercase tracking-widest">
+              Halaman Tidak Ditemukan
+            </p>
+          </div>
         </div>
-
-        <div className="max-w-3xl w-full text-center relative z-10 px-6 py-24 md:py-32">
+      </div>
+      
+      <main className="flex-grow flex items-center justify-center py-16 md:py-24 bg-gray-50">
+        <div className="max-w-3xl w-full text-center relative z-10 px-6">
           <motion.div
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
