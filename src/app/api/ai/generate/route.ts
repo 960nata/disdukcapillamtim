@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
+export const dynamic = "force-dynamic";
 
 // Simple in-memory usage limit for the day
 // In a real app, this should be in the database per user or per IP

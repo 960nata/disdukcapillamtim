@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { writeFile, mkdir, stat } from 'fs/promises';
+export const dynamic = "force-dynamic";
 import { join } from 'path';
 import sharp from 'sharp';
 
