@@ -4,7 +4,6 @@ import * as React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
-import NotificationBell from './NotificationBell';
 
 const investmentItems = [
   { title: 'Mengapa Lamtim', href: '#', description: 'Pelajari posisi strategis dan performa ekonomi Lampung Timur.' },
@@ -55,7 +54,6 @@ export default function Header() {
 
         {/* Right Actions */}
         <div className="flex items-center gap-4">
-          <NotificationBell isScrolled={isScrolled} />
 
           {/* Button */}
           <Link href="/kontak">
