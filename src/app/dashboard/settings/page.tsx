@@ -16,7 +16,8 @@ export default function SettingsPage() {
     phone: '',
     workingHours: 'Senin - Jumat: 08:00 - 16:00',
     footerText: '© 2024 Dinas Kependudukan dan Pencatatan Sipil Kabupaten Lampung Timur.',
-    logo: '',
+    mapsUrl: '',
+    tiktok: '',
   });
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
@@ -71,7 +72,7 @@ export default function SettingsPage() {
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+    if (e) e.preventDefault();
     setSaving(true);
     setMessage('');
     try {
@@ -219,6 +220,19 @@ export default function SettingsPage() {
                   className="w-full px-5 py-4 bg-gray-50 border border-gray-100 rounded-2xl focus:outline-none focus:border-[#27ae60] focus:bg-white transition-all font-medium h-24 resize-none"
                 />
               </div>
+
+              <div className="space-y-1.5">
+                <label className="text-[11px] font-black uppercase tracking-widest text-gray-400 ml-1">Google Maps Embed URL</label>
+                <input 
+                  type="text" 
+                  name="mapsUrl"
+                  value={settings.mapsUrl}
+                  onChange={handleChange}
+                  placeholder="https://maps.google.com/maps?q=..."
+                  className="w-full px-5 py-4 bg-gray-50 border border-gray-100 rounded-2xl focus:outline-none focus:border-[#27ae60] focus:bg-white transition-all font-bold text-blue-600"
+                />
+                <p className="text-[10px] text-gray-400 italic">Gunakan link embed dari Google Maps (bagian src di iframe).</p>
+              </div>
             </div>
           </div>
 
@@ -245,6 +259,16 @@ export default function SettingsPage() {
                     type="text" 
                     name="instagram"
                     value={settings.instagram}
+                    onChange={handleChange}
+                    className="w-full px-5 py-4 bg-gray-50 border border-gray-100 rounded-2xl focus:outline-none focus:border-[#27ae60] focus:bg-white transition-all font-bold"
+                  />
+                </div>
+                <div className="space-y-1.5">
+                  <label className="text-[11px] font-black uppercase tracking-widest text-gray-400 ml-1">TikTok URL</label>
+                  <input 
+                    type="text" 
+                    name="tiktok"
+                    value={settings.tiktok}
                     onChange={handleChange}
                     className="w-full px-5 py-4 bg-gray-50 border border-gray-100 rounded-2xl focus:outline-none focus:border-[#27ae60] focus:bg-white transition-all font-bold"
                   />
@@ -285,7 +309,7 @@ export default function SettingsPage() {
             <div className="p-6 bg-gradient-to-br from-[#27ae60] to-[#2ecc71] rounded-3xl shadow-lg shadow-green-100 text-white">
               <h3 className="font-black text-sm mb-2">Tips Pengaturan</h3>
               <p className="text-xs opacity-90 leading-relaxed">
-                Pastikan alamat email dan nomor WhatsApp sudah benar karena data ini akan tampil di bagian footer dan halaman kontak website utama.
+                Pastikan alamat email, nomor WhatsApp, dan link Google Maps sudah benar karena data ini akan tampil secara otomatis di seluruh bagian website utama.
               </p>
             </div>
           </div>
