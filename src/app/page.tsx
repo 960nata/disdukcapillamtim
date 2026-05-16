@@ -2,7 +2,6 @@
 
 import styles from "./page.module.css";
 import Header from "@/components/Header";
-import AnnouncementBar from "@/components/AnnouncementBar";
 import Hero from "@/components/Hero";
 import DemographicsSection from "@/components/DemographicsSection";
 import PopularServices from "@/components/PopularServices";
@@ -19,7 +18,6 @@ export default function Home() {
     <div className={styles.mainContainer}>
       <div className={styles.contentWrapper}>
         <Header />
-        <AnnouncementBar />
         <div className="w-full p-[10px] md:p-5 bg-white">
           <Hero />
         </div>
