@@ -75,6 +75,16 @@ export default function LatestNews() {
           </Link>
         </div>
 
+        {/* Grid Title */}
+        <div className="mb-8 md:mb-12">
+          <div className="flex items-center gap-3">
+            <h3 className="text-xl md:text-3xl font-black text-[#0c1a30] tracking-tight uppercase italic">
+              Berita Terkini
+            </h3>
+            <div className="flex-grow h-[2px] bg-gradient-to-r from-[#27ae60] to-transparent opacity-20"></div>
+          </div>
+        </div>
+
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-stretch">
           
           {/* Left Column - Featured News Card */}
@@ -89,7 +99,7 @@ export default function LatestNews() {
               >
                 <Link 
                   href={`/berita/${featuredNews.slug}`} 
-                  className="group block relative h-[360px] md:h-[512px] rounded-xl overflow-hidden border border-slate-100 shadow-sm hover:border-[#27ae60] hover:shadow-2xl hover:shadow-green-900/10 transition-all duration-500"
+                  className="group block relative h-[400px] md:h-[512px] rounded-xl overflow-hidden border border-slate-100 shadow-sm hover:border-[#27ae60] hover:shadow-2xl hover:shadow-green-900/10 transition-all duration-500"
                 >
                   <div className="absolute inset-0">
                     <img 
@@ -102,16 +112,16 @@ export default function LatestNews() {
                   <div className="absolute inset-0 bg-gradient-to-t from-[#0b2b26]/90 via-black/20 to-transparent"></div>
                   
                   {/* Content Overlay */}
-                  <div className="absolute bottom-0 left-0 p-8 md:p-12 w-full">
-                    <div className="flex items-center gap-4 mb-5">
-                      <span className="bg-[#27ae60] text-white text-[10px] font-bold px-3 py-1.5 rounded-sm uppercase tracking-wider">
+                  <div className="absolute bottom-0 left-0 p-6 md:p-12 w-full">
+                    <div className="flex items-center gap-4 mb-3 md:mb-5">
+                      <span className="bg-[#27ae60] text-white text-[9px] md:text-[10px] font-bold px-3 py-1.5 rounded-sm uppercase tracking-wider">
                         {featuredNews.category}
                       </span>
-                      <span className="text-white/70 text-xs font-medium tracking-wide">
+                      <span className="text-white/70 text-[10px] md:text-xs font-medium tracking-wide">
                         {featuredNews.date}
                       </span>
                     </div>
-                    <h3 className="text-2xl md:text-3xl font-bold text-white leading-tight group-hover:text-green-300 transition-colors tracking-tight">
+                    <h3 className="text-xl md:text-3xl font-bold text-white leading-tight group-hover:text-green-300 transition-colors tracking-tight">
                       {featuredNews.title}
                     </h3>
                   </div>
