@@ -114,11 +114,11 @@ export default function BeritaPage() {
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-stretch">
                   
                   {/* Featured Card (Left) */}
-                  <div className="lg:col-span-7 h-full">
+                  <div className="lg:col-span-7">
                     {featuredNews && (
                       <Link 
                         href={`/berita/${featuredNews.slug}`} 
-                        className="group block relative h-[400px] md:h-[512px] rounded-xl overflow-hidden border border-slate-100 shadow-sm hover:border-[#27ae60] hover:shadow-2xl hover:shadow-green-900/10 transition-all duration-500"
+                        className="group block relative h-[400px] lg:h-full rounded-xl overflow-hidden border border-slate-100 shadow-sm hover:border-[#27ae60] hover:shadow-2xl hover:shadow-green-900/10 transition-all duration-500"
                       >
                         <div className="absolute inset-0">
                           <img 
@@ -149,16 +149,16 @@ export default function BeritaPage() {
                   </div>
 
                   {/* 3 Small Cards (Right) */}
-                  <div className="lg:col-span-5 flex flex-col gap-4 h-full">
+                  <div className="lg:col-span-5 flex flex-col gap-4">
                     {sideNews.map((news, idx) => (
-                      <div key={news.id} className="flex-1">
+                      <div key={news.id}>
                         <Link 
                           href={`/berita/${news.slug}`} 
-                          className={`flex gap-6 group transition-all p-4 rounded-xl border border-transparent hover:border-slate-100 hover:bg-white hover:shadow-md h-full ${
+                          className={`flex gap-6 group transition-all p-4 rounded-xl border border-transparent hover:border-slate-100 hover:bg-white hover:shadow-md ${
                             idx !== sideNews.length - 1 ? "border-b-slate-100" : ""
                           }`}
                         >
-                          <div className="relative w-28 h-auto md:w-40 flex-shrink-0 rounded-xl overflow-hidden bg-slate-100 shadow-sm">
+                          <div className="relative w-28 h-20 md:w-40 md:h-28 flex-shrink-0 rounded-xl overflow-hidden bg-slate-100 shadow-sm">
                             <img 
                               src={news.coverImage || "/images/news/hero_berita.avif"} 
                               alt={news.title} 

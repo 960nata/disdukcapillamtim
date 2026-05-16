@@ -88,7 +88,7 @@ export default function LatestNews() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-stretch">
           
           {/* Left Column - Featured News Card */}
-          <div className="lg:col-span-7 h-full">
+          <div className="lg:col-span-7">
             {featuredNews && (
               <motion.div
                 initial={{ opacity: 0, y: 30 }}
@@ -99,7 +99,7 @@ export default function LatestNews() {
               >
                 <Link 
                   href={`/berita/${featuredNews.slug}`} 
-                  className="group block relative h-[400px] md:h-[512px] rounded-xl overflow-hidden border border-slate-100 shadow-sm hover:border-[#27ae60] hover:shadow-2xl hover:shadow-green-900/10 transition-all duration-500"
+                  className="group block relative h-[400px] lg:h-full rounded-xl overflow-hidden border border-slate-100 shadow-sm hover:border-[#27ae60] hover:shadow-2xl hover:shadow-green-900/10 transition-all duration-500"
                 >
                   <div className="absolute inset-0">
                     <img 
@@ -131,7 +131,7 @@ export default function LatestNews() {
           </div>
 
           {/* Right Column - News List items with refined style */}
-          <div className="lg:col-span-5 flex flex-col gap-4 h-full">
+          <div className="lg:col-span-5 flex flex-col gap-4">
             {otherNews.map((news, idx) => (
               <motion.div
                 key={news.id}
@@ -139,16 +139,15 @@ export default function LatestNews() {
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: idx * 0.1, ease: [0.4, 0, 0.2, 1] }}
-                className="flex-1"
               >
                 <Link 
                   href={`/berita/${news.slug}`} 
                   className={cn(
-                    "flex gap-6 group transition-all p-4 rounded-xl border border-transparent hover:border-slate-100 hover:bg-slate-50/50 hover:shadow-sm h-full",
+                    "flex gap-6 group transition-all p-4 rounded-xl border border-transparent hover:border-slate-100 hover:bg-slate-50/50 hover:shadow-sm",
                     idx !== otherNews.length - 1 ? "border-b-slate-100" : ""
                   )}
                 >
-                  <div className="relative w-28 h-auto md:w-40 flex-shrink-0 rounded-xl overflow-hidden bg-slate-100 shadow-sm">
+                  <div className="relative w-28 h-20 md:w-40 md:h-28 flex-shrink-0 rounded-xl overflow-hidden bg-slate-100 shadow-sm">
                     <img 
                       src={news.image} 
                       alt={news.title} 
