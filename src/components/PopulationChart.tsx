@@ -2,52 +2,71 @@
 
 import * as React from 'react';
 import dynamic from 'next/dynamic';
+import { useState, useEffect } from 'react';
 
 // Dynamically import ApexCharts to avoid SSR issues
 const Chart = dynamic(() => import('react-apexcharts'), { ssr: false });
 
-const lamtimData = {
-  'Total Penduduk': [1110393, 1113977, 1121782, 1129547, 1137280, 1145100],
-  'Wajib KTP': [828140, 832450, 844210, 851600, 858900, 862400],
-  'Jumlah KK': [358912, 362450, 368813, 371200, 374150, 376249],
-  'Angka Kelahiran': [14850, 15100, 15420, 15800, 16150, 16500],
-};
-
-const provinsiData = {
-  'Total Penduduk': [9010000, 9080000, 9180000, 9310000, 9420000, 9530000],
-  'Wajib KTP': [6750000, 6820000, 6950000, 7120000, 7250000, 7340000],
-  'Jumlah KK': [2750000, 2810000, 2920000, 3010000, 3120000, 3210000],
-  'Angka Kelahiran': [148000, 151200, 154500, 157000, 161400, 164800],
-};
-
-const years = ['2020', '2021', '2022', '2023', '2024', '2025'];
-
 export default function PopulationChart() {
-  const [activeTab, setActiveTab] = React.useState('Total Penduduk');
+  const [charts, setCharts] = useState<any[]>([]);
+  const [activeTab, setActiveTab] = useState('');
+  const [loading, setLoading] = useState(true);
 
-  const growthData = {
-    'Total Penduduk': '+0.8%',
-    'Wajib KTP': '+1.5%',
-    'Jumlah KK': '+1.1%',
-    'Angka Kelahiran': '+2.3%',
-  };
+  useEffect(() => {
+    const fetchCharts = async () => {
+      try {
+        const res = await fetch('/api/charts');
+        const data = await res.json();
+        if (Array.isArray(data) && data.length > 0) {
+          setCharts(data);
+          setActiveTab(data[0].name);
+        } else {
+          // Fallback static data structure if empty
+          setCharts([
+            {
+              name: 'Total Penduduk',
+              growthLabel: '+0.8%',
+              points: [
+                { year: '2020', valueLamtim: 1110393, valueProvinsi: 9010000 },
+                { year: '2021', valueLamtim: 1113977, valueProvinsi: 9080000 },
+                { year: '2022', valueLamtim: 1121782, valueProvinsi: 9180000 },
+                { year: '2023', valueLamtim: 1129547, valueProvinsi: 9310000 },
+                { year: '2024', valueLamtim: 1137280, valueProvinsi: 9420000 },
+                { year: '2025', valueLamtim: 1145100, valueProvinsi: 9530000 },
+              ]
+            }
+          ]);
+          setActiveTab('Total Penduduk');
+        }
+      } catch (error) {
+        console.error('Failed to fetch charts:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchCharts();
+  }, []);
+
+  const activeChart = charts.find(c => c.name === activeTab) || charts[0];
+  if (!activeChart || loading) return null;
+
+  const years = activeChart.points.map((p: any) => p.year);
+  const dataLamtim = activeChart.points.map((p: any) => p.valueLamtim);
+  const dataProvinsi = activeChart.points.map((p: any) => p.valueProvinsi);
 
   const options: ApexCharts.ApexOptions = {
     chart: {
       type: 'bar',
-      toolbar: {
-        show: false,
-      },
+      toolbar: { show: false },
+      fontFamily: 'Inter, sans-serif',
     },
-    colors: ['#27ae60', '#94a3b8'], // Leaf Green and Slate Gray
+    colors: ['#27ae60', '#94a3b8'],
     plotOptions: {
       bar: {
         horizontal: false,
         columnWidth: '55%',
-        borderRadius: 4,
-        dataLabels: {
-          position: 'top',
-        },
+        borderRadius: 8,
+        dataLabels: { position: 'top' },
       },
     },
     dataLabels: {
@@ -57,56 +76,55 @@ export default function PopulationChart() {
         const series = w.config.series;
         if (dataPointIndex === 0) return '';
         const prevVal = series[seriesIndex].data[dataPointIndex - 1];
-        if (!prevVal) return '';
-        const currentVal = Number(val);
-        const previousVal = Number(prevVal);
-        const growth = ((currentVal - previousVal) / previousVal) * 100;
+        if (!prevVal || prevVal === 0) return '';
+        const growth = ((Number(val) - Number(prevVal)) / Number(prevVal)) * 100;
         return `${growth >= 0 ? '+' : ''}${growth.toFixed(1)}%`;
       },
       offsetY: -20,
       style: {
         fontSize: '10px',
+        fontWeight: 800,
         colors: ['#374151'],
       },
     },
     stroke: {
       show: true,
-      width: 2,
+      width: 3,
       colors: ['transparent'],
     },
     xaxis: {
       categories: years,
       labels: {
         style: {
-          colors: '#6b7280',
-          fontSize: '12px',
+          colors: '#94a3b8',
+          fontSize: '11px',
+          fontWeight: 600,
         },
       },
     },
     yaxis: {
       labels: {
         style: {
-          colors: '#6b7280',
-          fontSize: '12px',
+          colors: '#94a3b8',
+          fontSize: '11px',
+          fontWeight: 600,
         },
-        formatter: (val) => {
-          return val.toLocaleString('id-ID');
-        },
+        formatter: (val) => val.toLocaleString('id-ID'),
       },
     },
-    fill: {
-      opacity: 1,
-    },
+    fill: { opacity: 1 },
     tooltip: {
       theme: 'dark',
       y: {
         formatter: (val, opts: any) => {
           const { series, seriesIndex, dataPointIndex } = opts;
-          let text = val.toLocaleString('id-ID') + ' jiwa';
+          let text = val.toLocaleString('id-ID');
           if (dataPointIndex > 0) {
             const prevVal = series[seriesIndex][dataPointIndex - 1];
-            const growth = ((val - prevVal) / prevVal) * 100;
-            text += ` (${growth >= 0 ? '+' : ''}${growth.toFixed(1)}%)`;
+            if (prevVal > 0) {
+              const growth = ((val - prevVal) / prevVal) * 100;
+              text += ` (${growth >= 0 ? '+' : ''}${growth.toFixed(1)}%)`;
+            }
           }
           return text;
         },
@@ -115,66 +133,52 @@ export default function PopulationChart() {
     legend: {
       position: 'top',
       horizontalAlign: 'right',
-      labels: {
-        colors: '#374151',
-      },
+      fontSize: '12px',
+      fontWeight: 600,
+      markers: { radius: 12 },
+      labels: { colors: '#4b5563' },
     },
     grid: {
-      borderColor: '#f3f4f6',
+      borderColor: '#f1f5f9',
+      strokeDashArray: 4,
     },
-    responsive: [{
-      breakpoint: 640,
-      options: {
-        dataLabels: {
-          style: {
-            fontSize: '8px',
-          },
-          offsetY: -10,
-        },
-      },
-    }],
   };
 
   const series = [
-    {
-      name: 'Lampung Timur',
-      data: lamtimData[activeTab as keyof typeof lamtimData],
-    },
-    {
-      name: 'Provinsi',
-      data: provinsiData[activeTab as keyof typeof provinsiData],
-    },
+    { name: 'Lampung Timur', data: dataLamtim },
+    { name: 'Provinsi', data: dataProvinsi },
   ];
-
-  const activeData = lamtimData[activeTab as keyof typeof lamtimData];
-  const lastVal = activeData[activeData.length - 1];
-  const prevVal = activeData[activeData.length - 2];
-  const activeGrowth = ((lastVal - prevVal) / prevVal) * 100;
 
   return (
     <section className="pt-2 pb-16 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="bg-white border border-gray-100 rounded-2xl p-6 shadow-sm">
+        <div className="bg-white border border-gray-100 rounded-3xl p-4 md:p-8 shadow-sm">
           {/* Tabs */}
-          <div className="flex border-b border-gray-100 mb-6">
-            {Object.keys(lamtimData).map((tab) => (
+          <div className="flex flex-wrap gap-2 mb-8 bg-gray-50/50 p-1.5 rounded-2xl">
+            {charts.map((chart) => (
               <button
-                key={tab}
-                onClick={() => setActiveTab(tab)}
-                className={`flex-1 text-center px-4 py-3 text-sm font-medium transition-all border-b-2 -mb-[2px] ${activeTab === tab
-                  ? 'border-[#27ae60] text-[#27ae60]'
-                  : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
-                  }`}
+                key={chart.name}
+                onClick={() => setActiveTab(chart.name)}
+                className={`flex-1 min-w-[140px] text-center px-4 py-3 rounded-xl text-xs font-bold transition-all ${
+                  activeTab === chart.name
+                    ? 'bg-white text-[#27ae60] shadow-sm ring-1 ring-gray-100'
+                    : 'text-gray-400 hover:text-gray-600'
+                }`}
               >
-                {tab} <span className="text-xs font-normal opacity-70">({growthData[tab as keyof typeof growthData]})</span>
+                <div className="flex flex-col items-center">
+                  <span>{chart.name}</span>
+                  {chart.growthLabel && (
+                    <span className={`text-[9px] mt-0.5 ${activeTab === chart.name ? 'text-[#27ae60]' : 'text-gray-300'}`}>
+                      ({chart.growthLabel})
+                    </span>
+                  )}
+                </div>
               </button>
             ))}
           </div>
 
-
-
-          {/* Chart */}
-          <div className="w-full h-[450px]">
+          {/* Chart Container */}
+          <div className="w-full h-[400px] md:h-[500px]">
             <Chart options={options} series={series} type="bar" height="100%" />
           </div>
         </div>
@@ -182,3 +186,4 @@ export default function PopulationChart() {
     </section>
   );
 }
+
