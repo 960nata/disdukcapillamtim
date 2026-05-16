@@ -226,31 +226,39 @@ export default function GalleryPage() {
                 <div 
                   key={photo.id} 
                   className={`relative aspect-square rounded-2xl overflow-hidden group transition-all duration-300 border-2 ${
-                    isFeatured ? 'border-blue-500 ring-4 ring-blue-100' : 'border-white hover:border-gray-200'
+                    isFeatured ? 'border-blue-500 ring-4 ring-blue-100 shadow-md' : 'border-white hover:border-gray-200 shadow-sm'
                   }`}
                 >
                   <img 
                     src={photo.url} 
                     alt={photo.title || 'Foto'} 
-                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" 
+                    className={`w-full h-full object-cover transition-transform duration-700 ${isFeatured ? 'scale-105' : 'group-hover:scale-110'}`} 
                   />
                   
-                  {/* Overlay for selection */}
+                  {/* Selection Checkbox/Overlay */}
                   <div 
                     onClick={() => toggleFeatured(photo.id)}
-                    className={`absolute inset-0 cursor-pointer transition-opacity duration-300 flex items-center justify-center ${
-                      isFeatured ? 'bg-blue-600/20 opacity-100' : 'bg-black/20 opacity-0 group-hover:opacity-100'
+                    className={`absolute inset-0 cursor-pointer transition-all duration-300 ${
+                      isFeatured ? 'bg-blue-600/10' : 'bg-black/0 group-hover:bg-black/20'
                     }`}
                   >
-                    <div className={`w-8 h-8 rounded-full flex items-center justify-center shadow-lg transition-transform duration-300 ${
-                      isFeatured ? 'bg-blue-600 text-white scale-110' : 'bg-white text-gray-400 group-hover:scale-100 scale-75'
+                    <div className={`absolute top-3 left-3 w-6 h-6 rounded-lg flex items-center justify-center transition-all duration-300 border-2 ${
+                      isFeatured 
+                      ? 'bg-blue-600 border-blue-600 text-white scale-110' 
+                      : 'bg-white/80 border-gray-200 text-transparent scale-100'
                     }`}>
-                      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
                     </div>
+
+                    {isFeatured && (
+                      <div className="absolute top-3 right-3 bg-blue-600 text-[8px] font-black text-white px-1.5 py-0.5 rounded-md uppercase tracking-tighter shadow-sm">
+                        Carousel
+                      </div>
+                    )}
                   </div>
 
                   {/* Actions (Edit/Delete) */}
-                  <div className="absolute top-2 right-2 flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                  <div className="absolute top-12 right-2 flex flex-col gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
                     <button 
                       onClick={(e) => {
                         e.stopPropagation();
@@ -258,7 +266,7 @@ export default function GalleryPage() {
                         setCurrentPhoto(photo);
                         setIsModalOpen(true);
                       }}
-                      className="w-8 h-8 bg-white/90 backdrop-blur-sm rounded-lg flex items-center justify-center text-blue-600 hover:bg-white shadow-sm"
+                      className="w-8 h-8 bg-white/90 backdrop-blur-sm rounded-lg flex items-center justify-center text-blue-600 hover:bg-white shadow-sm border border-gray-100"
                     >
                       <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
                     </button>
@@ -267,15 +275,17 @@ export default function GalleryPage() {
                         e.stopPropagation();
                         handleDelete(photo.id);
                       }}
-                      className="w-8 h-8 bg-white/90 backdrop-blur-sm rounded-lg flex items-center justify-center text-red-600 hover:bg-white shadow-sm"
+                      className="w-8 h-8 bg-white/90 backdrop-blur-sm rounded-lg flex items-center justify-center text-red-600 hover:bg-white shadow-sm border border-gray-100"
                     >
                       <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
                     </button>
                   </div>
 
                   {/* Info Overlay */}
-                  <div className="absolute bottom-0 inset-x-0 p-3 bg-gradient-to-t from-black/80 to-transparent">
-                    <span className="text-[9px] font-black uppercase tracking-widest text-[#2ecc71] bg-white/10 px-2 py-0.5 rounded-full mb-1 inline-block">
+                  <div className="absolute bottom-0 inset-x-0 p-3 bg-gradient-to-t from-black/80 via-black/40 to-transparent">
+                    <span className={`text-[9px] font-black uppercase tracking-widest px-2 py-0.5 rounded-full mb-1 inline-block ${
+                      isFeatured ? 'bg-blue-600 text-white' : 'bg-white/20 text-white'
+                    }`}>
                       {photo.tags || 'Kegiatan'}
                     </span>
                     <p className="text-[11px] text-white font-bold truncate">
