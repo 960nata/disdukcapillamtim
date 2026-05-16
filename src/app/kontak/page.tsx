@@ -122,7 +122,7 @@ export default function KontakPage() {
                 {address}
               </p>
               <div className="flex flex-wrap gap-4">
-                {workingHours.split(',').map((hours, idx) => (
+                {workingHours.split(',').map((hours: string, idx: number) => (
                   <div key={idx} className="bg-white/10 backdrop-blur-sm px-4 py-2 rounded-full border border-white/20 text-xs md:text-sm font-bold text-white">
                     {hours.trim()}
                   </div>

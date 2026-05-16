@@ -16,6 +16,7 @@ export default function SettingsPage() {
     phone: '',
     workingHours: 'Senin - Jumat: 08:00 - 16:00',
     footerText: '© 2024 Dinas Kependudukan dan Pencatatan Sipil Kabupaten Lampung Timur.',
+    logo: '',
     mapsUrl: '',
     tiktok: '',
   });
