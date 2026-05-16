@@ -172,47 +172,48 @@ export default function BeritaDetailPage() {
       )}
       <Header />
       
-      {/* Hero Section - Full Width with Padding (Matching Main Pages) */}
+      {/* Article Header Section (Text only, above image) */}
       <motion.div 
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
-        className="p-[10px] md:p-[20px] w-full"
+        className="pt-12 pb-10 bg-white"
       >
-        <div className="relative h-[400px] md:h-[700px] overflow-hidden rounded-[20px] shadow-sm">
+        <div className="max-w-[1140px] mx-auto px-4 text-center">
+          <div className="flex justify-center items-center gap-2 text-xs md:text-sm font-bold text-[#27ae60] mb-4 uppercase tracking-widest">
+            <Link href="/berita" className="hover:underline">Berita</Link>
+            <span className="text-slate-300">/</span>
+            <span className="text-slate-500">{newsDetail.category}</span>
+          </div>
+          <h1 className="text-2xl md:text-5xl font-black mb-8 leading-tight text-slate-900 tracking-tight max-w-5xl mx-auto">
+            {newsDetail.title}
+          </h1>
+          <div className="flex justify-center items-center gap-6 text-xs md:text-sm text-slate-400 font-bold">
+            <div className="flex items-center gap-2.5">
+              <div className="w-8 h-8 bg-slate-50 rounded-full flex items-center justify-center text-[10px] font-bold text-slate-600 border border-slate-100 uppercase">
+                {newsDetail.author.charAt(0)}
+              </div>
+              <span className="text-slate-700">{newsDetail.author}</span>
+            </div>
+            <div className="w-1.5 h-1.5 bg-[#27ae60]/30 rounded-full"></div>
+            <span>{newsDetail.date}</span>
+          </div>
+        </div>
+      </motion.div>
+
+      {/* Featured Image - Clean Standalone Banner */}
+      <motion.div 
+        initial={{ opacity: 0, scale: 0.98 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 0.8, delay: 0.2 }}
+        className="max-w-[1140px] mx-auto px-4"
+      >
+        <div className="relative h-[300px] md:h-[650px] overflow-hidden rounded-[24px] shadow-2xl shadow-slate-200 border border-slate-50">
           <img 
             src={newsDetail.coverImage} 
             alt={newsDetail.title} 
             className="w-full h-full object-cover"
           />
-          
-          {/* Breadcrumb & Title with strictly localized background */}
-          <div className="absolute inset-0 flex flex-col justify-end pb-12">
-            <div className="max-w-[1300px] mx-auto w-full text-white px-[20px]">
-              <div className="w-full lg:w-[65%] md:pl-[20px] space-y-2">
-                <div className="inline-flex items-center gap-2 text-[11px] md:text-sm font-bold text-[#2ecc71] bg-black/40 backdrop-blur-sm px-3 py-1.5 rounded-lg">
-                  <Link href="/berita" className="hover:underline text-white">Berita</Link>
-                  <span className="text-white/50">/</span>
-                  <span>{newsDetail.category}</span>
-                </div>
-                <div>
-                  <h1 className="inline-block text-xl md:text-4xl font-extrabold leading-tight drop-shadow-2xl bg-black/40 backdrop-blur-sm px-4 py-2 rounded-xl">
-                    {newsDetail.title}
-                  </h1>
-                </div>
-                <div className="inline-flex items-center gap-4 text-[11px] md:text-xs text-white/90 bg-black/40 backdrop-blur-sm px-3 py-1.5 rounded-lg">
-                  <div className="flex items-center gap-2">
-                    <div className="w-5 h-5 bg-white/20 rounded-full flex items-center justify-center text-xs font-bold text-white">
-                      {newsDetail.author.charAt(0)}
-                    </div>
-                    <span className="font-bold">{newsDetail.author}</span>
-                  </div>
-                  <div className="w-1 h-1 bg-white/40 rounded-full"></div>
-                  <span>{newsDetail.date}</span>
-                </div>
-              </div>
-            </div>
-          </div>
         </div>
       </motion.div>
 
