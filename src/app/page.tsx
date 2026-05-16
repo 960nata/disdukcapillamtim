@@ -4,8 +4,7 @@ import styles from "./page.module.css";
 import Header from "@/components/Header";
 import AnnouncementBar from "@/components/AnnouncementBar";
 import Hero from "@/components/Hero";
-import Statistics from "@/components/Statistics";
-import PopulationChart from "@/components/PopulationChart";
+import DemographicsSection from "@/components/DemographicsSection";
 import PopularServices from "@/components/PopularServices";
 import FeaturedPrograms from "@/components/FeaturedPrograms";
 import LatestNews from "@/components/LatestNews";
@@ -24,8 +23,7 @@ export default function Home() {
         <div className="w-full p-[10px] md:p-5 bg-white">
           <Hero />
         </div>
-        <Statistics />
-        <PopulationChart />
+        <DemographicsSection />
         <div id="layanan"><PopularServices /></div>
         <FeaturedPrograms />
         <div id="berita"><LatestNews /></div>

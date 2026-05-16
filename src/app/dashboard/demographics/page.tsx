@@ -27,7 +27,6 @@ type Chart = {
 };
 
 export default function DemographicsManagementPage() {
-  const [activeSubTab, setActiveSubTab] = useState<'statistics' | 'charts'>('statistics');
   
   // Statistics State
   const [stats, setStats] = useState<Statistic[]>([]);
@@ -166,105 +165,96 @@ export default function DemographicsManagementPage() {
           </div>
         </div>
 
-        {/* Unified Tabs */}
-        <div className="flex gap-2 mt-8 bg-gray-50 p-1.5 rounded-2xl w-full md:w-fit">
-          <button 
-            onClick={() => setActiveSubTab('statistics')}
-            className={`flex-1 md:flex-none px-8 py-3 rounded-xl text-sm font-bold transition-all ${activeSubTab === 'statistics' ? 'bg-white text-[#27ae60] shadow-sm' : 'text-gray-400 hover:text-gray-600'}`}
-          >
-            Angka Statistik
-          </button>
-          <button 
-            onClick={() => setActiveSubTab('charts')}
-            className={`flex-1 md:flex-none px-8 py-3 rounded-xl text-sm font-bold transition-all ${activeSubTab === 'charts' ? 'bg-white text-[#27ae60] shadow-sm' : 'text-gray-400 hover:text-gray-600'}`}
-          >
-            Grafik Perbandingan
-          </button>
-        </div>
       </div>
 
-      <div className="px-0 py-4 md:p-0">
-        {activeSubTab === 'statistics' ? (
-          <div className="space-y-6">
-            {/* Title Setting */}
-            <div className="bg-white p-6 rounded-3xl border border-gray-100 shadow-sm flex flex-col md:flex-row items-end gap-4">
-              <div className="flex-grow">
-                <label className="block text-[10px] font-black text-gray-400 mb-2 uppercase tracking-widest">Judul Periode Data</label>
-                <input 
-                  type="text" 
-                  value={statsTitle}
-                  onChange={(e) => setStatsTitle(e.target.value)}
-                  className="w-full px-5 py-3.5 bg-gray-50 border border-gray-100 rounded-2xl focus:outline-none focus:border-[#27ae60] font-bold text-gray-700"
-                />
-              </div>
+      <div className="px-0 py-4 md:p-0 space-y-12">
+        <div className="space-y-6">
+          {/* Title Setting */}
+          <div className="bg-white p-6 rounded-3xl border border-gray-100 shadow-sm flex flex-col md:flex-row items-end gap-4">
+            <div className="flex-grow">
+              <label className="block text-[10px] font-black text-gray-400 mb-2 uppercase tracking-widest">Judul Periode Data</label>
+              <input 
+                type="text" 
+                value={statsTitle}
+                onChange={(e) => setStatsTitle(e.target.value)}
+                className="w-full px-5 py-3.5 bg-gray-50 border border-gray-100 rounded-2xl focus:outline-none focus:border-[#27ae60] font-bold text-gray-700"
+              />
+            </div>
+            <button 
+              onClick={handleUpdateStatsTitle}
+              className="bg-gray-900 text-white px-8 py-4 rounded-2xl text-sm font-bold hover:bg-black transition-all shadow-lg shadow-gray-200"
+            >
+              Update Judul
+            </button>
+          </div>
+
+          {/* Stats Table */}
+          <div className="bg-white rounded-3xl border border-gray-100 shadow-sm overflow-hidden">
+            <div className="p-6 border-b border-gray-50 flex justify-between items-center">
+              <h3 className="font-bold text-gray-900">Daftar Angka Statistik</h3>
               <button 
-                onClick={handleUpdateStatsTitle}
-                className="bg-gray-900 text-white px-8 py-4 rounded-2xl text-sm font-bold hover:bg-black transition-all shadow-lg shadow-gray-200"
+                onClick={() => {
+                  setEditingStat(null);
+                  setStatFormData({ label: '', value: '', unit: 'jiwa', growth: '', order: stats.length });
+                  setIsStatModalOpen(true);
+                }}
+                className="text-xs font-bold text-[#27ae60] hover:underline"
               >
-                Update Judul
+                + Tambah Data
               </button>
             </div>
-
-            {/* Stats Table */}
-            <div className="bg-white rounded-3xl border border-gray-100 shadow-sm overflow-hidden">
-              <div className="p-6 border-b border-gray-50 flex justify-between items-center">
-                <h3 className="font-bold text-gray-900">Daftar Angka Statistik</h3>
-                <button 
-                  onClick={() => {
-                    setEditingStat(null);
-                    setStatFormData({ label: '', value: '', unit: 'jiwa', growth: '', order: stats.length });
-                    setIsStatModalOpen(true);
-                  }}
-                  className="text-xs font-bold text-[#27ae60] hover:underline"
-                >
-                  + Tambah Data
-                </button>
-              </div>
-              <div className="overflow-x-auto">
-                <table className="w-full text-sm text-left">
-                  <thead>
-                    <tr className="bg-gray-50/50 border-b border-gray-100">
-                      <th className="px-6 py-5 font-black text-gray-400 uppercase tracking-widest text-[10px]">Label</th>
-                      <th className="px-6 py-5 font-black text-gray-400 uppercase tracking-widest text-[10px]">Nilai</th>
-                      <th className="px-6 py-5 font-black text-gray-400 uppercase tracking-widest text-[10px]">Pertumbuhan</th>
-                      <th className="px-6 py-5 font-black text-gray-400 uppercase tracking-widest text-[10px] text-right">Aksi</th>
+            <div className="overflow-x-auto">
+              <table className="w-full text-sm text-left">
+                <thead>
+                  <tr className="bg-gray-50/50 border-b border-gray-100">
+                    <th className="px-6 py-5 font-black text-gray-400 uppercase tracking-widest text-[10px]">Label</th>
+                    <th className="px-6 py-5 font-black text-gray-400 uppercase tracking-widest text-[10px]">Nilai</th>
+                    <th className="px-6 py-5 font-black text-gray-400 uppercase tracking-widest text-[10px]">Pertumbuhan</th>
+                    <th className="px-6 py-5 font-black text-gray-400 uppercase tracking-widest text-[10px] text-right">Aksi</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-gray-50">
+                  {loading ? (
+                    <tr><td colSpan={4} className="px-6 py-12 text-center text-gray-400">Memuat data...</td></tr>
+                  ) : stats.map((item) => (
+                    <tr key={item.id} className="hover:bg-gray-50/50 transition-colors">
+                      <td className="px-6 py-5 font-bold text-gray-900">{item.label}</td>
+                      <td className="px-6 py-5 font-mono text-gray-600 font-bold">{item.value} <span className="text-[10px] text-gray-400 uppercase">{item.unit}</span></td>
+                      <td className="px-6 py-5">
+                        {item.growth ? (
+                          <span className="bg-[#27ae60]/10 text-[#27ae60] text-[10px] font-black px-2.5 py-1 rounded-full uppercase">
+                            {item.growth}
+                          </span>
+                        ) : '-'}
+                      </td>
+                      <td className="px-6 py-5 text-right space-x-4">
+                        <button onClick={() => {
+                          setEditingStat(item);
+                          setStatFormData({ label: item.label, value: item.value, unit: item.unit, growth: item.growth || '', order: item.order });
+                          setIsStatModalOpen(true);
+                        }} className="text-[#27ae60] font-bold text-xs">Edit</button>
+                        <button onClick={async () => {
+                          if (confirm('Hapus data ini?')) {
+                            await fetch(`/api/statistics/${item.id}`, { method: 'DELETE' });
+                            fetchData();
+                          }
+                        }} className="text-red-500 font-bold text-xs">Hapus</button>
+                      </td>
                     </tr>
-                  </thead>
-                  <tbody className="divide-y divide-gray-50">
-                    {loading ? (
-                      <tr><td colSpan={4} className="px-6 py-12 text-center text-gray-400">Memuat data...</td></tr>
-                    ) : stats.map((item) => (
-                      <tr key={item.id} className="hover:bg-gray-50/50 transition-colors">
-                        <td className="px-6 py-5 font-bold text-gray-900">{item.label}</td>
-                        <td className="px-6 py-5 font-mono text-gray-600 font-bold">{item.value} <span className="text-[10px] text-gray-400 uppercase">{item.unit}</span></td>
-                        <td className="px-6 py-5">
-                          {item.growth ? (
-                            <span className="bg-[#27ae60]/10 text-[#27ae60] text-[10px] font-black px-2.5 py-1 rounded-full uppercase">
-                              {item.growth}
-                            </span>
-                          ) : '-'}
-                        </td>
-                        <td className="px-6 py-5 text-right space-x-4">
-                          <button onClick={() => {
-                            setEditingStat(item);
-                            setStatFormData({ label: item.label, value: item.value, unit: item.unit, growth: item.growth || '', order: item.order });
-                            setIsStatModalOpen(true);
-                          }} className="text-[#27ae60] font-bold text-xs">Edit</button>
-                          <button onClick={async () => {
-                            if (confirm('Hapus data ini?')) {
-                              await fetch(`/api/statistics/${item.id}`, { method: 'DELETE' });
-                              fetchData();
-                            }
-                          }} className="text-red-500 font-bold text-xs">Hapus</button>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
+                  ))}
+                </tbody>
+              </table>
             </div>
           </div>
-        ) : (
+        </div>
+
+        <div className="space-y-6">
+          <div className="flex justify-between items-center">
+            <h3 className="text-xl font-black text-gray-900 flex items-center gap-2">
+              <div className="w-2 h-8 bg-[#27ae60] rounded-full"></div>
+              Manajemen Grafik
+            </h3>
+          </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {charts.map((chart) => (
               <div key={chart.id} className="bg-white p-6 rounded-3xl border border-gray-100 shadow-sm hover:shadow-md transition-all flex flex-col justify-between group relative overflow-hidden">
@@ -333,7 +323,7 @@ export default function DemographicsManagementPage() {
               <span className="text-sm font-bold">Tambah Grafik Baru</span>
             </button>
           </div>
-        )}
+        </div>
       </div>
 
       {/* Modals */}
