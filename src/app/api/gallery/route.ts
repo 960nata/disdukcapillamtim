@@ -6,7 +6,12 @@ export async function GET() {
     const gallery = await prisma.gallery.findMany({
       orderBy: { createdAt: 'desc' },
     });
-    return NextResponse.json(gallery);
+    const featuredSetting = await prisma.setting.findUnique({
+      where: { key: 'featured_gallery_ids' },
+    });
+    const featuredIds = featuredSetting?.value ? JSON.parse(featuredSetting.value) : [];
+    
+    return NextResponse.json({ gallery, featuredIds });
   } catch (error) {
     return NextResponse.json({ error: 'Failed to fetch gallery' }, { status: 500 });
   }
@@ -26,5 +31,19 @@ export async function POST(request: Request) {
     return NextResponse.json(photo);
   } catch (error) {
     return NextResponse.json({ error: 'Failed to add photo' }, { status: 500 });
+  }
+}
+export async function PUT(request: Request) {
+  try {
+    const { featuredIds } = await request.json();
+    // We store featured IDs as a comma-separated string in the Setting table
+    await prisma.setting.upsert({
+      where: { key: 'featured_gallery_ids' },
+      update: { value: JSON.stringify(featuredIds) },
+      create: { key: 'featured_gallery_ids', value: JSON.stringify(featuredIds) },
+    });
+    return NextResponse.json({ message: 'Featured photos updated' });
+  } catch (error) {
+    return NextResponse.json({ error: 'Failed to update featured photos' }, { status: 500 });
   }
 }

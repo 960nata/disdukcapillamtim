@@ -74,7 +74,7 @@ export default function NewsManagementPage() {
     <div className="p-[14px] md:p-8 space-y-6 font-sans min-h-screen bg-gray-50/50">
       
       {/* Header */}
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-white p-[10px] md:p-6 rounded-2xl shadow-sm border border-gray-100">
         <div>
           <h1 className="text-2xl font-bold text-gray-900 mb-1 flex items-center gap-2">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#27ae60" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M19 20H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v14z"/><path d="M12 11H7v2h5v-2z"/><path d="M12 15H7v2h5v-2z"/><path d="M17 7H7v2h10V7z"/></svg>
@@ -90,7 +90,7 @@ export default function NewsManagementPage() {
       </div>
 
       {/* Filters & Search */}
-      <div className="bg-white p-5 rounded-2xl border border-gray-100 shadow-sm flex flex-col md:flex-row gap-4 items-center justify-between">
+      <div className="bg-white p-[10px] md:p-5 rounded-2xl border border-gray-100 shadow-sm flex flex-col md:flex-row gap-4 items-center justify-between">
         <div className="relative w-full md:w-96">
           <input 
             type="text" 
