@@ -69,8 +69,8 @@ export default function BeritaPage() {
               className="object-cover"
               priority
             />
-            {/* Dark Overlay Gradient for readability */}
-            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent"></div>
+            {/* Minimal Dark Overlay Gradient for readability at the bottom */}
+            <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent"></div>
           </div>
 
           {/* Content */}
