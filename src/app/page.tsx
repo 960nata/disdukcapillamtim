@@ -12,7 +12,7 @@ import SpeechSection from "@/components/SpeechSection";
 import Achievements from "@/components/Achievements";
 import ContactSection from "@/components/ContactSection";
 import Footer from "@/components/Footer";
-import AnnouncementSection from "@/components/AnnouncementSection";
+
 
 export default function Home() {
   return (
@@ -22,7 +22,7 @@ export default function Home() {
         <div className="w-full p-[10px] md:p-5 bg-white">
           <Hero />
         </div>
-        <AnnouncementSection />
+
         <DemographicsSection />
         <div id="layanan"><PopularServices /></div>
         <FeaturedPrograms />
