@@ -104,9 +104,19 @@ export default function Footer() {
         </div>
 
         {/* Divider */}
-        <div className="border-t border-white/5 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-xs font-bold text-gray-500 uppercase tracking-widest">
-          <div>
-            {footerText}
+        <div className="border-t border-white/5 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center gap-6 text-xs font-bold text-gray-500 uppercase tracking-widest">
+          <div className="flex flex-col md:flex-row items-center gap-4 md:gap-8 text-center md:text-left">
+            <div>{footerText}</div>
+            <div className="hidden md:block w-px h-3 bg-white/10"></div>
+            <a 
+              href="https://hadinata.dev" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="hover:text-white transition-colors flex items-center gap-2 group"
+            >
+              <span>Powered by</span>
+              <span className="text-gray-300 group-hover:text-[#27ae60] transition-colors">Hadinata Dev</span>
+            </a>
           </div>
           <div className="flex gap-6">
             <Link href="/privacy" className="hover:text-white transition-colors">Kebijakan Privasi</Link>
