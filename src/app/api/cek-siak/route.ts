@@ -28,44 +28,53 @@ export async function POST(request: Request) {
     // To protect against automated scraping of sensitive data.
 
     // 4. Secure API Call
-    // Note: This URL might only be accessible from the server's network
-    const SIAK_API_URL = 'http://siak.disdukcapil-lamtim.com:8080/api/cek_status'; // Example endpoint
+    const SIAK_API_URL = 'http://siak.disdukcapil-lamtim.com:8080/api/cek_status';
 
-    // In a real scenario, we would call the external API:
-    /*
-    const response = await fetch(SIAK_API_URL, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        search_type: type,
-        registration_number: nomor,
-        nik: nik,
-        captcha_code: captcha
-      })
-    });
-    const data = await response.json();
-    return NextResponse.json(data);
-    */
+    try {
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
 
-    // For now, since we can't reach the host during development/deployment, 
-    // we return a simulation or a "Connection Failed" message to let the user know 
-    // we need the exact endpoint details.
-    
-    // Simulation logic (delete this once real API details are known)
-    if (nomor === 'REG-TEST') {
-      return NextResponse.json({
-        success: true,
-        status: 'Dokumen Selesai / Terbit',
-        nama: 'TEST USER',
-        layanan: 'KTP Elektronik',
-        update: new Date().toLocaleString('id-ID')
+      const response = await fetch(SIAK_API_URL, {
+        method: 'POST',
+        headers: { 
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({
+          search_type: type,
+          registration_number: nomor,
+          nik: nik,
+          captcha_code: captcha
+        }),
+        signal: controller.signal
       });
-    }
 
-    return NextResponse.json({ 
-      error: 'Cannot connect to SIAK API',
-      message: 'Server web tidak dapat menjangkau host siak.disdukcapil-lamtim.com. Pastikan URL API sudah benar dan dapat diakses dari server produksi.'
-    }, { status: 502 });
+      clearTimeout(timeoutId);
+
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
+        return NextResponse.json({ 
+          error: `API Error (Status: ${response.status})`,
+          message: errorData.message || 'Sistem SIAK memberikan respon negatif. Mohon coba beberapa saat lagi.'
+        }, { status: response.status });
+      }
+
+      const data = await response.json();
+      return NextResponse.json(data);
+
+    } catch (err: any) {
+      if (err.name === 'AbortError') {
+        return NextResponse.json({ 
+          error: 'Connection Timeout',
+          message: 'Koneksi ke server SIAK terlalu lama. Mohon coba lagi.'
+        }, { status: 504 });
+      }
+
+      return NextResponse.json({ 
+        error: 'Cannot connect to SIAK API',
+        message: `Gagal terhubung ke host siak.disdukcapil-lamtim.com:8080. ${err.message}`
+      }, { status: 502 });
+    }
 
   } catch (error) {
     return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });

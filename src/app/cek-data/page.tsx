@@ -5,6 +5,7 @@ import { useState } from 'react';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import Link from 'next/link';
+import Image from 'next/image';
 
 export default function CekDataPage() {
   const [searchType, setSearchType] = useState<'registrasi' | 'kk'>('registrasi');
@@ -53,23 +54,30 @@ export default function CekDataPage() {
       
       <main className="w-full p-[10px] md:p-5 bg-white pt-24 md:pt-32">
         {/* Hero Section for Cek Data */}
-        <div className="relative overflow-hidden bg-[#141414] rounded-[20px] md:rounded-[40px] px-8 py-16 md:py-24 mb-12">
-          {/* Decorative background elements */}
-          <div className="absolute top-0 left-0 w-full h-full opacity-10 pointer-events-none">
-            <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-[#27ae60] rounded-full blur-[120px]"></div>
-            <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-[#117a8b] rounded-full blur-[120px]"></div>
+        <div className="relative h-[300px] md:h-[450px] flex items-center justify-center overflow-hidden rounded-[20px] mb-12">
+          {/* Background Image */}
+          <div className="absolute inset-0 z-0">
+            <Image 
+              src="/images/hero/hero1.avif" 
+              alt="Kantor Disdukcapil" 
+              fill 
+              className="object-cover"
+              priority
+            />
+            {/* Dark Overlay for readability */}
+            <div className="absolute inset-0 bg-black/70"></div>
           </div>
 
-          <div className="max-w-4xl mx-auto text-center relative z-10">
+          <div className="max-w-4xl mx-auto text-center relative z-10 px-6">
             <nav className="flex items-center justify-center gap-2 text-[10px] font-black uppercase tracking-widest text-white/40 mb-6">
               <Link href="/" className="hover:text-[#27ae60]">Beranda</Link>
               <span>/</span>
               <span className="text-[#27ae60]">Cek Permohonan</span>
             </nav>
-            <h1 className="text-3xl md:text-6xl font-black text-white tracking-tight leading-none mb-6 uppercase">
+            <h1 className="text-3xl md:text-5xl font-black text-white tracking-tight leading-none mb-6 uppercase">
               Cek Status Permohonan
             </h1>
-            <p className="text-white/60 font-medium max-w-2xl mx-auto text-sm md:text-base leading-relaxed">
+            <p className="text-white/70 font-medium max-w-2xl mx-auto text-xs md:text-base leading-relaxed">
               Pantau status pengajuan dokumen kependudukan Anda secara real-time melalui sistem integrasi SIAK Lampung Timur.
             </p>
           </div>
