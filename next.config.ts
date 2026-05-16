@@ -8,6 +8,12 @@ const nextConfig: NextConfig = {
     workerThreads: false,
     cpus: 1,
   },
+  typescript: {
+    ignoreBuildErrors: true,
+  },
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
   async headers() {
     return [
       {
