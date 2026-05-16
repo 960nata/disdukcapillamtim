@@ -10,22 +10,34 @@ export default function NotFound() {
     <div className="min-h-screen bg-white flex flex-col font-sans">
       <Header />
       
-      {/* Hero Banner Section */}
+      {/* Premium Hero Banner Section (News Style) */}
       <div className="p-[10px] md:p-[20px]">
-        <div className="relative h-[250px] md:h-[400px] flex items-center justify-center overflow-hidden rounded-[20px] shadow-sm">
+        <div className="relative h-[350px] md:h-[600px] overflow-hidden rounded-[20px] shadow-sm">
           <img 
             src="/images/hero/hero1.avif" 
             alt="Not Found" 
             className="w-full h-full object-cover"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
-          <div className="relative z-10 text-center text-white px-4">
-            <h1 className="text-3xl md:text-6xl font-black mb-2 uppercase tracking-tighter drop-shadow-2xl">
-              Ups! Nyasar Cuy
-            </h1>
-            <p className="text-sm md:text-xl text-white/80 font-bold uppercase tracking-widest">
-              Halaman Tidak Ditemukan
-            </p>
+          {/* Overlay Gradient for readability */}
+          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent"></div>
+          
+          {/* Content Overlay - Constrained content width to 1300px (News Style) */}
+          <div className="absolute inset-0 flex flex-col justify-end pb-12">
+            <div className="max-w-[1300px] mx-auto w-full text-white px-6 md:px-12">
+              <div className="w-full lg:w-[75%]">
+                <div className="flex items-center gap-2 text-xs md:text-sm font-bold text-[#2ecc71] mb-2 uppercase tracking-widest">
+                  <span>Status: 404</span>
+                  <div className="w-1 h-1 bg-white/40 rounded-full"></div>
+                  <span>Error Page</span>
+                </div>
+                <h1 className="text-2xl md:text-6xl font-black mb-4 leading-tight drop-shadow-2xl tracking-tight">
+                  Ups! Halaman Yang Kamu Cari <span className="text-[#2ecc71]">Gak Ada</span> Cuy
+                </h1>
+                <p className="text-sm md:text-xl text-white/80 font-bold max-w-2xl drop-shadow-lg leading-relaxed">
+                  Mungkin jalannya lagi ditutup atau kamu salah belok. Yuk balik lagi ke jalan yang benar!
+                </p>
+              </div>
+            </div>
           </div>
         </div>
       </div>
