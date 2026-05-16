@@ -21,8 +21,18 @@ export default function Error({
     <div className="min-h-screen bg-white flex flex-col font-sans">
       <Header />
       
-      <main className="flex-grow flex items-center justify-center px-6 py-24 md:py-32 bg-[#fefce8]">
-        <div className="max-w-3xl w-full text-center">
+      <main className="flex-grow relative flex items-center justify-center overflow-hidden">
+        {/* Blurred Hero Background Background */}
+        <div className="absolute inset-0 z-0">
+          <img 
+            src="/images/hero/hero 2.avif" 
+            alt="Background" 
+            className="w-full h-full object-cover opacity-10 blur-xl scale-110"
+          />
+          <div className="absolute inset-0 bg-yellow-50/70"></div>
+        </div>
+
+        <div className="max-w-3xl w-full text-center relative z-10 px-6 py-24 md:py-32">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
