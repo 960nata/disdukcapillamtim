@@ -188,26 +188,26 @@ export default function BeritaDetailPage() {
           {/* Overlay Gradient for readability */}
           <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent"></div>
           
-          {/* Breadcrumb & Title Overlay */}
+          {/* Breadcrumb & Title Overlay - Shifted to the left */}
           <div className="absolute inset-0 flex flex-col justify-end pb-12">
-            <div className="max-w-[1140px] mx-auto w-full text-white px-[20px]">
-              <div className="w-full lg:w-[65%]">
-                <div className="flex items-center gap-2 text-xs md:text-sm font-bold text-[#2ecc71] mb-2">
+            <div className="w-full text-white px-6 md:px-16">
+              <div className="w-full lg:w-[75%]">
+                <div className="flex items-center gap-2 text-xs md:text-sm font-bold text-[#2ecc71] mb-2 uppercase tracking-widest">
                   <Link href="/berita" className="hover:underline">Berita</Link>
                   <span>/</span>
                   <span>{newsDetail.category}</span>
                 </div>
-                <h1 className="text-xl md:text-4xl font-extrabold mb-3 leading-tight drop-shadow-lg">
+                <h1 className="text-xl md:text-5xl font-black mb-4 leading-tight drop-shadow-2xl tracking-tight">
                   {newsDetail.title}
                 </h1>
-                <div className="flex items-center gap-4 text-[11px] md:text-xs text-white/80">
-                  <div className="flex items-center gap-2">
-                    <div className="w-5 h-5 bg-white/20 rounded-full flex items-center justify-center text-[10px] font-bold text-white uppercase">
+                <div className="flex items-center gap-5 text-[11px] md:text-xs text-white/90 font-bold">
+                  <div className="flex items-center gap-2.5">
+                    <div className="w-6 h-6 bg-white/20 rounded-full flex items-center justify-center text-[10px] font-bold text-white uppercase border border-white/10">
                       {newsDetail.author.charAt(0)}
                     </div>
-                    <span className="font-bold">{newsDetail.author}</span>
+                    <span>{newsDetail.author}</span>
                   </div>
-                  <div className="w-1 h-1 bg-white/40 rounded-full"></div>
+                  <div className="w-1.5 h-1.5 bg-[#2ecc71] rounded-full"></div>
                   <span>{newsDetail.date}</span>
                 </div>
               </div>
