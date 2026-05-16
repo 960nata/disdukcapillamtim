@@ -6,69 +6,77 @@ import { MegaphoneIcon, XMarkIcon, ChevronRightIcon } from '@heroicons/react/24/
 import Link from 'next/link';
 
 export default function AnnouncementSection() {
-  const [announcement, setAnnouncement] = useState<any>(null);
+  const [announcements, setAnnouncements] = useState<any[]>([]);
   const [isVisible, setIsVisible] = useState(true);
 
   useEffect(() => {
-    async function fetchAnnouncement() {
+    async function fetchAnnouncements() {
       try {
         const res = await fetch('/api/announcements');
         const data = await res.json();
         if (data && data.length > 0) {
-          // Get the most recent active announcement
-          const active = data.find((a: any) => a.isActive);
-          if (active) setAnnouncement(active);
+          // Get up to 3 active announcements
+          const active = data.filter((a: any) => a.isActive).slice(0, 3);
+          setAnnouncements(active);
         }
       } catch (error) {
-        console.error('Failed to fetch announcement:', error);
+        console.error('Failed to fetch announcements:', error);
       }
     }
-    fetchAnnouncement();
+    fetchAnnouncements();
   }, []);
 
-  if (!announcement || !isVisible) return null;
+  if (announcements.length === 0 || !isVisible) return null;
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-8">
       <motion.div 
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="relative overflow-hidden bg-gradient-to-r from-[#0b2b26] to-[#051a17] rounded-[20px] p-4 md:p-6 shadow-xl border border-white/5"
+        className="relative overflow-hidden bg-white rounded-[32px] p-1 shadow-xl shadow-gray-200/50 border border-gray-100"
       >
-        {/* Background Decorative Circles */}
-        <div className="absolute top-0 right-0 w-64 h-64 bg-[#27ae60]/10 rounded-full blur-3xl -mr-32 -mt-32"></div>
-        <div className="absolute bottom-0 left-0 w-32 h-32 bg-[#117a8b]/10 rounded-full blur-2xl -ml-16 -mb-16"></div>
-
-        <div className="relative z-10 flex flex-col md:flex-row items-center justify-between gap-4">
-          <div className="flex items-center gap-4">
-            <div className="w-12 h-12 bg-white/10 backdrop-blur-md rounded-xl flex items-center justify-center flex-shrink-0 border border-white/10 shadow-inner">
-              <MegaphoneIcon className="w-6 h-6 text-[#2ecc71]" />
+        <div className="flex flex-col lg:flex-row items-stretch">
+          {/* Label Section */}
+          <div className="bg-[#27ae60] p-4 lg:p-6 flex items-center gap-3 lg:rounded-l-[31px] rounded-t-[31px] lg:rounded-tr-none shrink-0">
+            <div className="w-10 h-10 bg-white/20 rounded-xl flex items-center justify-center border border-white/20">
+              <MegaphoneIcon className="w-6 h-6 text-white" />
             </div>
-            <div>
-              <div className="flex items-center gap-2 mb-1">
-                <span className="text-[10px] font-black uppercase tracking-[0.2em] text-[#2ecc71]">Info Terbaru</span>
-                <span className="w-1.5 h-1.5 rounded-full bg-[#2ecc71] animate-pulse"></span>
-              </div>
-              <h3 className="text-sm md:text-lg font-bold text-white leading-tight">
-                {announcement.title}
-              </h3>
+            <div className="flex flex-col">
+              <span className="text-[10px] font-black uppercase tracking-[0.2em] text-white/70">Update</span>
+              <span className="text-sm font-black text-white uppercase tracking-wider">Pengumuman</span>
             </div>
           </div>
 
-          <div className="flex items-center gap-3 w-full md:w-auto">
-            <Link 
-              href={`/berita`} 
-              className="flex-1 md:flex-none bg-white/10 hover:bg-white/20 backdrop-blur-md text-white text-xs font-bold px-6 py-3 rounded-xl border border-white/10 transition-all flex items-center justify-center gap-2 group"
-            >
-              Lihat Detail
-              <ChevronRightIcon className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-            </Link>
+          {/* List Section */}
+          <div className="flex-grow p-4 lg:p-6 flex flex-col gap-4 overflow-hidden">
+            <div className="flex flex-col gap-4">
+              {announcements.map((ann, idx) => (
+                <div key={ann.id} className="flex items-start lg:items-center justify-between gap-4 group">
+                  <div className="flex items-start lg:items-center gap-3 min-w-0">
+                    <div className="w-1.5 h-1.5 rounded-full bg-[#27ae60] mt-2 lg:mt-0 shrink-0 animate-pulse" />
+                    <h3 className="text-sm md:text-base font-bold text-[#0c1a30] hover:text-[#27ae60] transition-colors line-clamp-1">
+                      {ann.title}
+                    </h3>
+                  </div>
+                  <Link 
+                    href="/berita" 
+                    className="text-[10px] font-black text-[#27ae60] hover:underline shrink-0 whitespace-nowrap uppercase tracking-widest"
+                  >
+                    Detail
+                  </Link>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Close Button Section */}
+          <div className="border-t lg:border-t-0 lg:border-l border-gray-100 flex items-center justify-center p-4">
             <button 
               onClick={() => setIsVisible(false)}
-              className="p-3 bg-white/5 hover:bg-white/10 rounded-xl transition-colors border border-white/5"
-              aria-label="Close announcement"
+              className="p-3 bg-gray-50 hover:bg-red-50 text-gray-400 hover:text-red-500 rounded-2xl transition-all border border-gray-100"
+              aria-label="Close"
             >
-              <XMarkIcon className="w-4 h-4 text-white/40" />
+              <XMarkIcon className="w-5 h-5" />
             </button>
           </div>
         </div>
