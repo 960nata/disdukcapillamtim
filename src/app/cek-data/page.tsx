@@ -48,31 +48,38 @@ export default function CekDataPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#f8fafc] font-sans">
+    <div className="min-h-screen bg-white font-sans">
       <Header />
       
-      {/* Breadcrumb & Title */}
-      <div className="bg-white border-b border-gray-100 py-12">
-        <div className="max-w-4xl mx-auto px-6">
-          <nav className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-gray-400 mb-4">
-            <Link href="/" className="hover:text-[#27ae60]">Beranda</Link>
-            <span>/</span>
-            <span className="text-[#27ae60]">Cek Permohonan</span>
-          </nav>
-          <h1 className="text-3xl md:text-5xl font-black text-gray-900 tracking-tight leading-none mb-4">
-            Cek Status Permohonan
-          </h1>
-          <p className="text-gray-500 font-medium max-w-xl">
-            Pantau status pengajuan dokumen kependudukan Anda secara real-time melalui sistem integrasi SIAK.
-          </p>
-        </div>
-      </div>
+      <main className="w-full p-[10px] md:p-5 bg-white pt-24 md:pt-32">
+        {/* Hero Section for Cek Data */}
+        <div className="relative overflow-hidden bg-[#141414] rounded-[20px] md:rounded-[40px] px-8 py-16 md:py-24 mb-12">
+          {/* Decorative background elements */}
+          <div className="absolute top-0 left-0 w-full h-full opacity-10 pointer-events-none">
+            <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-[#27ae60] rounded-full blur-[120px]"></div>
+            <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-[#117a8b] rounded-full blur-[120px]"></div>
+          </div>
 
-      <main className="max-w-4xl mx-auto px-6 py-16">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
+          <div className="max-w-4xl mx-auto text-center relative z-10">
+            <nav className="flex items-center justify-center gap-2 text-[10px] font-black uppercase tracking-widest text-white/40 mb-6">
+              <Link href="/" className="hover:text-[#27ae60]">Beranda</Link>
+              <span>/</span>
+              <span className="text-[#27ae60]">Cek Permohonan</span>
+            </nav>
+            <h1 className="text-3xl md:text-6xl font-black text-white tracking-tight leading-none mb-6 uppercase">
+              Cek Status Permohonan
+            </h1>
+            <p className="text-white/60 font-medium max-w-2xl mx-auto text-sm md:text-base leading-relaxed">
+              Pantau status pengajuan dokumen kependudukan Anda secara real-time melalui sistem integrasi SIAK Lampung Timur.
+            </p>
+          </div>
+        </div>
+
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
           
           {/* Form Section */}
-          <div className="lg:col-span-7 bg-white rounded-[40px] p-8 md:p-12 shadow-2xl shadow-blue-900/5 border border-gray-50">
+          <div className="lg:col-span-7 bg-white rounded-[32px] p-8 md:p-12 shadow-2xl shadow-black/5 border border-gray-100">
             <h2 className="text-xl font-black text-gray-900 mb-8 flex items-center gap-3">
               <div className="w-2 h-6 bg-[#27ae60] rounded-full"></div>
               Form Pencarian Data
