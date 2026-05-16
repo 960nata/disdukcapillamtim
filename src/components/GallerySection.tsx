@@ -78,8 +78,8 @@ export default function GallerySection() {
         </p>
       </div>
 
-      {/* Wrapper with gap-12 to make it more spacious */}
-      <div className="flex flex-col gap-12">
+      {/* Wrapper with consistent gap */}
+      <div className="flex flex-col gap-6">
         
         {/* Carousel Row 1 (Moves Left) */}
         {row1.length > 0 && (
