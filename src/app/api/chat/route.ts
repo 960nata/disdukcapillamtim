@@ -229,11 +229,15 @@ Untuk mendekatkan pelayanan kepada masyarakat, Disdukcapil membagi wilayah menja
    - Jam Layanan: Senin–Kamis: 08.00–16.00 | Jumat: 08.00–11.30
    - Maps: https://www.google.com/maps/search/?api=1&query=Kantor+Camat+Labuhan+Maringgai+Lampung+Timur
 
-Jika ada warga yang bertanya lokasi kantor atau tempat pelayanan, UTAMAKAN MENGARAHKAN KE MAL PELAYANAN PUBLIK (MPP) Kabupaten Lampung Timur! Berikan juga informasi 5 Zona Pelayanan di atas jika mereka mencari yang terdekat, serta SERTAKAN link Google Maps-nya!`;
+Jika ada warga yang bertanya lokasi kantor atau tempat pelayanan, UTAMAKAN MENGARAHKAN KE MAL PELAYANAN PUBLIK (MPP) Kabupaten Lampung Timur! Berikan juga informasi 5 Zona Pelayanan di atas jika mereka mencari yang terdekat, serta SERTAKAN link Google Maps-nya!
 
-    // We skip the full persyaratan text here for brevity in the tool call, 
-    // but in reality I should include it all or keep it from the previous version.
-    // Let's use the full system prompt from the original file but updated with the onboarding rules.
+📱 F. CEK STATUS PERMOHONAN & PENDAFTARAN ONLINE
+Jika ada warga yang bertanya mengenai cara cek status permohonan, nomor registrasi, atau pendaftaran dokumen secara online, ARAHKAN MEREKA ke layanan resmi berikut:
+1. Aplikasi Android (Si LAMTIM BERJAYA): https://play.google.com/store/apps/details?id=si.lamtim.berjaya&hl=id
+2. Website Resmi (Untuk iPhone atau yang tidak ingin download): https://silamtimberjaya.lampungtimurkab.go.id/main
+3. Link Langsung Cek Data/Registrasi: https://silamtimberjaya.lampungtimurkab.go.id/main/cekdata
+
+Beritahu mereka bahwa pendaftaran dan pengecekan sekarang lebih mudah dilakukan melalui aplikasi Si LAMTIM BERJAYA atau website resmi tersebut.`;
 
     const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
       method: 'POST',

@@ -48,7 +48,6 @@ export default function Header() {
           <Link href="/layanan" className={`transition-colors ${isScrolled ? 'hover:text-[#27ae60]' : 'hover:text-white'}`}>Layanan</Link>
           <Link href="/lokasi-pelayanan" className={`transition-colors ${isScrolled ? 'hover:text-[#27ae60]' : 'hover:text-white'}`}>Lokasi Pelayanan</Link>
           <Link href="/berita" className={`transition-colors ${isScrolled ? 'hover:text-[#27ae60]' : 'hover:text-white'}`}>Berita</Link>
-          <Link href="/cek-data" className={`transition-colors ${isScrolled ? 'hover:text-[#27ae60]' : 'hover:text-white'}`}>Cek Permohonan</Link>
           <Link href="/kontak" className={`transition-colors ${isScrolled ? 'hover:text-[#27ae60]' : 'hover:text-white'}`}>Kontak</Link>
         </nav>
 
@@ -92,7 +91,6 @@ export default function Header() {
                 <Link href="/layanan" className="hover:text-[#27ae60] transition-colors py-2 border-b border-gray-100" onClick={() => setIsOpen(false)}>Layanan</Link>
                 <Link href="/lokasi-pelayanan" className="hover:text-[#27ae60] transition-colors py-2 border-b border-gray-100" onClick={() => setIsOpen(false)}>Lokasi Pelayanan</Link>
                 <Link href="/berita" className="hover:text-[#27ae60] transition-colors py-2 border-b border-gray-100" onClick={() => setIsOpen(false)}>Berita</Link>
-                <Link href="/cek-data" className="hover:text-[#27ae60] transition-colors py-2 border-b border-gray-100" onClick={() => setIsOpen(false)}>Cek Permohonan</Link>
                 <Link href="/kontak" className="hover:text-[#27ae60] transition-colors py-2 border-b border-gray-100" onClick={() => setIsOpen(false)}>Kontak</Link>
                 <Link href="/kontak" onClick={() => setIsOpen(false)}>
                   <button className="bg-gradient-to-r from-[#27ae60] to-[#117a8b] text-white hover:from-[#1e8449] hover:to-[#0b6260] transition-colors rounded-full px-5 py-2 text-sm font-semibold mt-2 w-full">Hubungi Kami</button>
