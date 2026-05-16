@@ -63,6 +63,7 @@ model Gallery {
   title       String?
   description String?  @db.Text
   caption     String?
+  tags        String?  // New field for categorization
   isFeatured  Boolean  @default(false)
   createdAt   DateTime @default(now())
 }

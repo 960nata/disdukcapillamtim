@@ -26,6 +26,7 @@ export async function POST(request: Request) {
         title: body.title,
         description: body.description,
         caption: body.caption,
+        tags: body.tags,
       },
     });
     return NextResponse.json(photo);
