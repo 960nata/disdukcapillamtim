@@ -3,7 +3,6 @@
 import * as React from 'react';
 import { cn } from '@/lib/utils';
 import { ArrowRight } from 'lucide-react';
-import Image from 'next/image';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 
@@ -92,11 +91,10 @@ export default function LatestNews() {
                   className="group block relative h-[360px] md:h-[464px] rounded-xl overflow-hidden border border-slate-100 shadow-sm hover:border-[#27ae60] hover:shadow-2xl hover:shadow-green-900/10 transition-all duration-500"
                 >
                   <div className="absolute inset-0">
-                    <Image 
+                    <img 
                       src={featuredNews.image} 
                       alt={featuredNews.title} 
-                      fill 
-                      className="object-cover transition-transform duration-[1000ms] group-hover:scale-105"
+                      className="w-full h-full object-cover transition-transform duration-[1000ms] group-hover:scale-105"
                     />
                   </div>
                   {/* Overlay Gradient */}
@@ -139,11 +137,10 @@ export default function LatestNews() {
                   )}
                 >
                   <div className="relative w-28 h-20 md:w-40 md:h-28 flex-shrink-0 rounded-xl overflow-hidden bg-slate-100 shadow-sm">
-                    <Image 
+                    <img 
                       src={news.image} 
                       alt={news.title} 
-                      fill 
-                      className="object-cover transition-transform duration-700 group-hover:scale-110"
+                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                     />
                   </div>
                   <div className="flex flex-col justify-center flex-1">
