@@ -183,7 +183,8 @@ export default function InnovationsPage() {
                         </div>
                       </td>
                     </tr>
-                  ))}
+                  ))
+                )}
               </tbody>
             </table>
           </div>

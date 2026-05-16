@@ -210,7 +210,8 @@ export default function SlidersPage() {
                         </div>
                       </td>
                     </tr>
-                  ))}
+                  ))
+                )}
               </tbody>
             </table>
           </div>
