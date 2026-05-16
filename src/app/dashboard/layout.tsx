@@ -15,6 +15,18 @@ export default function DashboardLayout({
   const [userRole, setUserRole] = React.useState('');
   const [userName, setUserName] = React.useState('Admin');
   const [isSidebarOpen, setIsSidebarOpen] = React.useState(false);
+  const [isProfileOpen, setIsProfileOpen] = React.useState(false);
+
+  const handleLogout = async () => {
+    try {
+      const res = await fetch('/api/logout', { method: 'POST' });
+      if (res.ok) {
+        window.location.href = '/login';
+      }
+    } catch (error) {
+      console.error('Logout failed:', error);
+    }
+  };
 
   React.useEffect(() => {
     fetch('/api/users/me')
@@ -103,7 +115,10 @@ export default function DashboardLayout({
         </nav>
         
         <div className="p-4 border-t border-gray-100">
-          <button className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-red-600 hover:bg-red-50 transition-all">
+          <button 
+            onClick={handleLogout}
+            className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-red-600 hover:bg-red-50 transition-all"
+          >
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
             Keluar
           </button>
@@ -137,14 +152,53 @@ export default function DashboardLayout({
             </button>
             
             {/* Profile */}
-            <div className="flex items-center gap-3 cursor-pointer">
-              <div className="w-10 h-10 bg-gray-200 rounded-full overflow-hidden flex items-center justify-center text-gray-600 font-bold">
-                {userName.charAt(0)}
+            <div className="relative">
+              <div 
+                className="flex items-center gap-3 cursor-pointer group"
+                onClick={() => setIsProfileOpen(!isProfileOpen)}
+              >
+                <div className="w-10 h-10 bg-gradient-to-br from-[#27ae60] to-[#2ecc71] rounded-full overflow-hidden flex items-center justify-center text-white font-bold shadow-lg shadow-green-100 group-hover:scale-105 transition-transform">
+                  {userName.charAt(0)}
+                </div>
+                <div className="hidden md:block">
+                  <p className="text-sm font-bold text-gray-900 leading-tight">{userName}</p>
+                  <p className="text-[10px] font-black text-[#27ae60] uppercase tracking-widest">{userRole}</p>
+                </div>
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className={`text-gray-400 transition-transform ${isProfileOpen ? 'rotate-180' : ''}`}><polyline points="6 9 12 15 18 9"></polyline></svg>
               </div>
-              <div className="hidden md:block">
-                <p className="text-sm font-bold text-gray-900">{userName}</p>
-                <p className="text-xs font-medium text-gray-500">{userRole}</p>
-              </div>
+
+              {/* Profile Dropdown */}
+              {isProfileOpen && (
+                <>
+                  <div className="fixed inset-0 z-30" onClick={() => setIsProfileOpen(false)}></div>
+                  <div className="absolute right-0 mt-4 w-56 bg-white rounded-3xl shadow-2xl border border-gray-100 z-40 py-3 animate-in fade-in zoom-in duration-200 origin-top-right">
+                    <div className="px-5 py-3 mb-2 border-b border-gray-50">
+                      <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1">Status Akun</p>
+                      <div className="flex items-center gap-2">
+                        <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+                        <span className="text-xs font-bold text-gray-700">Online • {userRole}</span>
+                      </div>
+                    </div>
+                    
+                    <Link 
+                      href="/dashboard/settings" 
+                      onClick={() => setIsProfileOpen(false)}
+                      className="flex items-center gap-3 px-5 py-3 text-sm font-bold text-gray-600 hover:bg-gray-50 hover:text-[#27ae60] transition-colors"
+                    >
+                      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                      Edit Profil
+                    </Link>
+                    
+                    <button 
+                      onClick={handleLogout}
+                      className="w-full flex items-center gap-3 px-5 py-3 text-sm font-bold text-red-500 hover:bg-red-50 transition-colors"
+                    >
+                      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+                      Keluar Sesi
+                    </button>
+                  </div>
+                </>
+              )}
             </div>
           </div>
         </header>
