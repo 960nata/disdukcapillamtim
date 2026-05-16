@@ -206,23 +206,35 @@ export default function BeritaPage() {
                       <Link 
                         key={news.id}
                         href={`/berita/${news.slug}`}
-                        className="bg-white border border-gray-100 rounded-[20px] overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 group flex flex-col h-full"
+                        className="bg-white border border-slate-100 rounded-2xl overflow-hidden shadow-sm hover:shadow-xl hover:border-[#27ae60]/30 transition-all duration-500 group flex flex-col h-full"
                       >
-                        <div className="relative h-48 overflow-hidden">
-                          <img 
-                            src={news.coverImage || "/images/news/hero_berita.avif"} 
-                            alt={news.title} 
-                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" 
-                          />
-                          <span className="absolute top-4 left-4 bg-[#27ae60]/10 text-[#27ae60] text-xs font-bold px-3 py-1 rounded-lg uppercase">
-                            {news.category || 'Berita'}
-                          </span>
+                        {/* Image with 4px padding (p-1) like Program Unggulan */}
+                        <div className="p-1">
+                          <div className="relative h-52 overflow-hidden rounded-xl">
+                            <img 
+                              src={news.coverImage || "/images/news/hero_berita.avif"} 
+                              alt={news.title} 
+                              className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" 
+                            />
+                          </div>
                         </div>
+
                         <div className="p-6 flex flex-col flex-grow">
-                          <span className="text-gray-400 text-xs font-medium mb-2">{formatDate(news.createdAt)}</span>
-                          <h3 className="text-lg font-bold text-[#0c1a30] mb-2 group-hover:text-[#27ae60] transition-colors line-clamp-2">
-                            {news.title}
-                          </h3>
+                          <div className="flex-grow">
+                            <div className="flex items-center gap-2 mb-3">
+                              <span className="text-gray-400 text-[11px] font-medium uppercase tracking-wider">{formatDate(news.createdAt)}</span>
+                            </div>
+                            <h3 className="text-xl font-bold text-slate-900 mb-4 group-hover:text-[#27ae60] transition-colors line-clamp-2 leading-snug">
+                              {news.title}
+                            </h3>
+                          </div>
+                          
+                          {/* Category Tag at the bottom */}
+                          <div className="mt-auto">
+                            <span className="inline-block bg-slate-50 text-slate-500 text-[10px] font-bold px-3 py-1.5 rounded-full uppercase tracking-widest group-hover:bg-[#27ae60]/10 group-hover:text-[#27ae60] transition-colors">
+                              {news.category || 'Berita'}
+                            </span>
+                          </div>
                         </div>
                       </Link>
                     ))}
