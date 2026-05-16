@@ -39,14 +39,6 @@ export default function Statistics() {
         
         if (Array.isArray(statsData) && statsData.length > 0) {
           setStats(statsData);
-        } else {
-          // Fallback to default stats if empty
-          setStats([
-            { label: 'Total Penduduk', value: '1.132.341', unit: 'jiwa', growth: '+0.8%' },
-            { label: 'Penduduk Laki-laki', value: '575.383', unit: 'jiwa' },
-            { label: 'Penduduk Perempuan', value: '556.958', unit: 'jiwa' },
-            { label: 'Jumlah KK', value: '556.958', unit: 'KK', growth: '+1.1%' },
-          ]);
         }
         
         if (settingsData.value) setTitle(settingsData.value);
@@ -59,7 +51,7 @@ export default function Statistics() {
     fetchData();
   }, []);
 
-  if (loading) return null;
+  if (loading || stats.length === 0) return null;
 
   return (
     <section className="pt-16 pb-2 bg-white">
