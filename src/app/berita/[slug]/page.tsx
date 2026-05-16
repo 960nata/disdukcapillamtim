@@ -197,7 +197,7 @@ export default function BeritaDetailPage() {
                   <span>/</span>
                   <span>{newsDetail.category}</span>
                 </div>
-                <h1 className="text-2xl md:text-6xl font-black mb-4 leading-tight drop-shadow-2xl tracking-tight">
+                <h1 className="text-2xl md:text-4xl font-black mb-4 leading-tight drop-shadow-2xl tracking-tight">
                   {newsDetail.title}
                 </h1>
                 <div className="flex items-center gap-5 text-[11px] md:text-xs text-white/90 font-bold">
