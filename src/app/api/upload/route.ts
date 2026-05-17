@@ -37,15 +37,23 @@ export async function POST(request: Request) {
     }
 
     const uniqueName = `${Date.now()}-${Math.random().toString(36).substring(2, 9)}`;
-    
-    // Compress all uploaded images to AVIF using sharp for absolute maximum compression and quality
-    const finalPath = join(uploadDir, `${uniqueName}.avif`);
-    await sharp(buffer)
-      .avif({ quality: 80 })
-      .toFile(finalPath);
-      
-    const finalUrl = `/api/uploads?file=${uniqueName}.avif`;
-    console.log('Upload API - Saved avif to:', finalPath);
+    let finalUrl = '';
+
+    if (extension === 'avif') {
+      // Jika file yang diunggah sudah berupa AVIF, langsung simpan tanpa kompresi ulang
+      const finalPath = join(uploadDir, `${uniqueName}.avif`);
+      await writeFile(finalPath, buffer);
+      finalUrl = `/api/uploads?file=${uniqueName}.avif`;
+      console.log('Upload API - Saved original avif directly to:', finalPath);
+    } else {
+      // Compress format lain ke AVIF menggunakan sharp
+      const finalPath = join(uploadDir, `${uniqueName}.avif`);
+      await sharp(buffer)
+        .avif({ quality: 80 })
+        .toFile(finalPath);
+      finalUrl = `/api/uploads?file=${uniqueName}.avif`;
+      console.log('Upload API - Compressed and saved avif to:', finalPath);
+    }
 
     console.log('Upload API - Returning URL:', finalUrl);
     return NextResponse.json({ url: finalUrl });
