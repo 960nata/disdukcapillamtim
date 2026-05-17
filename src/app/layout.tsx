@@ -3,6 +3,7 @@ import { Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 import Script from "next/script";
 import Chatbot from "@/components/Chatbot";
+import AnalyticsTracker from "@/components/AnalyticsTracker";
 
 const plusJakartaSans = Plus_Jakarta_Sans({
   subsets: ["latin"],
@@ -37,6 +38,7 @@ export default function RootLayout({
             gtag('config', 'G-N4TSYH5DWQ');
           `}
         </Script>
+        <AnalyticsTracker />
         {children}
         <Chatbot />
       </body>

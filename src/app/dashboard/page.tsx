@@ -13,6 +13,17 @@ export default function DashboardPage() {
     totalUsers: 0,
     totalInnovations: 0,
     totalGallery: 0,
+    realtimeUsers: 0,
+    activeUsersTrend: {
+      categories: ['1 Mei', '5 Mei', '10 Mei', '15 Mei', '20 Mei', '25 Mei', '30 Mei'],
+      data: [0, 0, 0, 0, 0, 0, 0]
+    },
+    devices: [0, 0, 0],
+    sources: [0, 0, 0, 0],
+    locations: {
+      categories: ['Sukadana', 'Pekalongan', 'Batanghari', 'Way Jepara', 'Sekampung'],
+      data: [0, 0, 0, 0, 0]
+    }
   });
   const [loading, setLoading] = useState(true);
 
@@ -37,23 +48,41 @@ export default function DashboardPage() {
     dataLabels: { enabled: false },
     stroke: { curve: 'smooth', width: 2, colors: ['#27ae60'] },
     fill: { type: 'gradient', gradient: { shadeIntensity: 1, opacityFrom: 0.45, opacityTo: 0.05, stops: [20, 100] } },
-    xaxis: { categories: ['1 Mei', '5 Mei', '10 Mei', '15 Mei', '20 Mei', '25 Mei', '30 Mei'], axisBorder: { show: false }, axisTicks: { show: false } },
+    xaxis: { categories: stats.activeUsersTrend?.categories || [], axisBorder: { show: false }, axisTicks: { show: false } },
     yaxis: { labels: { show: true } },
     grid: { borderColor: '#f1f1f1', strokeDashArray: 4 },
     colors: ['#27ae60'],
     tooltip: { theme: 'light', x: { show: true } },
   };
-  const mainChartSeries = [{ name: 'Pengguna Aktif', data: [3200, 4100, 3800, 5100, 4900, 6200, 5800] }];
+  const mainChartSeries = [{ name: 'Pengguna Aktif', data: stats.activeUsersTrend?.data || [] }];
 
   const deviceChartOptions: any = {
     chart: { type: 'donut' },
     labels: ['Mobile', 'Desktop', 'Tablet'],
     colors: ['#27ae60', '#2ecc71', '#f59e0b'],
     legend: { position: 'bottom' },
-    plotOptions: { pie: { donut: { size: '75%', labels: { show: true, name: { show: true }, value: { show: true, fontWeight: 'bold' }, total: { show: true, label: 'Total' } } } } },
+    plotOptions: { 
+      pie: { 
+        donut: { 
+          size: '75%', 
+          labels: { 
+            show: true, 
+            name: { show: true }, 
+            value: { show: true, fontWeight: 'bold' }, 
+            total: { 
+              show: true, 
+              label: 'Total', 
+              formatter: function(w: any) { 
+                return w.globals.seriesTotals.reduce((a: number, b: number) => a + b, 0) 
+              } 
+            } 
+          } 
+        } 
+      } 
+    },
     dataLabels: { enabled: false },
   };
-  const deviceChartSeries = [65, 30, 5];
+  const deviceChartSeries = stats.devices || [0, 0, 0];
 
   const sourceChartOptions: any = {
     chart: { type: 'bar', toolbar: { show: false } },
@@ -62,16 +91,16 @@ export default function DashboardPage() {
     colors: ['#2ecc71'],
     xaxis: { categories: ['Google', 'Direct', 'Social', 'Referral'] },
   };
-  const sourceChartSeries = [{ name: 'Sesi', data: [4500, 2800, 1200, 600] }];
+  const sourceChartSeries = [{ name: 'Sesi', data: stats.sources || [0, 0, 0, 0] }];
 
   const cityChartOptions: any = {
     chart: { type: 'bar', toolbar: { show: false } },
     plotOptions: { bar: { borderRadius: 4, columnWidth: '50%' } },
     dataLabels: { enabled: false },
     colors: ['#27ae60'],
-    xaxis: { categories: ['Sukadana', 'Metro', 'Bdr Lampung', 'Pekalongan', 'Lainnya'] },
+    xaxis: { categories: stats.locations?.categories || [], axisBorder: { show: false } },
   };
-  const citySeries = [{ name: 'Pengguna', data: [8500, 2100, 1500, 800, 1600] }];
+  const citySeries = [{ name: 'Pengguna', data: stats.locations?.data || [] }];
 
   return (
     <div className="p-0 md:p-8 space-y-0 md:space-y-6 font-sans bg-[#f8fafc] min-h-screen">
@@ -122,8 +151,10 @@ export default function DashboardPage() {
                 <p className="text-xs text-gray-500">Volume pengguna harian website</p>
               </div>
               <div className="text-right">
-                <span className="text-2xl font-black text-gray-900">42,851</span>
-                <span className="block text-[10px] text-green-500 font-bold">↑ 12.5% vs bln lalu</span>
+                <span className="text-2xl font-black text-gray-900">
+                  {stats.activeUsersTrend?.data ? stats.activeUsersTrend.data.reduce((a, b) => a + b, 0) : 0}
+                </span>
+                <span className="block text-[10px] text-green-500 font-bold">↑ 100% Real-time</span>
               </div>
             </div>
             <div className="h-80">
@@ -136,7 +167,7 @@ export default function DashboardPage() {
             <div className="bg-gradient-to-br from-[#27ae60] to-[#2ecc71] p-6 rounded-2xl shadow-lg shadow-green-100 text-white relative overflow-hidden">
               <div className="relative z-10">
                 <h3 className="text-sm font-bold opacity-80 mb-4">Pengguna Real-time</h3>
-                <div className="text-4xl font-black mb-1">124</div>
+                <div className="text-4xl font-black mb-1">{stats.realtimeUsers}</div>
                 <div className="text-xs opacity-80 mb-6">Pengguna aktif saat ini</div>
                 
                 <div className="space-y-3">

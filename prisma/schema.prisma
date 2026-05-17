@@ -184,4 +184,15 @@ model ChartPoint {
   updatedAt     DateTime @updatedAt
 }
 
+model VisitorLog {
+  id        Int      @id @default(autoincrement())
+  pathname  String
+  userAgent String
+  device    String   @default("Mobile") // "Mobile", "Desktop", "Tablet"
+  referrer  String   @default("Direct") // "Google", "Direct", "Social", "Referral"
+  city      String   @default("Sukadana")
+  createdAt DateTime @default(now())
+}
+
+
 
