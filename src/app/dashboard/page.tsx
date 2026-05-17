@@ -248,24 +248,30 @@ export default function DashboardPage() {
               <div>
                 <h4 className="text-sm font-bold text-gray-700 mb-4">Aktivitas Teratas per Kecamatan</h4>
                 <div className="space-y-3">
-                  {stats.locations?.categories?.map((city, idx) => (
-                    <div key={idx} className="flex items-center justify-between">
-                      <div className="flex items-center gap-2">
-                        <span className="w-6 h-6 rounded-lg bg-emerald-50 text-emerald-700 flex items-center justify-center font-bold text-xs">
-                          {idx + 1}
-                        </span>
-                        <span className="text-sm text-gray-700 font-medium">{city}</span>
+                  {stats.locations?.categories && stats.locations.categories.length > 0 ? (
+                    stats.locations.categories.map((city, idx) => (
+                      <div key={idx} className="flex items-center justify-between">
+                        <div className="flex items-center gap-2">
+                          <span className="w-6 h-6 rounded-lg bg-emerald-50 text-emerald-700 flex items-center justify-center font-bold text-xs">
+                            {idx + 1}
+                          </span>
+                          <span className="text-sm text-gray-700 font-medium">{city}</span>
+                        </div>
+                        <div className="flex items-center gap-3">
+                          <span className="text-xs text-gray-400">
+                            ({stats.locations?.data ? ((stats.locations.data[idx] / stats.locations.data.reduce((a: number, b: number) => a + b, 1)) * 100).toFixed(0) : 0}%)
+                          </span>
+                          <span className="text-sm font-bold text-gray-900">
+                            {stats.locations?.data ? stats.locations.data[idx] : 0}
+                          </span>
+                        </div>
                       </div>
-                      <div className="flex items-center gap-3">
-                        <span className="text-xs text-gray-400">
-                          ({stats.locations?.data ? ((stats.locations.data[idx] / stats.locations.data.reduce((a: number, b: number) => a + b, 1)) * 100).toFixed(0) : 0}%)
-                        </span>
-                        <span className="text-sm font-bold text-gray-900">
-                          {stats.locations?.data ? stats.locations.data[idx] : 0}
-                        </span>
-                      </div>
+                    ))
+                  ) : (
+                    <div className="text-xs text-gray-400 italic py-4 text-center">
+                      Tidak ada aktivitas kunjungan dalam 30 menit terakhir.
                     </div>
-                  ))}
+                  )}
                 </div>
               </div>
               <div className="text-xs text-gray-400 mt-4 border-t pt-4">

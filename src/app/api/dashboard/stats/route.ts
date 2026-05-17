@@ -163,8 +163,12 @@ export async function GET() {
       sourceMap.Referral || 10
     ];
 
-    // 7. Top Locations
+    // 7. Real-time Locations (Active in the last 30 minutes to match GA4)
+    const thirtyMinutesAgo = new Date(Date.now() - 30 * 60 * 1000);
     const locationGroups = await prisma.visitorLog.groupBy({
+      where: {
+        createdAt: { gte: thirtyMinutesAgo }
+      },
       by: ['city'],
       _count: {
         city: true
@@ -179,12 +183,6 @@ export async function GET() {
 
     const locationCategories = locationGroups.map((g: any) => g.city);
     const locationData = locationGroups.map((g: any) => g._count.city);
-
-    // Fallback if empty
-    if (locationCategories.length === 0) {
-      locationCategories.push('Sukadana', 'Pekalongan', 'Batanghari', 'Way Jepara', 'Sekampung');
-      locationData.push(85, 34, 28, 22, 19);
-    }
 
     return NextResponse.json({
       totalNews,
