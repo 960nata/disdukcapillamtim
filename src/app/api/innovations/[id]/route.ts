@@ -34,6 +34,7 @@ export async function PUT(
         desc: body.desc,
         status: body.status,
         url: body.url,
+        image: body.image,
       },
     });
     return NextResponse.json(innovation);

@@ -2,6 +2,7 @@
 
 import * as React from 'react';
 import { useState, useEffect } from 'react';
+import MediaLibraryModal from '@/components/MediaLibraryModal';
 
 type Innovation = {
   id: number;
@@ -9,6 +10,7 @@ type Innovation = {
   desc: string;
   status: string;
   url: string | null;
+  image: string | null;
   createdAt: string;
 };
 
@@ -16,12 +18,14 @@ export default function InnovationsPage() {
   const [innovations, setInnovations] = useState<Innovation[]>([]);
   const [loading, setLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isMediaOpen, setIsMediaOpen] = useState(false);
   const [editingItem, setEditingItem] = useState<Innovation | null>(null);
   const [formData, setFormData] = useState({
     name: '',
     desc: '',
     status: 'Aktif',
     url: '',
+    image: '',
   });
 
   useEffect(() => {
@@ -64,7 +68,7 @@ export default function InnovationsPage() {
       if (res.ok) {
         setIsModalOpen(false);
         setEditingItem(null);
-        setFormData({ name: '', desc: '', status: 'Aktif', url: '' });
+        setFormData({ name: '', desc: '', status: 'Aktif', url: '', image: '' });
         fetchInnovations();
       }
     } catch (error) {
@@ -79,6 +83,7 @@ export default function InnovationsPage() {
       desc: item.desc,
       status: item.status,
       url: item.url || '',
+      image: item.image || '',
     });
     setIsModalOpen(true);
   };
@@ -111,7 +116,7 @@ export default function InnovationsPage() {
         <button 
           onClick={() => {
             setEditingItem(null);
-            setFormData({ name: '', desc: '', status: 'Aktif', url: '' });
+            setFormData({ name: '', desc: '', status: 'Aktif', url: '', image: '' });
             setIsModalOpen(true);
           }}
           className="w-full sm:w-auto bg-[#27ae60] hover:bg-[#1e8449] text-white transition-all duration-300 rounded-xl px-5 py-3 text-sm font-bold shadow-lg shadow-green-100 flex items-center justify-center gap-2"
@@ -152,9 +157,20 @@ export default function InnovationsPage() {
                   innovations.map((item) => (
                     <tr key={item.id} className="hover:bg-gray-50/50 transition-colors group">
                       <td className="px-6 py-5">
-                        <div className="flex flex-col">
-                          <span className="font-bold text-gray-900 group-hover:text-[#27ae60] transition-colors">{item.name}</span>
-                          <span className="text-xs text-gray-400 line-clamp-1">{item.desc}</span>
+                        <div className="flex items-center gap-4">
+                          <div className="w-12 h-12 rounded-xl overflow-hidden bg-gray-50 flex-shrink-0 border border-gray-100">
+                            {item.image ? (
+                              <img src={item.image} alt={item.name} className="w-full h-full object-cover" />
+                            ) : (
+                              <div className="w-full h-full flex items-center justify-center bg-[#27ae60]/10 text-[#27ae60]">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+                              </div>
+                            )}
+                          </div>
+                          <div className="flex flex-col">
+                            <span className="font-bold text-gray-900 group-hover:text-[#27ae60] transition-colors">{item.name}</span>
+                            <span className="text-xs text-gray-400 line-clamp-1">{item.desc}</span>
+                          </div>
                         </div>
                       </td>
                       <td className="px-6 py-5">
@@ -229,6 +245,34 @@ export default function InnovationsPage() {
                 />
               </div>
 
+              <div className="space-y-1.5">
+                <label className="text-[11px] font-black uppercase tracking-widest text-gray-400 ml-1">Gambar Inovasi</label>
+                <div className="flex items-center gap-4">
+                  <div 
+                    onClick={() => setIsMediaOpen(true)}
+                    className="w-20 h-20 bg-gray-50 rounded-2xl overflow-hidden border border-gray-200 relative group flex items-center justify-center cursor-pointer hover:border-[#27ae60] transition-colors"
+                  >
+                    {formData.image ? (
+                      <>
+                        <img src={formData.image} alt="Preview" className="w-full h-full object-cover" />
+                        <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity">
+                          <span className="text-[8px] text-white font-bold bg-black/50 px-1.5 py-0.5 rounded">Ganti</span>
+                        </div>
+                      </>
+                    ) : (
+                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#27ae60" strokeWidth="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
+                    )}
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => setIsMediaOpen(true)}
+                    className="text-xs font-bold bg-[#27ae60]/10 text-[#27ae60] hover:bg-[#27ae60]/20 transition-colors py-2.5 px-4 rounded-xl border border-transparent animate-none"
+                  >
+                    {formData.image ? 'Ubah dari Pustaka Media' : 'Pilih dari Pustaka Media'}
+                  </button>
+                </div>
+              </div>
+
               <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                 <div className="space-y-1.5">
                   <label className="text-[11px] font-black uppercase tracking-widest text-gray-400 ml-1">Link URL (Opsional)</label>
@@ -275,6 +319,16 @@ export default function InnovationsPage() {
           </div>
         </div>
       )}
+
+      {/* WordPress Media Library Modal */}
+      <MediaLibraryModal
+        isOpen={isMediaOpen}
+        onClose={() => setIsMediaOpen(false)}
+        title="Pilih Gambar Inovasi"
+        onSelect={(photo) => {
+          setFormData((prev) => ({ ...prev, image: photo.url }));
+        }}
+      />
     </div>
   );
 }

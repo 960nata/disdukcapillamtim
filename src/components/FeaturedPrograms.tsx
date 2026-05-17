@@ -10,6 +10,7 @@ const basePrograms = [
     description: 'Jemput bola aktivasi dan sosialisasi Identitas Kependudukan Digital (IKD) langsung ke desa-desa seluruh Lampung Timur.',
     tag: 'IKD · Digital',
     image: '/images/inovasi/puakhi.avif',
+    url: '#',
   },
   {
     no: '02',
@@ -17,6 +18,7 @@ const basePrograms = [
     description: 'Penerbitan dokumen kependudukan bagi masyarakat desa terpencil yang jauh dari ibukota kabupaten atau di wilayah perbatasan.',
     tag: 'Jemput Bola',
     image: '/images/inovasi/plesir_djauh.avif',
+    url: '#',
   },
   {
     no: '03',
@@ -24,6 +26,7 @@ const basePrograms = [
     description: 'Cetak rekam KIA terintegrasi bekerjasama dengan sekolah, PAUD, dan TK seluruh Kabupaten Lampung Timur.',
     tag: 'KIA · Anak',
     image: '/images/inovasi/lamtim_ceria.avif',
+    url: '#',
   },
   {
     no: '04',
@@ -31,6 +34,7 @@ const basePrograms = [
     description: 'Platform layanan online administrasi kependudukan — urus semua dokumen dari mana saja tanpa antre di kantor.',
     tag: 'Online · 24/7',
     image: '/images/inovasi/silamtim_berjaya.avif',
+    url: '#',
   },
   {
     no: '05',
@@ -38,6 +42,7 @@ const basePrograms = [
     description: 'Layanan daring terintegrasi bersama BPJS Kesehatan — terbitkan akta lahir dan daftar BPJS dalam satu layanan.',
     tag: 'BPJS · Integrasi',
     image: '/images/inovasi/paling_mantab.avif',
+    url: '#',
   },
   {
     no: '06',
@@ -45,18 +50,42 @@ const basePrograms = [
     description: 'Kolaborasi Pemkab, Pengadilan Agama & Kemenag — sidang isbath, buku nikah, KTP dan KK diterbitkan dalam satu hari.',
     tag: 'Kolaborasi',
     image: '/images/inovasi/isbath_nikah.avif',
+    url: '#',
   },
 ];
 
-// Duplicate the array 10 times to create a large pool for seamless scrolling
-const programs = Array(10).fill(basePrograms).flat();
-
 export default function FeaturedPrograms() {
   const scrollRef = React.useRef<HTMLDivElement>(null);
-  // Start in the middle of the large array (e.g., set 5)
+  const [programsList, setProgramsList] = React.useState(basePrograms);
   const [activeIndex, setActiveIndex] = React.useState(basePrograms.length * 5);
   const [progress, setProgress] = React.useState(0);
   const prevIndex = React.useRef(activeIndex);
+
+  // Generate large pool for seamless scrolling dynamically
+  const programs = React.useMemo(() => {
+    return Array(10).fill(programsList).flat();
+  }, [programsList]);
+
+  // Fetch real innovations from DB
+  React.useEffect(() => {
+    fetch('/api/innovations')
+      .then((res) => res.json())
+      .then((data) => {
+        if (Array.isArray(data) && data.length > 0) {
+          const mapped = data.map((item, idx) => ({
+            no: String(idx + 1).padStart(2, '0'),
+            title: item.name,
+            description: item.desc,
+            tag: item.status === 'Aktif' ? 'Program Unggulan' : item.status,
+            image: item.image || '/images/inovasi/puakhi.avif',
+            url: item.url || '#',
+          }));
+          setProgramsList(mapped);
+          setActiveIndex(mapped.length * 5);
+        }
+      })
+      .catch((err) => console.error('Failed to fetch innovations from API:', err));
+  }, []);
 
   // Auto-sliding and loading effect
   React.useEffect(() => {
@@ -67,7 +96,7 @@ export default function FeaturedPrograms() {
             const nextIndex = prevIndex + 1;
             // If we reach the very end of the large array, reset to the middle
             if (nextIndex >= programs.length) {
-              return basePrograms.length * 5;
+              return programsList.length * 5;
             }
             return nextIndex;
           });
@@ -78,11 +107,11 @@ export default function FeaturedPrograms() {
     }, 50); // 5 seconds per slide
 
     return () => clearInterval(interval);
-  }, []);
+  }, [programs.length, programsList.length]);
 
   // Scroll to active index when it changes
   React.useEffect(() => {
-    if (scrollRef.current) {
+    if (scrollRef.current && programs.length > 0) {
       const cardWidth = 344; // 320px width + 24px gap
       const scrollPosition = activeIndex * cardWidth;
       
@@ -96,7 +125,7 @@ export default function FeaturedPrograms() {
       
       prevIndex.current = activeIndex;
     }
-  }, [activeIndex]);
+  }, [activeIndex, programs.length]);
 
   const handleManualScroll = (direction: 'left' | 'right') => {
     setProgress(0); // Reset progress on manual interaction
@@ -107,14 +136,15 @@ export default function FeaturedPrograms() {
     }
   };
 
-  const currentProgramNo = basePrograms[activeIndex % basePrograms.length].no;
+  const currentProgramNo = programsList[activeIndex % programsList.length]?.no || '01';
+  const currentBgImage = programs[activeIndex]?.image || '/images/inovasi/puakhi.avif';
 
   return (
     <section className="py-24 bg-[#0c1a30] text-white relative overflow-hidden">
       {/* Dynamic Background Image */}
       <div 
         className="absolute inset-0 bg-cover bg-center transition-all duration-1000 -z-20 scale-110 blur-2xl opacity-60"
-        style={{ backgroundImage: `url(${programs[activeIndex].image})` }}
+        style={{ backgroundImage: `url(${currentBgImage})` }}
       ></div>
       {/* Dark Green Overlay */}
       <div className="absolute inset-0 bg-[#020f0a]/75 -z-10"></div>
@@ -152,20 +182,20 @@ export default function FeaturedPrograms() {
             >
               {/* Image at the top with 4px padding */}
               <div className="p-1">
-                <div className="w-full h-[180px] overflow-hidden rounded-xl">
+                <div className="w-full h-[180px] overflow-hidden rounded-xl bg-gray-900/40">
                   <img src={program.image} alt={program.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
                 </div>
               </div>
 
               <div className="p-6 flex flex-col gap-4 flex-grow">
                 <div>
-                  <h3 className={`text-xl font-bold mt-2 mb-2 transition-colors ${
+                  <h3 className={`text-xl font-bold mt-2 mb-2 transition-colors line-clamp-1 ${
                     index === activeIndex ? 'text-[#27ae60]' : 'text-white'
                   }`}>{program.title}</h3>
-                  <p className="text-white/60 text-xs leading-relaxed">{program.description}</p>
+                  <p className="text-white/60 text-xs leading-relaxed line-clamp-3">{program.description}</p>
                 </div>
 
-                <div>
+                <div className="mt-auto">
                   <span className={`text-xs font-medium px-3 py-1 rounded-full ${
                     index === activeIndex ? 'text-[#27ae60] bg-[#27ae60]/10' : 'text-white/40 bg-white/5'
                   }`}>
@@ -210,8 +240,8 @@ export default function FeaturedPrograms() {
           <span className="text-2xl font-bold text-white/80">{currentProgramNo}</span>
         </div>
 
-        <Link href="#" className="inline-flex items-center gap-2 bg-gradient-to-r from-[#27ae60] to-[#117a8b] hover:from-[#1e8449] hover:to-[#0e6273] text-white font-semibold px-6 py-3 rounded-full transition-all duration-300 shadow-lg shadow-green-900/20 text-sm">
-          Lihat Semua Program <span>→</span>
+        <Link href="/dashboard/innovations" className="inline-flex items-center gap-2 bg-gradient-to-r from-[#27ae60] to-[#117a8b] hover:from-[#1e8449] hover:to-[#0e6273] text-white font-semibold px-6 py-3 rounded-full transition-all duration-300 shadow-lg shadow-green-900/20 text-sm">
+          Kelola Program Inovasi <span>→</span>
         </Link>
       </div>
     </section>
