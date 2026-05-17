@@ -44,12 +44,42 @@ export default function DashboardPage() {
 
   // GA4 Style Chart Configurations
   const mainChartOptions: any = {
-    chart: { type: 'area', toolbar: { show: false }, zoom: { enabled: false }, sparkline: { enabled: false } },
+    chart: { 
+      type: 'area', 
+      toolbar: { show: false }, 
+      zoom: { enabled: false }, 
+      sparkline: { enabled: false },
+      animations: {
+        enabled: true,
+        easing: 'easeinout',
+        speed: 800
+      }
+    },
     dataLabels: { enabled: false },
     stroke: { curve: 'smooth', width: 2, colors: ['#27ae60'] },
     fill: { type: 'gradient', gradient: { shadeIntensity: 1, opacityFrom: 0.45, opacityTo: 0.05, stops: [20, 100] } },
-    xaxis: { categories: stats.activeUsersTrend?.categories || [], axisBorder: { show: false }, axisTicks: { show: false } },
-    yaxis: { labels: { show: true } },
+    xaxis: { 
+      categories: stats.activeUsersTrend?.categories || [], 
+      axisBorder: { show: false }, 
+      axisTicks: { show: false },
+      labels: {
+        style: {
+          colors: '#64748b',
+          fontSize: '11px'
+        }
+      }
+    },
+    yaxis: { 
+      labels: { 
+        show: true,
+        style: {
+          colors: '#64748b',
+          fontSize: '11px'
+        }
+      },
+      min: 0,
+      forceNiceScale: true
+    },
     grid: { borderColor: '#f1f1f1', strokeDashArray: 4 },
     colors: ['#27ae60'],
     tooltip: { theme: 'light', x: { show: true } },
@@ -157,8 +187,8 @@ export default function DashboardPage() {
                 <span className="block text-[10px] text-green-500 font-bold">↑ 100% Real-time</span>
               </div>
             </div>
-            <div className="h-80">
-              <Chart options={mainChartOptions} series={mainChartSeries} type="area" height="100%" />
+            <div>
+              <Chart options={mainChartOptions} series={mainChartSeries} type="area" height={360} />
             </div>
           </div>
 
