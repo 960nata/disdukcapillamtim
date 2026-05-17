@@ -73,8 +73,8 @@ const NewsCarousel = ({ block }: { block: any }) => {
         style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
       >
         {content.map((img: string, i: number) => (
-          <div key={i} className={`snap-center shrink-0 w-[85%] ${desktopClass} aspect-square relative rounded-xl overflow-hidden shadow-sm`}>
-            <img src={img} alt="Carousel" className="w-full h-full object-cover" />
+          <div key={i} className={`snap-center shrink-0 w-[85%] ${desktopClass} relative rounded-xl overflow-hidden shadow-sm bg-gray-50 flex items-center justify-center min-h-[250px] md:min-h-[350px] max-h-[70vh]`}>
+            <img src={img} alt="Carousel" className="w-full h-auto max-h-[70vh] object-contain" />
           </div>
         ))}
       </div>
