@@ -57,49 +57,201 @@ export async function GET() {
       prisma.gallery.count(),
     ]);
 
-    // 3. Realtime active users (active in the last 10 minutes)
-    const tenMinutesAgo = new Date(Date.now() - 10 * 60 * 1000);
-    const realtimeLogs = await prisma.visitorLog.findMany({
+    // Try to load GA4 credentials from process.env OR the database settings table
+    const settings = await prisma.setting.findMany({
       where: {
-        createdAt: { gte: tenMinutesAgo }
-      },
-      select: {
-        pathname: true
+        key: {
+          in: ['ga4_property_id', 'google_client_email', 'google_private_key']
+        }
       }
     });
 
-    const realtimeCount = realtimeLogs.length;
+    const settingsMap = Object.fromEntries(settings.map(s => [s.key, s.value]));
 
-    // Aggregate active pages in real-time
-    const pageCounts: Record<string, number> = {};
-    realtimeLogs.forEach((log: any) => {
-      pageCounts[log.pathname] = (pageCounts[log.pathname] || 0) + 1;
-    });
+    const propertyId = process.env.GA4_PROPERTY_ID || settingsMap['ga4_property_id'] || '366950192';
+    const clientEmail = process.env.GOOGLE_CLIENT_EMAIL || settingsMap['google_client_email'];
+    const privateKey = process.env.GOOGLE_PRIVATE_KEY || settingsMap['google_private_key'];
 
-    // Sort and get top active pages
-    let realtimePages = Object.entries(pageCounts)
-      .map(([pathname, count]) => ({ pathname, count }))
-      .sort((a, b) => b.count - a.count)
-      .slice(0, 3);
+    let realtimeCount = 0;
+    let realtimePages: { pathname: string; count: number }[] = [];
+    let locationCategories: string[] = [];
+    let locationData: number[] = [];
+    let isUsingGA4 = false;
 
-    // If no active users, show fallback popular pages from database to keep layout gorgeous
-    if (realtimePages.length === 0) {
-      const topOverall = await prisma.visitorLog.groupBy({
-        by: ['pathname'],
-        _count: {
+    if (propertyId && clientEmail && privateKey) {
+      try {
+        const { BetaAnalyticsDataClient } = require('@google-analytics/data');
+        const analyticsDataClient = new BetaAnalyticsDataClient({
+          credentials: {
+            client_email: clientEmail,
+            private_key: privateKey.replace(/\\n/g, '\n'),
+          }
+        });
+
+        // 1. Run Realtime Report for Active Users, Pages, and Cities
+        const [realtimeReport] = await analyticsDataClient.runRealtimeReport({
+          property: `properties/${propertyId}`,
+          dimensions: [
+            { name: 'unifiedPageScreen' },
+            { name: 'city' }
+          ],
+          metrics: [
+            { name: 'activeUsers' }
+          ]
+        });
+
+        isUsingGA4 = true;
+
+        // Parse GA4 Realtime response
+        const pageCounts: Record<string, number> = {};
+        const cityCounts: Record<string, number> = {};
+        let totalActiveUsers = 0;
+
+        if (realtimeReport && realtimeReport.rows) {
+          realtimeReport.rows.forEach((row: any) => {
+            const pagePath = row.dimensionValues?.[0]?.value || '/';
+            const city = row.dimensionValues?.[1]?.value || 'Lainnya';
+            const activeUsers = parseInt(row.metricValues?.[0]?.value || '0', 10);
+
+            totalActiveUsers += activeUsers;
+
+            if (pagePath) {
+              pageCounts[pagePath] = (pageCounts[pagePath] || 0) + activeUsers;
+            }
+            if (city && city !== '(not set)') {
+              cityCounts[city] = (cityCounts[city] || 0) + activeUsers;
+            }
+          });
+        }
+
+        realtimeCount = totalActiveUsers;
+
+        realtimePages = Object.entries(pageCounts)
+          .map(([pathname, count]) => ({ pathname, count }))
+          .sort((a, b) => b.count - a.count)
+          .slice(0, 3);
+
+        // Geolocation coordinate mapper for popular global/regional cities
+        const GEODB_COORDINATES: Record<string, string> = {
+          'Sukadana': '-5.0506|105.5933',
+          'Pekalongan': '-5.1611|105.3703',
+          'Batanghari': '-5.1878|105.4192',
+          'Way Jepara': '-5.1481|105.7486',
+          'Labuhan Maringgai': '-5.3197|105.8089',
+          'Sekampung': '-5.2014|105.4853',
+          'Purbolinggo': '-4.9625|105.5414',
+          'Raman Utara': '-4.9222|105.5972',
+          'Metro': '-5.1128|105.3061',
+          'Bandar Lampung': '-5.3971|105.2663',
+          'Jakarta': '-6.2088|106.8456',
+          'Semarang': '-6.9932|110.4203',
+          'Bandung': '-6.9175|107.6191',
+          'Surabaya': '-7.2575|112.7521',
+          'Medan': '3.5952|98.6722',
+          'Palembang': '-2.9909|104.7566',
+          'Tangerang': '-6.1783|106.6319',
+          'Bekasi': '-6.2383|106.9756',
+          'Depok': '-6.4025|106.7942',
+          'Bogor': '-6.5971|106.8060',
+          'Yogyakarta': '-7.7956|110.3695',
+          'Solo': '-7.5754|110.8243',
+          'Surakarta': '-7.5754|110.8243',
+          'Malang': '-7.9666|112.6326',
+          'Semarang City': '-6.9932|110.4203',
+          'Jakarta City': '-6.2088|106.8456',
+          'Singapore': '1.3521|103.8198',
+          'Kuala Lumpur': '3.1390|101.6869',
+          'Tokyo': '35.6762|139.6503',
+          'Sydney': '-33.8688|151.2093',
+          'Melbourne': '-37.8136|144.9631',
+          'London': '51.5074|-0.1278',
+          'New York': '40.7128|-74.0060',
+          'Los Angeles': '34.0522|-118.2437',
+          'Paris': '48.8566|2.3522',
+        };
+
+        const sortedCities = Object.entries(cityCounts)
+          .sort((a, b) => b[1] - a[1])
+          .slice(0, 5);
+
+        locationCategories = sortedCities.map(([city]) => {
+          const coords = GEODB_COORDINATES[city] || '-5.0506|105.5933';
+          return `${city}|${coords}`;
+        });
+        locationData = sortedCities.map(([, count]) => count);
+
+      } catch (gaError) {
+        console.error('Failed to query GA4 Data API, falling back to local logs:', gaError);
+        isUsingGA4 = false;
+      }
+    }
+
+    if (!isUsingGA4) {
+      // 3. Realtime active users (active in the last 10 minutes)
+      const tenMinutesAgo = new Date(Date.now() - 10 * 60 * 1000);
+      const realtimeLogs = await prisma.visitorLog.findMany({
+        where: {
+          createdAt: { gte: tenMinutesAgo }
+        },
+        select: {
           pathname: true
+        }
+      });
+
+      realtimeCount = realtimeLogs.length;
+
+      // Aggregate active pages in real-time
+      const pageCounts: Record<string, number> = {};
+      realtimeLogs.forEach((log: any) => {
+        pageCounts[log.pathname] = (pageCounts[log.pathname] || 0) + 1;
+      });
+
+      // Sort and get top active pages
+      realtimePages = Object.entries(pageCounts)
+        .map(([pathname, count]) => ({ pathname, count }))
+        .sort((a, b) => b.count - a.count)
+        .slice(0, 3);
+
+      // If no active users, show fallback popular pages from database to keep layout gorgeous
+      if (realtimePages.length === 0) {
+        const topOverall = await prisma.visitorLog.groupBy({
+          by: ['pathname'],
+          _count: {
+            pathname: true
+          },
+          orderBy: {
+            _count: {
+              pathname: 'desc'
+            }
+          },
+          take: 3
+        });
+        realtimePages = topOverall.map((g: any) => ({
+          pathname: g.pathname,
+          count: g._count.pathname
+        }));
+      }
+
+      // 7. Real-time Locations (Active in the last 30 minutes to match GA4)
+      const thirtyMinutesAgo = new Date(Date.now() - 30 * 60 * 1000);
+      const locationGroups = await prisma.visitorLog.groupBy({
+        where: {
+          createdAt: { gte: thirtyMinutesAgo }
+        },
+        by: ['city'],
+        _count: {
+          city: true
         },
         orderBy: {
           _count: {
-            pathname: 'desc'
+            city: 'desc'
           }
         },
-        take: 3
+        take: 5
       });
-      realtimePages = topOverall.map((g: any) => ({
-        pathname: g.pathname,
-        count: g._count.pathname
-      }));
+
+      locationCategories = locationGroups.map((g: any) => g.city);
+      locationData = locationGroups.map((g: any) => g._count.city);
     }
 
     // 4. Daily visitors trend for the last 7 days
@@ -162,27 +314,6 @@ export async function GET() {
       sourceMap.Social || 15,
       sourceMap.Referral || 10
     ];
-
-    // 7. Real-time Locations (Active in the last 30 minutes to match GA4)
-    const thirtyMinutesAgo = new Date(Date.now() - 30 * 60 * 1000);
-    const locationGroups = await prisma.visitorLog.groupBy({
-      where: {
-        createdAt: { gte: thirtyMinutesAgo }
-      },
-      by: ['city'],
-      _count: {
-        city: true
-      },
-      orderBy: {
-        _count: {
-          city: 'desc'
-        }
-      },
-      take: 5
-    });
-
-    const locationCategories = locationGroups.map((g: any) => g.city);
-    const locationData = locationGroups.map((g: any) => g._count.city);
 
     return NextResponse.json({
       totalNews,
