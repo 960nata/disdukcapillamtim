@@ -220,7 +220,19 @@ export default function SettingsPage() {
                   onChange={handleChange}
                   className="w-full px-5 py-4 bg-gray-50 border border-gray-100 rounded-2xl focus:outline-none focus:border-[#27ae60] focus:bg-white transition-all font-medium h-24 resize-none"
                 />
-                <p className="text-[10px] text-gray-400 italic mt-1 ml-1">Alamat ini akan otomatis digunakan untuk menampilkan lokasi peta (Google Maps) di website.</p>
+              </div>
+
+              <div className="space-y-1.5">
+                <label className="text-[11px] font-black uppercase tracking-widest text-gray-400 ml-1">Kata Kunci / Plus Code Peta</label>
+                <input 
+                  type="text" 
+                  name="mapsUrl"
+                  value={settings.mapsUrl}
+                  onChange={handleChange}
+                  placeholder="Contoh: XG3F+372, Sukadana Ilir"
+                  className="w-full px-5 py-4 bg-gray-50 border border-gray-100 rounded-2xl focus:outline-none focus:border-[#27ae60] focus:bg-white transition-all font-bold text-blue-600"
+                />
+                <p className="text-[10px] text-gray-400 italic mt-1 ml-1">Masukkan Plus Code dari Google Maps atau nama spesifik agar titik peta akurat.</p>
               </div>
             </div>
           </div>

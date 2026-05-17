@@ -28,7 +28,8 @@ export default function Footer() {
   const email = settings?.email || 'disdukcapillamtim45@gmail.com';
   const phone = settings?.phone || '+62 811-7961-110';
   const address = settings?.address || 'Jl. Buay Subing No. 7, Desa Sukadana Ilir, Kecamatan Sukadana, Lampung Timur';
-  const mapsUrl = `https://maps.google.com/maps?q=${encodeURIComponent(address)}&t=&z=13&ie=UTF8&iwloc=&output=embed`;
+  const mapsSearchQuery = settings?.mapsUrl || settings?.address || 'Jl. Buay Subing No. 7, Desa Sukadana Ilir, Kecamatan Sukadana, Lampung Timur';
+  const mapsEmbedUrl = `https://maps.google.com/maps?q=${encodeURIComponent(mapsSearchQuery)}&t=&z=13&ie=UTF8&iwloc=&output=embed`;
 
   return (
     <footer className="bg-[#050a05] text-white">
@@ -91,7 +92,7 @@ export default function Footer() {
             <h3 className="text-lg font-bold mb-4">Lokasi Kantor</h3>
             <div className="rounded-2xl overflow-hidden h-[150px] border border-white/10 shadow-2xl">
               <iframe 
-                src={mapsUrl}
+                src={mapsEmbedUrl}
                 width="100%" 
                 height="100%" 
                 style={{ border: 0 }} 
