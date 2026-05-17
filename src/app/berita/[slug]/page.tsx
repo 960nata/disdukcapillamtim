@@ -13,6 +13,25 @@ const NewsCarousel = ({ block }: { block: any }) => {
   const [activeIndex, setActiveIndex] = React.useState(0);
   const scrollRef = React.useRef<HTMLDivElement>(null);
   const content = Array.isArray(block.content) ? block.content : [];
+  
+  // Clone the entire array 3 times to create an illusion of infinite scrolling for all layouts
+  const extendedContent = content.length > 1 ? [...content, ...content, ...content] : content;
+
+  React.useEffect(() => {
+    if (content.length <= 1) return;
+    
+    // Initial centering to the middle array clone so user can swipe left or right infinitely
+    if (scrollRef.current && activeIndex === 0) {
+      const width = scrollRef.current.children[0]?.clientWidth || scrollRef.current.clientWidth;
+      const gap = 16;
+      const totalItemWidth = width + gap;
+      scrollRef.current.scrollTo({
+        left: content.length * totalItemWidth, // start at the beginning of the second (middle) clone
+        behavior: 'auto'
+      });
+      setActiveIndex(content.length);
+    }
+  }, [content.length]);
 
   // Auto-slide functionality
   React.useEffect(() => {
@@ -20,19 +39,17 @@ const NewsCarousel = ({ block }: { block: any }) => {
     const interval = setInterval(() => {
       if (scrollRef.current) {
         const width = scrollRef.current.children[0]?.clientWidth || scrollRef.current.clientWidth;
-        // Adding gap to width calculation: child width + gap (1rem = 16px)
         const gap = 16; 
         const totalItemWidth = width + gap;
         
         let nextIndex = activeIndex + 1;
-        if (nextIndex >= content.length) nextIndex = 0;
         
         scrollRef.current.scrollTo({
           left: nextIndex * totalItemWidth,
           behavior: 'smooth'
         });
       }
-    }, 4000); // 4 seconds per slide
+    }, 4000); 
     return () => clearInterval(interval);
   }, [activeIndex, content.length]);
 
@@ -42,8 +59,34 @@ const NewsCarousel = ({ block }: { block: any }) => {
       const width = scrollRef.current.children[0]?.clientWidth || scrollRef.current.clientWidth;
       const gap = 16;
       const totalItemWidth = width + gap;
+      
       const index = Math.round(scrollLeft / totalItemWidth);
       setActiveIndex(index);
+
+      // Seamless jump logic: If we scroll too far right into the 3rd clone
+      if (index >= content.length * 2) {
+        setTimeout(() => {
+          if (scrollRef.current) {
+            scrollRef.current.scrollTo({
+              left: (index - content.length) * totalItemWidth,
+              behavior: 'auto'
+            });
+            setActiveIndex(index - content.length);
+          }
+        }, 150); // wait for snap to settle
+      }
+      // Seamless jump logic: If we scroll too far left into the 1st clone
+      else if (index < content.length && scrollLeft === 0) { // Check scrollLeft === 0 for safety on far left
+        setTimeout(() => {
+          if (scrollRef.current) {
+            scrollRef.current.scrollTo({
+              left: content.length * totalItemWidth,
+              behavior: 'auto'
+            });
+            setActiveIndex(content.length);
+          }
+        }, 150);
+      }
     }
   };
 
@@ -52,10 +95,13 @@ const NewsCarousel = ({ block }: { block: any }) => {
       const width = scrollRef.current.children[0]?.clientWidth || scrollRef.current.clientWidth;
       const gap = 16;
       const totalItemWidth = width + gap;
+      // Scroll to the item in the middle clone
+      const targetIndex = index + content.length;
       scrollRef.current.scrollTo({
-        left: index * totalItemWidth,
+        left: targetIndex * totalItemWidth,
         behavior: 'smooth'
       });
+      setActiveIndex(targetIndex);
     }
   };
 
@@ -72,21 +118,24 @@ const NewsCarousel = ({ block }: { block: any }) => {
         className="flex gap-4 overflow-x-auto snap-x snap-mandatory scrollbar-hide pb-2"
         style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
       >
-        {content.map((img: string, i: number) => (
+        {extendedContent.map((img: string, i: number) => (
           <div key={i} className={`snap-center shrink-0 w-[85%] ${desktopClass} relative rounded-xl overflow-hidden shadow-sm bg-gray-50 flex items-center justify-center min-h-[250px] md:min-h-[350px] max-h-[70vh]`}>
             <img src={img} alt="Carousel" className="w-full h-auto max-h-[70vh] object-contain" />
           </div>
         ))}
       </div>
       <div className="flex justify-center gap-1.5 mt-3">
-        {content.map((_: any, i: number) => (
-          <button 
-            key={i} 
-            onClick={() => scrollToSlide(i)}
-            className={`h-1.5 rounded-full transition-all duration-300 ${i === activeIndex ? 'w-6 bg-[#27ae60]' : 'w-1.5 bg-gray-300 hover:bg-gray-400'}`} 
-            aria-label={`Go to slide ${i + 1}`}
-          />
-        ))}
+        {content.map((_: any, i: number) => {
+          const isActive = (activeIndex % content.length) === i;
+          return (
+            <button 
+              key={i} 
+              onClick={() => scrollToSlide(i)}
+              className={`h-1.5 rounded-full transition-all duration-300 ${isActive ? 'w-6 bg-[#27ae60]' : 'w-1.5 bg-gray-300 hover:bg-gray-400'}`} 
+              aria-label={`Go to slide ${i + 1}`}
+            />
+          );
+        })}
       </div>
     </div>
   );
