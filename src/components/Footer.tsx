@@ -28,7 +28,7 @@ export default function Footer() {
   const email = settings?.email || 'disdukcapillamtim45@gmail.com';
   const phone = settings?.phone || '+62 811-7961-110';
   const address = settings?.address || 'Jl. Buay Subing No. 7, Desa Sukadana Ilir, Kecamatan Sukadana, Lampung Timur';
-  const mapsUrl = settings?.mapsUrl || "https://maps.google.com/maps?q=Disdukcapil%20Lampung%20Timur&t=&z=13&ie=UTF8&iwloc=&output=embed";
+  const mapsUrl = `https://maps.google.com/maps?q=${encodeURIComponent(address)}&t=&z=13&ie=UTF8&iwloc=&output=embed`;
 
   return (
     <footer className="bg-[#050a05] text-white">
