@@ -35,12 +35,12 @@ export default function DashboardPage() {
   const mainChartOptions: any = {
     chart: { type: 'area', toolbar: { show: false }, zoom: { enabled: false }, sparkline: { enabled: false } },
     dataLabels: { enabled: false },
-    stroke: { curve: 'smooth', width: 2, colors: ['#2563eb'] },
+    stroke: { curve: 'smooth', width: 2, colors: ['#27ae60'] },
     fill: { type: 'gradient', gradient: { shadeIntensity: 1, opacityFrom: 0.45, opacityTo: 0.05, stops: [20, 100] } },
     xaxis: { categories: ['1 Mei', '5 Mei', '10 Mei', '15 Mei', '20 Mei', '25 Mei', '30 Mei'], axisBorder: { show: false }, axisTicks: { show: false } },
     yaxis: { labels: { show: true } },
     grid: { borderColor: '#f1f1f1', strokeDashArray: 4 },
-    colors: ['#2563eb'],
+    colors: ['#27ae60'],
     tooltip: { theme: 'light', x: { show: true } },
   };
   const mainChartSeries = [{ name: 'Pengguna Aktif', data: [3200, 4100, 3800, 5100, 4900, 6200, 5800] }];
@@ -48,7 +48,7 @@ export default function DashboardPage() {
   const deviceChartOptions: any = {
     chart: { type: 'donut' },
     labels: ['Mobile', 'Desktop', 'Tablet'],
-    colors: ['#3b82f6', '#10b981', '#f59e0b'],
+    colors: ['#27ae60', '#2ecc71', '#f59e0b'],
     legend: { position: 'bottom' },
     plotOptions: { pie: { donut: { size: '75%', labels: { show: true, name: { show: true }, value: { show: true, fontWeight: 'bold' }, total: { show: true, label: 'Total' } } } } },
     dataLabels: { enabled: false },
@@ -59,7 +59,7 @@ export default function DashboardPage() {
     chart: { type: 'bar', toolbar: { show: false } },
     plotOptions: { bar: { borderRadius: 4, horizontal: true } },
     dataLabels: { enabled: false },
-    colors: ['#6366f1'],
+    colors: ['#2ecc71'],
     xaxis: { categories: ['Google', 'Direct', 'Social', 'Referral'] },
   };
   const sourceChartSeries = [{ name: 'Sesi', data: [4500, 2800, 1200, 600] }];
@@ -68,25 +68,25 @@ export default function DashboardPage() {
     chart: { type: 'bar', toolbar: { show: false } },
     plotOptions: { bar: { borderRadius: 4, columnWidth: '50%' } },
     dataLabels: { enabled: false },
-    colors: ['#10b981'],
+    colors: ['#27ae60'],
     xaxis: { categories: ['Sukadana', 'Metro', 'Bdr Lampung', 'Pekalongan', 'Lainnya'] },
   };
   const citySeries = [{ name: 'Pengguna', data: [8500, 2100, 1500, 800, 1600] }];
 
   return (
-    <div className="p-0 md:p-8 space-y-0 md:space-y-6 font-sans bg-[#f3f4f6] min-h-screen">
+    <div className="p-0 md:p-8 space-y-0 md:space-y-6 font-sans bg-[#f8fafc] min-h-screen">
       
       {/* Header */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-white p-[14px] md:p-6 md:rounded-2xl shadow-sm border-b md:border border-gray-100">
         <div>
           <h1 className="text-2xl font-bold text-gray-900 flex items-center gap-2">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#2563eb" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#27ae60" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/></svg>
             Laporan Analitik
           </h1>
           <p className="text-sm text-gray-500 mt-1">Data dari 30 hari terakhir (Mocks berdasarkan integrasi API Analytics)</p>
         </div>
         <div className="flex gap-3">
-          <div className="bg-blue-50 text-blue-600 px-4 py-2 rounded-xl text-sm font-bold border border-blue-100">
+          <div className="bg-[#27ae60]/10 text-[#27ae60] px-4 py-2 rounded-xl text-sm font-bold border border-[#27ae60]/20">
             Disdukcapil App
           </div>
           <div className="bg-gray-50 text-gray-600 px-4 py-2 rounded-xl text-sm font-medium border border-gray-200">
@@ -100,7 +100,7 @@ export default function DashboardPage() {
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           {[
             { label: 'Total Berita', val: stats.totalNews, bg: 'bg-emerald-50', text: 'text-emerald-700' },
-            { label: 'Total User', val: stats.totalUsers, bg: 'bg-blue-50', text: 'text-blue-700' },
+            { label: 'Total User', val: stats.totalUsers, bg: 'bg-emerald-50', text: 'text-emerald-700' },
             { label: 'Total Inovasi', val: stats.totalInnovations, bg: 'bg-amber-50', text: 'text-amber-700' },
             { label: 'Total Galeri', val: stats.totalGallery, bg: 'bg-purple-50', text: 'text-purple-700' },
           ].map((s, i) => (
@@ -133,7 +133,7 @@ export default function DashboardPage() {
 
           {/* Realtime Stats / Right Panel */}
           <div className="space-y-6">
-            <div className="bg-blue-600 p-6 rounded-2xl shadow-lg shadow-blue-100 text-white relative overflow-hidden">
+            <div className="bg-gradient-to-br from-[#27ae60] to-[#2ecc71] p-6 rounded-2xl shadow-lg shadow-green-100 text-white relative overflow-hidden">
               <div className="relative z-10">
                 <h3 className="text-sm font-bold opacity-80 mb-4">Pengguna Real-time</h3>
                 <div className="text-4xl font-black mb-1">124</div>
