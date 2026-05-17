@@ -72,7 +72,7 @@ export async function GET() {
 
     // Aggregate active pages in real-time
     const pageCounts: Record<string, number> = {};
-    realtimeLogs.forEach(log => {
+    realtimeLogs.forEach((log: any) => {
       pageCounts[log.pathname] = (pageCounts[log.pathname] || 0) + 1;
     });
 
@@ -96,7 +96,7 @@ export async function GET() {
         },
         take: 3
       });
-      realtimePages = topOverall.map(g => ({
+      realtimePages = topOverall.map((g: any) => ({
         pathname: g.pathname,
         count: g._count.pathname
       }));
@@ -177,8 +177,8 @@ export async function GET() {
       take: 5
     });
 
-    const locationCategories = locationGroups.map(g => g.city);
-    const locationData = locationGroups.map(g => g._count.city);
+    const locationCategories = locationGroups.map((g: any) => g.city);
+    const locationData = locationGroups.map((g: any) => g._count.city);
 
     // Fallback if empty
     if (locationCategories.length === 0) {
