@@ -105,24 +105,31 @@ export default function Footer() {
         </div>
 
         {/* Divider */}
-        <div className="border-t border-white/5 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center gap-6 text-xs font-bold text-gray-500 uppercase tracking-widest">
-          <div className="flex flex-col md:flex-row items-center gap-4 md:gap-8 text-center md:text-left">
-            <div>{footerText}</div>
-            <div className="hidden md:block w-px h-3 bg-white/10"></div>
-            <a 
-              href="https://hadinata.dev" 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="hover:text-white transition-colors flex items-center gap-2 group"
-            >
+        <div className="mt-16 pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-6 text-sm">
+          
+          <div className="flex flex-col md:flex-row items-center gap-2 md:gap-6 text-gray-400 font-medium">
+            <p className="text-center md:text-left">{footerText}</p>
+            <div className="hidden md:block w-1.5 h-1.5 rounded-full bg-white/20"></div>
+            <div className="flex items-center gap-2">
               <span>Powered by</span>
-              <span className="text-gray-300 group-hover:text-[#27ae60] transition-colors">Hadinata Dev</span>
-            </a>
+              <a 
+                href="https://hadinata.dev" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="relative inline-flex items-center justify-center px-3 py-1 text-xs font-bold text-white bg-white/5 border border-white/10 rounded-full hover:bg-white/10 hover:border-[#27ae60]/50 transition-all group overflow-hidden"
+              >
+                <span className="absolute inset-0 bg-gradient-to-r from-[#27ae60]/0 via-[#27ae60]/10 to-[#27ae60]/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700"></span>
+                <span className="relative z-10 bg-gradient-to-r from-gray-200 to-white group-hover:from-[#27ae60] group-hover:to-[#2ecc71] bg-clip-text text-transparent transition-all">Hadinata Dev</span>
+              </a>
+            </div>
           </div>
-          <div className="flex gap-6">
-            <Link href="/privacy" className="hover:text-white transition-colors">Kebijakan Privasi</Link>
-            <Link href="/terms" className="hover:text-white transition-colors">Syarat & Ketentuan</Link>
+
+          <div className="flex items-center gap-4 text-gray-500 font-medium text-xs md:text-sm">
+            <Link href="/privacy" className="hover:text-white transition-colors hover:underline underline-offset-4 decoration-white/30">Kebijakan Privasi</Link>
+            <div className="w-1 h-1 rounded-full bg-white/20"></div>
+            <Link href="/terms" className="hover:text-white transition-colors hover:underline underline-offset-4 decoration-white/30">Syarat & Ketentuan</Link>
           </div>
+
         </div>
 
       </div>
