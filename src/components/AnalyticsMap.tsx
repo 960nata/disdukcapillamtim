@@ -1,6 +1,8 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useEffect, useRef } from 'react';
+import L from 'leaflet';
+import 'leaflet/dist/leaflet.css';
 
 interface AnalyticsMapProps {
   locations: {
@@ -9,131 +11,118 @@ interface AnalyticsMapProps {
   };
 }
 
-// Coordinates map for Lampung Timur districts and main visitor cities mapped to a 2D viewport (0-100)
-const COORDINATES_MAP: Record<string, { x: number; y: number; label: string }> = {
-  'Sukadana': { x: 50, y: 48, label: 'Kec. Sukadana (Pusat Pemerintahan)' },
-  'Pekalongan': { x: 28, y: 35, label: 'Kec. Pekalongan' },
-  'Batanghari': { x: 22, y: 55, label: 'Kec. Batanghari' },
-  'Way Jepara': { x: 74, y: 58, label: 'Kec. Way Jepara' },
-  'Labuhan Maringgai': { x: 82, y: 78, label: 'Kec. Labuhan Maringgai' },
-  'Sekampung': { x: 38, y: 65, label: 'Kec. Sekampung' },
-  'Purbolinggo': { x: 45, y: 30, label: 'Kec. Purbolinggo' },
-  'Raman Utara': { x: 62, y: 28, label: 'Kec. Raman Utara' },
-  'Metro': { x: 15, y: 45, label: 'Kota Metro (Perbatasan)' },
-  'Bandar Lampung': { x: 10, y: 80, label: 'Kota Bandar Lampung (Perbatasan)' },
-  'Lainnya': { x: 58, y: 80, label: 'Lainnya (Kecamatan Lain)' }
+const DISTRICT_COORDINATES: Record<string, [number, number]> = {
+  'Sukadana': [-5.0506, 105.5933],
+  'Pekalongan': [-5.1611, 105.3703],
+  'Batanghari': [-5.1878, 105.4192],
+  'Way Jepara': [-5.1481, 105.7486],
+  'Labuhan Maringgai': [-5.3197, 105.8089],
+  'Sekampung': [-5.2014, 105.4853],
+  'Purbolinggo': [-4.9625, 105.5414],
+  'Raman Utara': [-4.9222, 105.5972],
+  'Metro': [-5.1128, 105.3061],
+  'Bandar Lampung': [-5.3971, 105.2663],
+  'Lainnya': [-5.0506, 105.5933]
 };
 
 export default function AnalyticsMap({ locations }: AnalyticsMapProps) {
-  const [hoveredLocation, setHoveredLocation] = useState<string | null>(null);
+  const mapContainerRef = useRef<HTMLDivElement>(null);
+  const mapRef = useRef<L.Map | null>(null);
+  const markersLayerRef = useRef<L.LayerGroup | null>(null);
 
-  const maxVal = locations.data.length > 0 ? Math.max(...locations.data) : 1;
+  useEffect(() => {
+    if (!mapContainerRef.current || typeof window === 'undefined') return;
 
-  return (
-    <div className="relative w-full h-full bg-slate-950 flex flex-col justify-between overflow-hidden font-sans">
-      
-      {/* Sci-fi Grid Overlay */}
-      <div className="absolute inset-0 opacity-15 pointer-events-none" 
-           style={{ 
-             backgroundImage: 'radial-gradient(circle, #27ae60 1px, transparent 1px), linear-gradient(to right, rgba(39, 174, 96, 0.1) 1px, transparent 1px), linear-gradient(to bottom, rgba(39, 174, 96, 0.1) 1px, transparent 1px)',
-             backgroundSize: '24px 24px, 48px 48px, 48px 48px',
-             backgroundPosition: 'center center'
-           }} 
-      />
+    // Initialize map if it doesn't exist
+    if (!mapRef.current) {
+      mapRef.current = L.map(mapContainerRef.current, {
+        center: [-5.06, 105.59], // Center of Lampung Timur
+        zoom: 9.5,
+        zoomControl: true,
+        scrollWheelZoom: true,
+        attributionControl: true
+      });
 
-      {/* Abstract Lampung Timur SVG Map Background */}
-      <div className="absolute inset-0 flex items-center justify-center pointer-events-none opacity-20">
-        <svg viewBox="0 0 100 100" className="w-[85%] h-[85%] text-emerald-500 fill-current">
-          <path d="M 25 20 
-                   Q 35 15, 45 18 
-                   T 65 15 
-                   Q 75 25, 85 30 
-                   T 90 55 
-                   Q 85 75, 75 85 
-                   T 55 90 
-                   Q 40 85, 30 80 
-                   T 15 65 
-                   Q 10 50, 12 35 
-                   Z" 
-                stroke="#27ae60" 
-                strokeWidth="0.5" 
-                strokeDasharray="2,2"
-                fill="rgba(39, 174, 96, 0.05)"
-          />
-        </svg>
-      </div>
+      // Add modern, sleek OpenStreetMap tiles
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> contributors | Disdukcapil Lamtim'
+      }).addTo(mapRef.current);
 
-      {/* Map Labels / Legend */}
-      <div className="absolute top-4 left-4 z-10">
-        <div className="text-[10px] uppercase font-bold tracking-widest text-[#27ae60] opacity-80">Geografis Pengunjung</div>
-        <div className="text-xs text-slate-400 mt-1">Kabupaten Lampung Timur</div>
-      </div>
+      markersLayerRef.current = L.layerGroup().addTo(mapRef.current);
+    }
 
-      {/* Interactive Pulsing Map Markers */}
-      <div className="absolute inset-0">
-        {locations.categories.map((name, index) => {
-          const count = locations.data[index];
-          const coords = COORDINATES_MAP[name] || COORDINATES_MAP['Lainnya'];
-          
-          // Size proportional to traffic
-          const baseSize = 8;
-          const extraSize = (count / maxVal) * 16;
-          const totalSize = baseSize + extraSize;
+    const map = mapRef.current;
+    const markersLayer = markersLayerRef.current;
 
-          return (
-            <div
-              key={index}
-              className="absolute transform -translate-x-1/2 -translate-y-1/2 cursor-pointer transition-all duration-300 z-20 group"
-              style={{ left: `${coords.x}%`, top: `${coords.y}%` }}
-              onMouseEnter={() => setHoveredLocation(name)}
-              onMouseLeave={() => setHoveredLocation(null)}
-            >
-              {/* Outer Radar Pulse */}
-              <div 
-                className="absolute inset-0 rounded-full bg-emerald-500/30 animate-ping"
-                style={{ 
-                  width: `${totalSize * 2.5}px`, 
-                  height: `${totalSize * 2.5}px`,
-                  marginLeft: `-${totalSize * 0.75}px`,
-                  marginTop: `-${totalSize * 0.75}px`,
-                  animationDuration: '2.5s'
-                }} 
-              />
-              
-              {/* Inner Pulsing Circle */}
-              <div 
-                className="rounded-full bg-emerald-400 shadow-[0_0_15px_rgba(52,211,153,0.8)] border border-white/20 transition-all duration-300 group-hover:scale-125"
-                style={{ width: `${totalSize}px`, height: `${totalSize}px` }}
-              />
+    if (markersLayer) {
+      // Clear previous markers
+      markersLayer.clearLayers();
 
-              {/* Minimal Tooltip for Hover */}
-              <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 bg-slate-900 border border-emerald-500/30 text-white rounded-lg px-2.5 py-1 text-[10px] font-bold shadow-xl whitespace-nowrap opacity-0 pointer-events-none group-hover:opacity-100 transition-opacity duration-200 z-30">
-                <span className="text-[#27ae60]">{name}</span>: {count} Pengguna
+      const maxVal = locations.data.length > 0 ? Math.max(...locations.data) : 1;
+
+      // Populate new markers
+      locations.categories.forEach((name, index) => {
+        const count = locations.data[index];
+        const coords = DISTRICT_COORDINATES[name] || DISTRICT_COORDINATES['Lainnya'];
+        
+        // Dynamic size based on volume
+        const size = Math.max(10, 10 + (count / maxVal) * 16);
+
+        // Define a stunning pulsing custom marker using Leaflet divIcon and Tailwind CSS
+        const customIcon = L.divIcon({
+          html: `
+            <div class="relative flex items-center justify-center" style="width: ${size * 2}px; height: ${size * 2}px;">
+              <span class="absolute inline-flex h-full w-full rounded-full bg-emerald-500 opacity-60 animate-ping"></span>
+              <span class="relative inline-flex rounded-full bg-emerald-600 border-2 border-white shadow-lg shadow-emerald-500/50" style="width: ${size}px; height: ${size}px;"></span>
+            </div>
+          `,
+          className: 'bg-transparent border-none',
+          iconSize: [size * 2, size * 2],
+          iconAnchor: [size, size]
+        });
+
+        // Add Marker to map
+        L.marker(coords, { icon: customIcon })
+          .addTo(markersLayer)
+          .bindPopup(`
+            <div class="font-sans p-1 text-slate-800">
+              <strong class="text-[#27ae60] text-sm">${name}</strong>
+              <div class="text-xs mt-1 text-slate-600">
+                Active visitors: <strong class="text-slate-900">${count}</strong>
               </div>
             </div>
-          );
-        })}
-      </div>
+          `, { closeButton: false });
+      });
+    }
 
-      {/* Bottom Status Pane */}
-      <div className="relative z-10 w-full bg-slate-900/80 backdrop-blur-md border-t border-slate-800 p-4 flex items-center justify-between">
-        <div className="flex items-center gap-3">
-          <div className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse shadow-[0_0_8px_#10b981]" />
-          <span className="text-[11px] text-slate-300 font-medium tracking-wide">
-            {hoveredLocation ? (
-              <>
-                Fokus: <strong className="text-emerald-400">{hoveredLocation}</strong> ({COORDINATES_MAP[hoveredLocation]?.label})
-              </>
-            ) : (
-              'Memantau aktivitas pengunjung di Lampung Timur secara Real-time'
-            )}
-          </span>
-        </div>
-        <div className="text-[10px] text-slate-500 font-mono">
-          REF: IP-GEO-API
-        </div>
-      </div>
+    // Adjust size on window resize
+    const handleResize = () => {
+      if (mapRef.current) {
+        mapRef.current.invalidateSize();
+      }
+    };
+    window.addEventListener('resize', handleResize);
 
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, [locations]);
+
+  // Clean up on component unmount
+  useEffect(() => {
+    return () => {
+      if (mapRef.current) {
+        mapRef.current.remove();
+        mapRef.current = null;
+      }
+    };
+  }, []);
+
+  return (
+    <div className="relative w-full h-full">
+      <div ref={mapContainerRef} className="w-full h-full z-10" />
+      {/* Sci-fi Overlay Border */}
+      <div className="absolute inset-0 border border-emerald-500/10 pointer-events-none z-20 rounded-2xl" />
     </div>
   );
 }

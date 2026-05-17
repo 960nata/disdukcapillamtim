@@ -3,10 +3,10 @@
 import * as React from 'react';
 import { useState, useEffect } from 'react';
 import dynamic from 'next/dynamic';
-import AnalyticsMap from '@/components/AnalyticsMap';
 
-// Dynamic import for ApexCharts to avoid SSR issues
+// Dynamic imports to avoid SSR issues
 const Chart = dynamic(() => import('react-apexcharts'), { ssr: false });
+const AnalyticsMap = dynamic(() => import('@/components/AnalyticsMap'), { ssr: false });
 
 export default function DashboardPage() {
   const [stats, setStats] = useState({
