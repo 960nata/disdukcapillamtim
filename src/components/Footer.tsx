@@ -26,7 +26,7 @@ export default function Footer() {
   const footerText = settings?.footerText || `© ${new Date().getFullYear()} Disdukcapil Lampung Timur. All rights reserved.`;
   const siteName = settings?.siteName || 'DISDUKCAPIL';
   const email = settings?.email || 'disdukcapillamtim45@gmail.com';
-  const phone = settings?.phone || '+62 811-7961-110';
+  const phone = settings?.phone || '+62 812-7238-8818';
   const address = settings?.address || 'Jl. Buay Subing No. 7, Desa Sukadana Ilir, Kecamatan Sukadana, Lampung Timur';
   const mapsSearchQuery = settings?.mapsUrl || settings?.address || 'Jl. Buay Subing No. 7, Desa Sukadana Ilir, Kecamatan Sukadana, Lampung Timur';
   const mapsEmbedUrl = `https://maps.google.com/maps?q=${encodeURIComponent(mapsSearchQuery)}&t=&z=13&ie=UTF8&iwloc=&output=embed`;

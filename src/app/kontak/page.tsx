@@ -23,9 +23,9 @@ export default function KontakPage() {
     fetchSettings();
   }, []);
 
-  const whatsapp = settings?.whatsapp || '628117961110';
-  const instagram = settings?.instagram || 'https://instagram.com/disdukcapillamtim';
-  const tiktok = settings?.tiktok || 'https://tiktok.com/@disdukcapillamtim';
+  const whatsapp = settings?.whatsapp || '+62 812-7238-8818';
+  const instagram = settings?.instagram || 'https://www.instagram.com/disdukcapillamtim/';
+  const tiktok = settings?.tiktok || 'https://www.tiktok.com/@dukcapillamtim';
   const email = settings?.email || 'disdukcapillamtim45@gmail.com';
   const address = settings?.address || 'Jl. Buay Subing No. 7, Desa Sukadana Ilir, Kecamatan Sukadana, Lampung Timur';
   const workingHours = settings?.workingHours || 'Senin - Kamis: 08:00 - 15:30, Jumat: 08:00 - 15:00';
