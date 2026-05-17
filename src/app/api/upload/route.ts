@@ -37,23 +37,15 @@ export async function POST(request: Request) {
     }
 
     const uniqueName = `${Date.now()}-${Math.random().toString(36).substring(2, 9)}`;
-    let finalUrl = '';
-
-    if (extension === 'webp') {
-      // Save directly for webp
-      const finalPath = join(uploadDir, `${uniqueName}.webp`);
-      await writeFile(finalPath, buffer);
-      finalUrl = `/api/uploads?file=${uniqueName}.webp`;
-      console.log('Upload API - Saved webp to:', finalPath);
-    } else {
-      // Compress to AVIF for others using sharp
-      const finalPath = join(uploadDir, `${uniqueName}.avif`);
-      await sharp(buffer)
-        .avif({ quality: 80 })
-        .toFile(finalPath);
-      finalUrl = `/api/uploads?file=${uniqueName}.avif`;
-      console.log('Upload API - Saved avif to:', finalPath);
-    }
+    
+    // Compress all uploaded images to AVIF using sharp for absolute maximum compression and quality
+    const finalPath = join(uploadDir, `${uniqueName}.avif`);
+    await sharp(buffer)
+      .avif({ quality: 80 })
+      .toFile(finalPath);
+      
+    const finalUrl = `/api/uploads?file=${uniqueName}.avif`;
+    console.log('Upload API - Saved avif to:', finalPath);
 
     console.log('Upload API - Returning URL:', finalUrl);
     return NextResponse.json({ url: finalUrl });
