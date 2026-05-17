@@ -2,6 +2,7 @@
 
 import * as React from 'react';
 import { useState, useEffect } from 'react';
+import MediaLibraryModal from '@/components/MediaLibraryModal';
 
 type Speech = {
   id: number;
@@ -15,6 +16,7 @@ export default function SpeechesPage() {
   const [speeches, setSpeeches] = useState<Speech[]>([]);
   const [loading, setLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isMediaOpen, setIsMediaOpen] = useState(false);
   const [editingSpeech, setEditingSpeech] = useState<Speech | null>(null);
   const [formData, setFormData] = useState({
     name: '',
@@ -22,7 +24,6 @@ export default function SpeechesPage() {
     quote: '',
     image: '',
   });
-  const [uploading, setUploading] = useState(false);
 
   useEffect(() => {
     fetchSpeeches();
@@ -49,29 +50,6 @@ export default function SpeechesPage() {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-
-    setUploading(true);
-    const fd = new FormData();
-    fd.append('file', file);
-
-    try {
-      const res = await fetch('/api/upload', {
-        method: 'POST',
-        body: fd,
-      });
-      const data = await res.json();
-      if (data.url) {
-        setFormData((prev) => ({ ...prev, image: data.url }));
-      }
-    } catch (error) {
-      console.error('Failed to upload image:', error);
-    } finally {
-      setUploading(false);
-    }
-  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -244,20 +222,30 @@ export default function SpeechesPage() {
                 />
               </div>
               <div>
-                <label className="block text-xs font-bold text-gray-600 mb-1">Foto (Auto AVIF)</label>
+                <label className="block text-xs font-bold text-gray-600 mb-1">Foto Pejabat</label>
                 <div className="flex items-center gap-3">
-                  {formData.image && (
-                    <div className="w-12 h-12 bg-gray-100 rounded-lg overflow-hidden flex-shrink-0">
-                      <img src={formData.image} alt="Preview" className="w-full h-full object-cover" />
-                    </div>
-                  )}
-                  <input 
-                    type="file" 
-                    accept="image/*"
-                    onChange={handleFileUpload}
-                    className="text-xs file:mr-3 file:py-1.5 file:px-3 file:rounded-full file:border-0 file:text-xs file:font-semibold file:bg-[#27ae60]/10 file:text-[#27ae60] hover:file:bg-[#27ae60]/20"
-                  />
-                  {uploading && <span className="text-xs text-gray-500">Uploading...</span>}
+                  <div 
+                    onClick={() => setIsMediaOpen(true)}
+                    className="w-16 h-16 bg-gray-50 rounded-2xl overflow-hidden border border-gray-200 relative group flex items-center justify-center cursor-pointer hover:border-[#27ae60] transition-colors"
+                  >
+                    {formData.image ? (
+                      <>
+                        <img src={formData.image} alt="Preview" className="w-full h-full object-cover" />
+                        <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity">
+                          <span className="text-[8px] text-white font-bold bg-black/50 px-1 py-0.5 rounded">Ganti</span>
+                        </div>
+                      </>
+                    ) : (
+                      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#27ae60" strokeWidth="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
+                    )}
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => setIsMediaOpen(true)}
+                    className="text-xs font-bold bg-[#27ae60]/10 text-[#27ae60] hover:bg-[#27ae60]/20 transition-colors py-2 px-4 rounded-xl border border-transparent"
+                  >
+                    {formData.image ? 'Ubah dari Pustaka Media' : 'Pilih dari Pustaka Media'}
+                  </button>
                 </div>
               </div>
 
@@ -271,8 +259,7 @@ export default function SpeechesPage() {
                 </button>
                 <button 
                   type="submit"
-                  disabled={uploading}
-                  className="bg-[#27ae60] hover:bg-[#1e8449] text-white rounded-lg px-4 py-2 text-sm font-semibold shadow-sm disabled:bg-gray-400"
+                  className="bg-[#27ae60] hover:bg-[#1e8449] text-white rounded-lg px-4 py-2 text-sm font-semibold shadow-sm"
                 >
                   {editingSpeech ? 'Simpan' : 'Tambah'}
                 </button>
@@ -281,6 +268,16 @@ export default function SpeechesPage() {
           </div>
         </div>
       )}
+      
+      {/* WordPress Media Library Modal */}
+      <MediaLibraryModal
+        isOpen={isMediaOpen}
+        onClose={() => setIsMediaOpen(false)}
+        title="Pilih Foto Sambutan Pejabat"
+        onSelect={(photo) => {
+          setFormData((prev) => ({ ...prev, image: photo.url }));
+        }}
+      />
       </div>
     </div>
   );

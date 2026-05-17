@@ -6,6 +6,7 @@ import Link from 'next/link';
 import dynamic from 'next/dynamic';
 import { motion } from 'framer-motion';
 import { useParams, useRouter } from 'next/navigation';
+import MediaLibraryModal from '@/components/MediaLibraryModal';
 
 // Import CustomQuillEditor dynamically to avoid SSR issues
 const CustomQuillEditor = dynamic(() => import('@/components/CustomQuillEditor'), { ssr: false });
@@ -37,6 +38,13 @@ export default function EditNewsPage() {
   // Cover Image State
   const [coverImage, setCoverImage] = useState('/images/foto_kegiatan/kantor_luar.avif');
   const [showCoverDeleteModal, setShowCoverDeleteModal] = useState(false);
+  
+  // Media Library Target State
+  const [activeMediaTarget, setActiveMediaTarget] = useState<{
+    type: 'cover' | 'block-image' | 'block-gallery' | 'block-carousel' | 'block-grid';
+    index?: number;
+    gridItemIndex?: number;
+  } | null>(null);
   
   // Category & Tags State
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
@@ -367,6 +375,44 @@ export default function EditNewsPage() {
     }
   };
 
+  const handleMediaSelect = (photo: { url: string }) => {
+    if (!activeMediaTarget) return;
+
+    const { type, index, gridItemIndex } = activeMediaTarget;
+
+    if (type === 'cover') {
+      setCoverImage(photo.url);
+    } else if (type === 'block-image' && typeof index === 'number') {
+      updateBlock(index, photo.url);
+    } else if (type === 'block-grid' && typeof index === 'number' && typeof gridItemIndex === 'number') {
+      const newBlocks = [...blocks];
+      if (newBlocks[index].items) {
+         newBlocks[index].items[gridItemIndex].image = photo.url;
+         setBlocks(newBlocks);
+      }
+    }
+
+    setActiveMediaTarget(null);
+  };
+
+  const handleMediaSelectMultiple = (selectedPhotos: Array<{ url: string }>) => {
+    if (!activeMediaTarget) return;
+
+    const { type, index } = activeMediaTarget;
+    const urls = selectedPhotos.map(p => p.url);
+
+    if ((type === 'block-gallery' || type === 'block-carousel') && typeof index === 'number') {
+      const newBlocks = [...blocks];
+      const block = newBlocks[index];
+      if (Array.isArray(block.content)) {
+        newBlocks[index].content = [...block.content, ...urls];
+        setBlocks(newBlocks);
+      }
+    }
+
+    setActiveMediaTarget(null);
+  };
+
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-[#f4f6f8] text-gray-500 font-bold">
@@ -436,11 +482,14 @@ export default function EditNewsPage() {
                   >
                     Hapus Cover
                   </button>
-                  <label htmlFor="cover-upload" className="bg-white/90 backdrop-blur-sm text-gray-900 px-4 py-2 rounded-xl text-xs font-bold hover:bg-white transition-all shadow-lg flex items-center gap-2 border border-white cursor-pointer">
+                  <button 
+                    type="button"
+                    onClick={() => setActiveMediaTarget({ type: 'cover' })}
+                    className="bg-white/90 backdrop-blur-sm text-gray-900 px-4 py-2 rounded-xl text-xs font-bold hover:bg-white transition-all shadow-lg flex items-center gap-2 border border-white cursor-pointer"
+                  >
                     Ganti Cover
-                  </label>
+                  </button>
                 </div>
-                <input id="cover-upload" type="file" className="hidden" accept="image/*" onChange={handleCoverUpload} />
               </div>
             </div>
 
@@ -537,19 +586,25 @@ export default function EditNewsPage() {
                         <>
                           <img src={block.content as string} alt="Block" className="w-full h-72 object-cover" />
                           <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center backdrop-blur-sm">
-                            <label htmlFor={`image-upload-${index}`} className="bg-white text-gray-900 px-4 py-2 rounded-xl text-xs font-bold hover:bg-gray-50 transition-all shadow-lg cursor-pointer">
+                            <button 
+                              type="button"
+                              onClick={() => setActiveMediaTarget({ type: 'block-image', index })}
+                              className="bg-white text-gray-900 px-4 py-2 rounded-xl text-xs font-bold hover:bg-gray-50 transition-all shadow-lg"
+                            >
                               Ganti Gambar
-                            </label>
-                            <input id={`image-upload-${index}`} type="file" className="hidden" accept="image/*" onChange={(e) => handleBlockImageUpload(index, e)} />
+                            </button>
                           </div>
                         </>
                       ) : (
                         <div className="text-center p-6">
                           <p className="text-sm text-gray-400 mb-2">Belum ada gambar</p>
-                          <label htmlFor={`image-upload-${index}`} className="bg-[#27ae60] text-white px-4 py-2 rounded-xl text-xs font-bold hover:bg-[#1e8449] transition-all shadow-lg cursor-pointer inline-block">
-                            Upload Gambar
-                          </label>
-                          <input id={`image-upload-${index}`} type="file" className="hidden" accept="image/*" onChange={(e) => handleBlockImageUpload(index, e)} />
+                          <button 
+                            type="button"
+                            onClick={() => setActiveMediaTarget({ type: 'block-image', index })}
+                            className="bg-[#27ae60] text-white px-4 py-2 rounded-xl text-xs font-bold hover:bg-[#1e8449] transition-all shadow-lg cursor-pointer inline-block"
+                          >
+                            Pilih / Unggah Gambar
+                          </button>
                         </div>
                       )}
                     </div>
@@ -586,10 +641,13 @@ export default function EditNewsPage() {
                     <div className="space-y-3">
                       <div className="flex items-center justify-between">
                         <span className="text-xs font-bold text-gray-400 tracking-wider uppercase">Galeri Foto</span>
-                        <label htmlFor={`gallery-upload-${index}`} className="text-xs font-bold text-[#27ae60] hover:text-[#1e8449] flex items-center gap-1 cursor-pointer">
-                          Tambah Foto
-                        </label>
-                        <input id={`gallery-upload-${index}`} type="file" className="hidden" accept="image/*" onChange={(e) => handleAddImageToBlock(index, e)} />
+                        <button 
+                          type="button"
+                          onClick={() => setActiveMediaTarget({ type: 'block-gallery', index })}
+                          className="text-xs font-bold text-[#27ae60] hover:text-[#1e8449] flex items-center gap-1 cursor-pointer"
+                        >
+                          Tambah dari Galeri
+                        </button>
                       </div>
                       {block.content.length > 0 ? (
                         <div className="grid grid-cols-3 gap-4">
@@ -598,6 +656,7 @@ export default function EditNewsPage() {
                               <img src={imgUrl} alt={`Gallery ${imgIdx}`} className="w-full h-full object-cover" />
                               <div className="absolute inset-0 bg-black/30 opacity-0 group-hover/img:opacity-100 transition-opacity flex items-center justify-center">
                                 <button 
+                                  type="button"
                                   onClick={() => removeImageFromBlock(index, imgIdx)}
                                   className="p-1.5 bg-white/90 rounded-lg text-red-500 hover:bg-white hover:text-red-700 transition-colors shadow-lg"
                                 >
@@ -609,7 +668,7 @@ export default function EditNewsPage() {
                         </div>
                       ) : (
                         <div className="h-32 bg-gray-50 rounded-xl flex items-center justify-center text-sm text-gray-400 border border-dashed border-gray-200">
-                          Belum ada foto.
+                          Belum ada foto. Klik "Tambah dari Galeri"
                         </div>
                       )}
                     </div>
@@ -635,11 +694,14 @@ export default function EditNewsPage() {
                             <option value="1x3">1x3 (3 Kolom)</option>
                           </select>
                         </div>
-                        <label htmlFor={`carousel-upload-${index}`} className="text-xs font-bold text-[#27ae60] hover:text-[#1e8449] flex items-center gap-1 cursor-pointer">
+                        <button 
+                          type="button"
+                          onClick={() => setActiveMediaTarget({ type: 'block-carousel', index })}
+                          className="text-xs font-bold text-[#27ae60] hover:text-[#1e8449] flex items-center gap-1 cursor-pointer"
+                        >
                           <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
-                          Tambah Slide
-                        </label>
-                        <input id={`carousel-upload-${index}`} type="file" className="hidden" accept="image/*" onChange={(e) => handleAddImageToBlock(index, e)} />
+                          Tambah dari Galeri
+                        </button>
                       </div>
                       {block.content.length > 0 ? (
                         <div className="grid grid-cols-3 gap-4">
@@ -648,6 +710,7 @@ export default function EditNewsPage() {
                               <img src={imgUrl} alt={`Slider ${imgIdx}`} className="w-full h-full object-cover" />
                               <div className="absolute inset-0 bg-black/30 opacity-0 group-hover/img:opacity-100 transition-opacity flex items-center justify-center">
                                 <button 
+                                  type="button"
                                   onClick={() => removeImageFromBlock(index, imgIdx)}
                                   className="p-1.5 bg-white/90 rounded-lg text-red-500 hover:bg-white hover:text-red-700 transition-colors shadow-lg"
                                 >
@@ -659,7 +722,7 @@ export default function EditNewsPage() {
                         </div>
                       ) : (
                         <div className="h-32 bg-gray-50 rounded-xl flex items-center justify-center text-sm text-gray-400 border border-dashed border-gray-200">
-                          Belum ada slide.
+                          Belum ada slide. Klik "Tambah dari Galeri"
                         </div>
                       )}
                     </div>
@@ -719,36 +782,21 @@ export default function EditNewsPage() {
                               {item.image ? (
                                 <>
                                   <img src={item.image} className="w-full h-full object-cover" />
-                                  <label className="absolute inset-0 bg-black/50 opacity-0 hover:opacity-100 flex items-center justify-center text-white text-xs font-bold cursor-pointer transition-opacity">
+                                  <div 
+                                    onClick={() => setActiveMediaTarget({ type: 'block-grid', index, gridItemIndex: i })}
+                                    className="absolute inset-0 bg-black/50 opacity-0 hover:opacity-100 flex items-center justify-center text-white text-xs font-bold cursor-pointer transition-opacity"
+                                  >
                                     Ganti Gambar
-                                    <input type="file" className="hidden" accept="image/*" onChange={async (e) => {
-                                      const file = e.target.files?.[0];
-                                      if (file) {
-                                        const url = await uploadFile(file);
-                                        const newBlocks = [...blocks];
-                                        if (newBlocks[index].items) {
-                                          newBlocks[index].items[i].image = url;
-                                        }
-                                        setBlocks(newBlocks);
-                                      }
-                                    }} />
-                                  </label>
+                                  </div>
                                 </>
                               ) : (
-                                <label className="text-xs text-[#27ae60] font-bold cursor-pointer hover:underline">
-                                  + Upload Gambar (Opsional)
-                                  <input type="file" className="hidden" accept="image/*" onChange={async (e) => {
-                                    const file = e.target.files?.[0];
-                                    if (file) {
-                                      const url = await uploadFile(file);
-                                      const newBlocks = [...blocks];
-                                      if (newBlocks[index].items) {
-                                        newBlocks[index].items[i].image = url;
-                                      }
-                                      setBlocks(newBlocks);
-                                    }
-                                  }} />
-                                </label>
+                                <button
+                                  type="button"
+                                  onClick={() => setActiveMediaTarget({ type: 'block-grid', index, gridItemIndex: i })}
+                                  className="text-xs text-[#27ae60] font-bold hover:underline"
+                                >
+                                  + Pilih Gambar (Opsional)
+                                </button>
                               )}
                             </div>
                             
@@ -969,12 +1017,14 @@ export default function EditNewsPage() {
             <p className="text-sm text-gray-500 mb-6">Apakah Anda yakin ingin menghapus foto cover ini? Foto akan dikembalikan ke default.</p>
             <div className="flex justify-end gap-3">
               <button 
+                type="button"
                 onClick={() => setShowCoverDeleteModal(false)}
                 className="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-xl transition-colors"
               >
                 Batal
               </button>
               <button 
+                type="button"
                 onClick={() => {
                   setCoverImage('/images/foto_kegiatan/kantor_luar.avif');
                   setShowCoverDeleteModal(false);
@@ -987,6 +1037,22 @@ export default function EditNewsPage() {
           </div>
         </div>
       )}
+
+      {/* WordPress Media Library Modal */}
+      <MediaLibraryModal
+        isOpen={activeMediaTarget !== null}
+        onClose={() => setActiveMediaTarget(null)}
+        title={
+          activeMediaTarget?.type === 'cover'
+            ? 'Pilih Cover Artikel'
+            : activeMediaTarget?.type === 'block-gallery' || activeMediaTarget?.type === 'block-carousel'
+            ? 'Pilih Foto untuk Galeri / Slider'
+            : 'Pilih Gambar'
+        }
+        allowMultiple={activeMediaTarget?.type === 'block-gallery' || activeMediaTarget?.type === 'block-carousel'}
+        onSelect={handleMediaSelect}
+        onSelectMultiple={handleMediaSelectMultiple}
+      />
     </div>
   );
 }

@@ -20,6 +20,12 @@ export default function GalleryPage() {
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  // Bulk Upload States
+  const [showBulkUpload, setShowBulkUpload] = useState(false);
+  const [bulkUploading, setBulkUploading] = useState(false);
+  const [bulkProgress, setBulkProgress] = useState<{ name: string; progress: number; error?: string }[]>([]);
+  const [dragActive, setDragActive] = useState(false);
+
   // Modal States
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
@@ -77,6 +83,100 @@ export default function GalleryPage() {
     } finally {
       setUploading(false);
     }
+  };
+
+  const handleDrag = (e: React.DragEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (e.type === "dragenter" || e.type === "dragover") {
+      setDragActive(true);
+    } else if (e.type === "dragleave") {
+      setDragActive(false);
+    }
+  };
+
+  const handleDrop = async (e: React.DragEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setDragActive(false);
+    
+    if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+      await handleBulkFiles(Array.from(e.dataTransfer.files));
+    }
+  };
+
+  const handleBulkFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files[0]) {
+      await handleBulkFiles(Array.from(e.target.files));
+    }
+  };
+
+  const handleBulkFiles = async (files: File[]) => {
+    const imageFiles = files.filter(file => file.type.startsWith('image/'));
+    if (imageFiles.length === 0) {
+      alert('Hanya file gambar yang diperbolehkan.');
+      return;
+    }
+
+    setBulkUploading(true);
+    const initialProgress = imageFiles.map(f => ({ name: f.name, progress: 10 }));
+    setBulkProgress(initialProgress);
+
+    for (let i = 0; i < imageFiles.length; i++) {
+      const file = imageFiles[i];
+      const formData = new FormData();
+      formData.append('file', file);
+
+      setBulkProgress(prev => prev.map((item, idx) => idx === i ? { ...item, progress: 40 } : item));
+
+      try {
+        const res = await fetch('/api/upload', {
+          method: 'POST',
+          body: formData,
+        });
+
+        if (!res.ok) throw new Error('Upload failed');
+        const data = await res.json();
+
+        if (data.url) {
+          setBulkProgress(prev => prev.map((item, idx) => idx === i ? { ...item, progress: 70 } : item));
+
+          // Auto-generate formatted title from file name
+          const cleanName = file.name.substring(0, file.name.lastIndexOf('.')) || file.name;
+          const formattedTitle = cleanName
+            .replace(/[-_]/g, ' ')
+            .replace(/\b\w/g, c => c.toUpperCase());
+
+          const galleryRes = await fetch('/api/gallery', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              url: data.url,
+              title: formattedTitle,
+              tags: 'Kegiatan',
+              description: '',
+              caption: '',
+            }),
+          });
+
+          if (galleryRes.ok) {
+            setBulkProgress(prev => prev.map((item, idx) => idx === i ? { ...item, progress: 100 } : item));
+          } else {
+            throw new Error('Gagal menyimpan ke database');
+          }
+        }
+      } catch (err: any) {
+        console.error(`Bulk upload error for ${file.name}:`, err);
+        setBulkProgress(prev => prev.map((item, idx) => idx === i ? { ...item, progress: 100, error: err.message || 'Gagal' } : item));
+      }
+    }
+
+    // Refresh and clean up
+    fetchData();
+    setBulkUploading(false);
+    setTimeout(() => {
+      setBulkProgress([]);
+    }, 4000);
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -174,6 +274,15 @@ export default function GalleryPage() {
         </div>
         <div className="flex w-full sm:w-auto gap-2">
           <button 
+            onClick={() => setShowBulkUpload(!showBulkUpload)}
+            className={`flex-1 sm:flex-none transition-all duration-300 rounded-xl px-5 py-3 text-sm font-bold flex items-center justify-center gap-2 ${
+              showBulkUpload ? 'bg-gray-800 text-white' : 'bg-gray-150 hover:bg-gray-200 text-gray-700'
+            }`}
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+            Unggah Sekaligus
+          </button>
+          <button 
             onClick={() => {
               setIsEditing(false);
               setCurrentPhoto({ url: '', title: '', tags: 'Kegiatan' });
@@ -196,6 +305,84 @@ export default function GalleryPage() {
       </div>
 
       <div className="px-0 py-4 md:p-0 space-y-4 md:space-y-6">
+        {/* Bulk Upload Dropzone Section */}
+        {showBulkUpload && (
+          <motion.div 
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm space-y-4"
+          >
+            <div className="flex justify-between items-center">
+              <h3 className="text-sm font-bold text-gray-800 flex items-center gap-2">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#27ae60" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+                Unggah Banyak Foto Sekaligus
+              </h3>
+              <button 
+                onClick={() => setShowBulkUpload(false)}
+                className="text-gray-400 hover:text-gray-600 text-xs font-bold"
+              >
+                Tutup
+              </button>
+            </div>
+
+            <div
+              onDragEnter={handleDrag}
+              onDragOver={handleDrag}
+              onDragLeave={handleDrag}
+              onDrop={handleDrop}
+              className={`border-2 border-dashed rounded-2xl flex flex-col items-center justify-center p-8 transition-all text-center ${
+                dragActive
+                  ? 'border-[#27ae60] bg-green-50/40 scale-[0.99]'
+                  : 'border-gray-200 hover:border-gray-300 bg-gray-50/20'
+              }`}
+            >
+              <div className="w-12 h-12 bg-green-50 text-[#27ae60] rounded-full flex items-center justify-center mb-3">
+                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+              </div>
+              <p className="text-sm font-bold text-gray-700">Seret & jatuhkan beberapa gambar ke sini</p>
+              <span className="text-xs text-gray-400 my-2">atau</span>
+              <label className="bg-white hover:bg-gray-50 text-gray-850 border border-gray-200 shadow-sm font-bold text-xs py-2.5 px-5 rounded-xl cursor-pointer transition-all">
+                Pilih Berkas Gambar
+                <input
+                  type="file"
+                  multiple
+                  accept="image/*"
+                  onChange={handleBulkFileChange}
+                  className="hidden"
+                />
+              </label>
+              <p className="text-[9px] text-gray-400 mt-3 font-bold uppercase tracking-wider">PNG, JPG, WEBP, AVIF (Maks. 5MB per file)</p>
+            </div>
+
+            {/* Bulk Uploading Progress Grid */}
+            {bulkProgress.length > 0 && (
+              <div className="bg-gray-50 p-4 rounded-xl border border-gray-100 space-y-2">
+                <h4 className="text-[10px] font-black uppercase text-gray-400 tracking-wider">Status Unggahan ({bulkProgress.filter(p => p.progress === 100).length} / {bulkProgress.length})</h4>
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
+                  {bulkProgress.map((bp, idx) => (
+                    <div key={idx} className="bg-white p-3 rounded-xl border border-gray-100 flex flex-col gap-1.5 shadow-sm">
+                      <div className="flex justify-between items-center text-xs">
+                        <span className="font-bold text-gray-700 truncate w-3/4">{bp.name}</span>
+                        {bp.error ? (
+                          <span className="text-red-500 font-extrabold text-[10px] uppercase">Gagal</span>
+                        ) : (
+                          <span className="text-[#27ae60] font-extrabold text-[10px]">{bp.progress}%</span>
+                        )}
+                      </div>
+                      <div className="w-full h-1.5 bg-gray-150 rounded-full overflow-hidden font-sans">
+                        <div
+                          className={`h-full transition-all duration-350 ${bp.error ? 'bg-red-500' : 'bg-[#27ae60]'}`}
+                          style={{ width: `${bp.progress}%` }}
+                        />
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+          </motion.div>
+        )}
+
         <div className="bg-blue-50 border border-blue-100 p-4 rounded-2xl flex items-center gap-3">
           <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center text-blue-600 font-bold shadow-sm">
             {featuredIds.length}

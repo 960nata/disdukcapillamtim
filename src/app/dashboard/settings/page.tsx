@@ -2,6 +2,7 @@
 
 import * as React from 'react';
 import { useState, useEffect } from 'react';
+import MediaLibraryModal from '@/components/MediaLibraryModal';
 
 export default function SettingsPage() {
   const [settings, setSettings] = useState({
@@ -23,6 +24,7 @@ export default function SettingsPage() {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [message, setMessage] = useState('');
+  const [isMediaOpen, setIsMediaOpen] = useState(false);
 
   useEffect(() => {
     async function fetchSettings() {
@@ -134,17 +136,24 @@ export default function SettingsPage() {
               <h2 className="text-lg font-black text-gray-900 border-b border-gray-50 pb-4">Identitas Website</h2>
               
               <div className="flex flex-col sm:flex-row gap-8 items-start sm:items-center">
-                <div className="w-24 h-24 bg-gray-50 rounded-3xl border-2 border-dashed border-gray-200 flex items-center justify-center overflow-hidden relative group">
+                <div 
+                  onClick={() => setIsMediaOpen(true)}
+                  className="w-24 h-24 bg-gray-50 rounded-3xl border-2 border-dashed border-gray-200 flex items-center justify-center overflow-hidden relative group cursor-pointer hover:border-[#27ae60] transition-colors"
+                >
                   {settings.logo ? (
-                    <img src={settings.logo} alt="Logo" className="w-full h-full object-contain p-2" />
+                    <>
+                      <img src={settings.logo} alt="Logo" className="w-full h-full object-contain p-2" />
+                      <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity">
+                        <span className="text-[9px] text-white font-bold bg-black/50 px-2 py-1 rounded-lg">Ganti</span>
+                      </div>
+                    </>
                   ) : (
                     <svg className="w-8 h-8 text-gray-300" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
                   )}
-                  <input type="file" onChange={handleLogoUpload} className="absolute inset-0 opacity-0 cursor-pointer" />
                 </div>
                 <div className="flex-1 space-y-1">
                   <label className="text-[11px] font-black uppercase tracking-widest text-gray-400">Logo Website</label>
-                  <p className="text-xs text-gray-500 mb-2">Klik ikon kotak di samping untuk mengunggah logo baru.</p>
+                  <p className="text-xs text-gray-500 mb-2">Klik kotak gambar di samping untuk memilih logo dari Pustaka Media.</p>
                   <div className="text-[10px] text-green-600 font-bold">{message}</div>
                 </div>
               </div>
@@ -318,6 +327,17 @@ export default function SettingsPage() {
 
         </form>
       </div>
+
+      {/* WordPress Media Library Modal */}
+      <MediaLibraryModal
+        isOpen={isMediaOpen}
+        onClose={() => setIsMediaOpen(false)}
+        title="Pilih Logo Website"
+        onSelect={(photo) => {
+          setSettings((prev) => ({ ...prev, logo: photo.url }));
+          setMessage('Logo berhasil dipilih! Klik Simpan untuk mempermanenkan.');
+        }}
+      />
     </div>
   );
 }

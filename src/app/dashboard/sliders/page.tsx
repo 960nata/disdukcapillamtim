@@ -2,6 +2,7 @@
 
 import * as React from 'react';
 import { useState, useEffect } from 'react';
+import MediaLibraryModal from '@/components/MediaLibraryModal';
 
 type Slider = {
   id: number;
@@ -16,8 +17,8 @@ export default function SlidersPage() {
   const [sliders, setSliders] = useState<Slider[]>([]);
   const [loading, setLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isMediaOpen, setIsMediaOpen] = useState(false);
   const [editingItem, setEditingItem] = useState<Slider | null>(null);
-  const [uploading, setUploading] = useState(false);
   const [formData, setFormData] = useState({
     title: '',
     subtitle: '',
@@ -49,30 +50,6 @@ export default function SlidersPage() {
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: name === 'order' ? parseInt(value) || 0 : value }));
-  };
-
-  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-
-    setUploading(true);
-    const form = new FormData();
-    form.append('file', file);
-
-    try {
-      const res = await fetch('/api/upload', {
-        method: 'POST',
-        body: form,
-      });
-      const data = await res.json();
-      if (data.url) {
-        setFormData((prev) => ({ ...prev, imageUrl: data.url }));
-      }
-    } catch (error) {
-      console.error('Upload failed:', error);
-    } finally {
-      setUploading(false);
-    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -232,25 +209,22 @@ export default function SlidersPage() {
             
             <form onSubmit={handleSubmit} className="space-y-6">
               <div className="p-6 bg-gray-50 rounded-3xl border border-gray-100 flex flex-col items-center gap-4">
-                <div className="w-full aspect-[21/9] bg-white rounded-2xl overflow-hidden border-2 border-dashed border-gray-200 relative group flex items-center justify-center">
+                <div 
+                  onClick={() => setIsMediaOpen(true)}
+                  className="w-full aspect-[21/9] bg-white rounded-2xl overflow-hidden border-2 border-dashed border-gray-200 relative group flex items-center justify-center cursor-pointer hover:border-[#27ae60] hover:bg-green-50/20 transition-all duration-300"
+                >
                   {formData.imageUrl ? (
                     <>
                       <img src={formData.imageUrl} alt="Slider" className="w-full h-full object-cover" />
                       <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                        <label className="bg-white text-gray-900 px-4 py-2 rounded-xl text-xs font-bold cursor-pointer">Ganti Gambar</label>
+                        <label className="bg-white text-gray-900 px-4 py-2 rounded-xl text-xs font-bold cursor-pointer">Ganti Gambar dari Galeri</label>
                       </div>
                     </>
                   ) : (
-                    <div className="text-center">
-                      <svg className="w-10 h-10 text-gray-300 mx-auto mb-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
-                      <label className="text-sm font-bold text-gray-400 cursor-pointer">Pilih Gambar Slider</label>
-                    </div>
-                  )}
-                  <input type="file" onChange={handleImageUpload} className="hidden" id="slider-image" accept="image/*" />
-                  <label htmlFor="slider-image" className="absolute inset-0 cursor-pointer"></label>
-                  {uploading && (
-                    <div className="absolute inset-0 bg-white/80 flex items-center justify-center">
-                      <div className="w-6 h-6 border-2 border-green-600 border-t-transparent rounded-full animate-spin"></div>
+                    <div className="text-center p-4">
+                      <svg className="w-10 h-10 text-gray-300 mx-auto mb-2 group-hover:scale-110 transition-transform duration-300" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="#27ae60"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+                      <label className="text-sm font-bold text-gray-550 block">Pilih / Unggah Gambar Slider</label>
+                      <span className="text-[10px] text-gray-400 mt-1 uppercase block">Klik untuk membuka Pustaka Media</span>
                     </div>
                   )}
                 </div>
@@ -316,8 +290,8 @@ export default function SlidersPage() {
                 </button>
                 <button 
                   type="submit"
-                  disabled={uploading || !formData.imageUrl}
-                  className={`flex-[2] ${uploading || !formData.imageUrl ? 'bg-gray-400' : 'bg-[#27ae60] hover:bg-[#1e8449]'} text-white rounded-2xl py-4 text-sm font-black shadow-lg shadow-green-100 transition-all hover:scale-[1.02] active:scale-[0.98]`}
+                  disabled={!formData.imageUrl}
+                  className={`flex-[2] ${!formData.imageUrl ? 'bg-gray-400' : 'bg-[#27ae60] hover:bg-[#1e8449]'} text-white rounded-2xl py-4 text-sm font-black shadow-lg shadow-green-100 transition-all hover:scale-[1.02] active:scale-[0.98]`}
                 >
                   {editingItem ? 'Simpan Perubahan' : 'Buat Slider Baru'}
                 </button>
@@ -326,6 +300,16 @@ export default function SlidersPage() {
           </div>
         </div>
       )}
+
+      {/* WordPress Media Library Modal */}
+      <MediaLibraryModal
+        isOpen={isMediaOpen}
+        onClose={() => setIsMediaOpen(false)}
+        title="Pilih Gambar Slider"
+        onSelect={(photo) => {
+          setFormData((prev) => ({ ...prev, imageUrl: photo.url }));
+        }}
+      />
     </div>
   );
 }
