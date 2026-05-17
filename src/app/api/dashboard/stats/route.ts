@@ -134,7 +134,7 @@ export async function GET() {
     });
 
     const deviceMap = { Mobile: 0, Desktop: 0, Tablet: 0 };
-    deviceGroups.forEach(group => {
+    deviceGroups.forEach((group: any) => {
       if (group.device in deviceMap) {
         deviceMap[group.device as keyof typeof deviceMap] = group._count.device;
       }
@@ -151,7 +151,7 @@ export async function GET() {
     });
 
     const sourceMap = { Google: 0, Direct: 0, Social: 0, Referral: 0 };
-    sourceGroups.forEach(group => {
+    sourceGroups.forEach((group: any) => {
       if (group.referrer in sourceMap) {
         sourceMap[group.referrer as keyof typeof sourceMap] = group._count.referrer;
       }
