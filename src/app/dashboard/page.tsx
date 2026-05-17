@@ -3,6 +3,7 @@
 import * as React from 'react';
 import { useState, useEffect } from 'react';
 import dynamic from 'next/dynamic';
+import AnalyticsMap from '@/components/AnalyticsMap';
 
 // Dynamic import for ApexCharts to avoid SSR issues
 const Chart = dynamic(() => import('react-apexcharts'), { ssr: false });
@@ -220,6 +221,53 @@ export default function DashboardPage() {
             <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
               <h3 className="text-sm font-bold text-gray-800 mb-4">Perangkat Utama</h3>
               <Chart options={deviceChartOptions} series={deviceChartSeries} type="donut" height="250" />
+            </div>
+          </div>
+        </div>
+
+        {/* Real-time Location Map Section */}
+        <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
+          <div className="flex justify-between items-center mb-6">
+            <div>
+              <h3 className="text-base font-bold text-gray-800">Peta Sebaran Pengunjung (Lampung Timur)</h3>
+              <p className="text-xs text-gray-500">Deteksi lokasi kunjungan riil per kecamatan secara langsung</p>
+            </div>
+            <div className="flex items-center gap-2 text-xs font-bold text-[#27ae60] bg-[#27ae60]/10 px-3 py-1 rounded-full border border-[#27ae60]/20">
+              <span className="w-2 h-2 rounded-full bg-[#27ae60] animate-ping"></span>
+              Live Monitoring
+            </div>
+          </div>
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <div className="lg:col-span-2 bg-[#f8fafc] rounded-2xl overflow-hidden border border-gray-100 h-[380px] relative">
+              <AnalyticsMap locations={stats.locations} />
+            </div>
+            <div className="bg-white rounded-2xl p-4 border border-gray-100 flex flex-col justify-between">
+              <div>
+                <h4 className="text-sm font-bold text-gray-700 mb-4">Aktivitas Teratas per Kecamatan</h4>
+                <div className="space-y-3">
+                  {stats.locations?.categories?.map((city, idx) => (
+                    <div key={idx} className="flex items-center justify-between">
+                      <div className="flex items-center gap-2">
+                        <span className="w-6 h-6 rounded-lg bg-emerald-50 text-emerald-700 flex items-center justify-center font-bold text-xs">
+                          {idx + 1}
+                        </span>
+                        <span className="text-sm text-gray-700 font-medium">{city}</span>
+                      </div>
+                      <div className="flex items-center gap-3">
+                        <span className="text-xs text-gray-400">
+                          ({stats.locations?.data ? ((stats.locations.data[idx] / stats.locations.data.reduce((a: number, b: number) => a + b, 1)) * 100).toFixed(0) : 0}%)
+                        </span>
+                        <span className="text-sm font-bold text-gray-900">
+                          {stats.locations?.data ? stats.locations.data[idx] : 0}
+                        </span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+              <div className="text-xs text-gray-400 mt-4 border-t pt-4">
+                Sistem analitik melacak IP Address pengunjung secara riil dan memetakan koordinat kecamatan di Kabupaten Lampung Timur.
+              </div>
             </div>
           </div>
         </div>
