@@ -55,17 +55,17 @@ export default function BeritaPage() {
   return (
     <div className="min-h-screen bg-white flex flex-col font-sans">
       <Header />
-      
+
       {/* Hero Section Wrapper with Padding */}
       <div className="p-[10px] md:p-[20px]">
         {/* Hero Section Inner with Border Radius */}
         <div className="relative h-[300px] md:h-[450px] flex items-center justify-center overflow-hidden rounded-[20px]">
           {/* Background Image */}
           <div className="absolute inset-0 z-0">
-            <Image 
-              src="/images/news/hero_berita.avif" 
-              alt="Berita Disdukcapil" 
-              fill 
+            <Image
+              src="/images/news/hero_berita.avif"
+              alt="Berita Disdukcapil"
+              fill
               className="object-cover"
               priority
             />
@@ -82,10 +82,10 @@ export default function BeritaPage() {
           </div>
         </div>
       </div>
-      
+
       <main className="flex-grow pt-10 pb-12 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          
+
           {loading ? (
             <div className="text-center py-20">
               <div className="inline-block animate-spin rounded-full h-8 w-8 border-4 border-[#27ae60] border-t-transparent"></div>
@@ -112,24 +112,24 @@ export default function BeritaPage() {
                 </div>
 
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-stretch">
-                  
+
                   {/* Featured Card (Left) */}
                   <div className="lg:col-span-7">
                     {featuredNews && (
-                      <Link 
-                        href={`/berita/${featuredNews.slug}`} 
+                      <Link
+                        href={`/berita/${featuredNews.slug}`}
                         className="group block relative h-[400px] lg:h-full rounded-xl overflow-hidden border border-slate-100 shadow-sm hover:border-[#27ae60] hover:shadow-2xl hover:shadow-green-900/10 transition-all duration-500"
                       >
                         <div className="absolute inset-0">
-                          <img 
-                            src={featuredNews.coverImage || "/images/news/hero_berita.avif"} 
-                            alt={featuredNews.title} 
+                          <img
+                            src={featuredNews.coverImage || "/images/news/hero_berita.avif"}
+                            alt={featuredNews.title}
                             className="w-full h-full object-cover transition-transform duration-[1000ms] group-hover:scale-105"
                           />
                         </div>
-                        {/* Overlay Gradient - Limited to bottom with 40% opacity */}
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent"></div>
-                        
+                        {/* Overlay Gradient */}
+                        <div className="absolute inset-0 bg-gradient-to-t from-[#0b2b26]/90 via-black/20 to-transparent"></div>
+
                         {/* Content Overlay */}
                         <div className="absolute bottom-0 left-0 p-6 md:p-12 w-full">
                           <div className="flex items-center gap-4 mb-3 md:mb-5">
@@ -152,16 +152,15 @@ export default function BeritaPage() {
                   <div className="lg:col-span-5 flex flex-col gap-4">
                     {sideNews.map((news, idx) => (
                       <div key={news.id}>
-                        <Link 
-                          href={`/berita/${news.slug}`} 
-                          className={`flex gap-6 group transition-all p-4 rounded-xl border border-transparent hover:border-slate-100 hover:bg-white hover:shadow-md ${
-                            idx !== sideNews.length - 1 ? "border-b-slate-100" : ""
-                          }`}
+                        <Link
+                          href={`/berita/${news.slug}`}
+                          className={`flex gap-6 group transition-all p-4 rounded-xl border border-transparent hover:border-slate-100 hover:bg-white hover:shadow-md ${idx !== sideNews.length - 1 ? "border-b-slate-100" : ""
+                            }`}
                         >
                           <div className="relative w-28 h-20 md:w-40 md:h-28 flex-shrink-0 rounded-xl overflow-hidden bg-slate-100 shadow-sm">
-                            <img 
-                              src={news.coverImage || "/images/news/hero_berita.avif"} 
-                              alt={news.title} 
+                            <img
+                              src={news.coverImage || "/images/news/hero_berita.avif"}
+                              alt={news.title}
                               className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                             />
                           </div>
@@ -181,7 +180,7 @@ export default function BeritaPage() {
                         </Link>
                       </div>
                     ))}
-                    
+
                     {sideNews.length === 0 && (
                       <div className="text-center py-10 text-gray-400 text-sm italic">
                         Belum ada berita tambahan.
@@ -203,7 +202,7 @@ export default function BeritaPage() {
                   {/* Bottom Section: Grid of 3 Cards */}
                   <section className="grid grid-cols-1 md:grid-cols-3 gap-8">
                     {currentBottomNews.map((news) => (
-                      <Link 
+                      <Link
                         key={news.id}
                         href={`/berita/${news.slug}`}
                         className="bg-white border border-slate-100 rounded-2xl overflow-hidden shadow-sm hover:shadow-xl hover:border-[#27ae60]/30 transition-all duration-500 group flex flex-col h-full"
@@ -211,10 +210,10 @@ export default function BeritaPage() {
                         {/* Image with 4px padding (p-1) like Program Unggulan */}
                         <div className="p-1">
                           <div className="relative h-52 overflow-hidden rounded-xl">
-                            <img 
-                              src={news.coverImage || "/images/news/hero_berita.avif"} 
-                              alt={news.title} 
-                              className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" 
+                            <img
+                              src={news.coverImage || "/images/news/hero_berita.avif"}
+                              alt={news.title}
+                              className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
                             />
                           </div>
                         </div>
@@ -228,7 +227,7 @@ export default function BeritaPage() {
                               {news.title}
                             </h3>
                           </div>
-                          
+
                           {/* Category Tag at the bottom */}
                           <div className="mt-auto">
                             <span className="inline-block bg-slate-50 text-slate-500 text-[10px] font-bold px-3 py-1.5 rounded-full uppercase tracking-widest group-hover:bg-[#27ae60]/10 group-hover:text-[#27ae60] transition-colors">
@@ -243,7 +242,7 @@ export default function BeritaPage() {
                   {/* Pagination Section */}
                   {totalPages > 1 && (
                     <div className="mt-16 flex justify-center items-center gap-2">
-                      <button 
+                      <button
                         onClick={() => paginate(currentPage - 1)}
                         disabled={currentPage === 1}
                         className={`p-2 rounded-full border transition-all ${currentPage === 1 ? 'text-gray-300 border-gray-100 cursor-not-allowed' : 'text-[#27ae60] border-gray-200 hover:border-[#27ae60] hover:bg-[#27ae60] hover:text-white'}`}
@@ -261,7 +260,7 @@ export default function BeritaPage() {
                         </button>
                       ))}
 
-                      <button 
+                      <button
                         onClick={() => paginate(currentPage + 1)}
                         disabled={currentPage === totalPages}
                         className={`p-2 rounded-full border transition-all ${currentPage === totalPages ? 'text-gray-300 border-gray-100 cursor-not-allowed' : 'text-[#27ae60] border-gray-200 hover:border-[#27ae60] hover:bg-[#27ae60] hover:text-white'}`}
@@ -279,10 +278,10 @@ export default function BeritaPage() {
           <div className="mt-16">
             <ContactSection />
           </div>
-          
+
         </div>
       </main>
-      
+
       <Footer />
     </div>
   );
