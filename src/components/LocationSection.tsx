@@ -4,11 +4,11 @@ import { useEffect, useRef } from 'react';
 
 const locations = [
   { id: 1, name: "MPP LAMPUNG TIMUR", lat: -5.0188279, lng: 105.5353965, type: "Pusat", image: "/images/foto_kegiatan/pelayanan_ktp.avif", mapUrl: "https://www.google.com/maps/place/Mal+Pelayanan+Publik+(MPP)+Kabupaten+Lampung+Timur/@-5.0345837,105.5422375,12.5z/data=!4m12!1m5!3m4!2zNcKwMDYnMzYuMCJTIDEwNcKwMzInMjQuMCJF!8m2!3d-5.11!4d105.54!3m5!1s0x2e409b0032466e6f:0x140b8000f6895559!8m2!3d-5.0188279!4d105.5353965!16s%2Fg%2F11xf8nn920?entry=ttu&g_ep=EgoyMDI2MDUxMS4wIKXMDSoASAFQAw%3D%3D" },
-  { id: 2, name: "Kecamatan Batanghari", lat: -5.05, lng: 105.35, type: "Kecamatan", image: "/images/foto_kegiatan/jemput_bola.avif" },
-  { id: 3, name: "Kecamatan Way Jepara", lat: -5.20, lng: 105.65, type: "Kecamatan", image: "/images/foto_kegiatan/penyerahan_ktp.avif" },
-  { id: 4, name: "Kecamatan Mataram Baru", lat: -5.30, lng: 105.70, type: "Kecamatan", image: "/images/foto_kegiatan/sosialisasi_sekolah.avif" },
-  { id: 5, name: "Kecamatan Labuhan Maringgai", lat: -5.35, lng: 105.80, type: "Kecamatan", image: "/images/foto_kegiatan/pelayanan_online.avif" },
-  { id: 7, name: "Kecamatan Marga Sekampung", lat: -5.25, lng: 105.45, type: "Kecamatan", image: "/images/foto_kegiatan/penyerahan_kia.avif" }
+  { id: 2, name: "Kecamatan Batanghari", lat: -5.1884, lng: 105.4183, type: "Kecamatan", image: "/images/foto_kegiatan/jemput_bola.avif" },
+  { id: 3, name: "Kecamatan Way Jepara", lat: -5.1450, lng: 105.7330, type: "Kecamatan", image: "/images/foto_kegiatan/penyerahan_ktp.avif" },
+  { id: 4, name: "Kecamatan Mataram Baru", lat: -5.2480, lng: 105.7265, type: "Kecamatan", image: "/images/foto_kegiatan/sosialisasi_sekolah.avif" },
+  { id: 5, name: "Kecamatan Labuhan Maringgai", lat: -5.3175, lng: 105.8020, type: "Kecamatan", image: "/images/foto_kegiatan/pelayanan_online.avif" },
+  { id: 7, name: "Kecamatan Marga Sekampung", lat: -5.2425, lng: 105.5862, type: "Kecamatan", image: "/images/foto_kegiatan/penyerahan_kia.avif" }
 ];
 
 export default function LocationSection() {
