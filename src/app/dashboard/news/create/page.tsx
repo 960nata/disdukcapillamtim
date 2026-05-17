@@ -100,7 +100,7 @@ export default function CreateNewsPage() {
     let fileToUpload: File | Blob = file;
 
     // Kompres jika file gambar dan ukurannya lebih dari 2MB
-    if (file.type.startsWith('image/') && file.size > 2 * 1024 * 1024) {
+    if (file.type.startsWith('image/') && file.size > 800 * 1024) {
       try {
         fileToUpload = await compressImage(file);
       } catch (e) {

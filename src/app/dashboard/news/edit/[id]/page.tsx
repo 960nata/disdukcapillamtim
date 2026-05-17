@@ -150,7 +150,7 @@ export default function EditNewsPage() {
   const uploadFile = async (file: File) => {
     let fileToUpload: File | Blob = file;
 
-    if (file.type.startsWith('image/') && file.size > 2 * 1024 * 1024) {
+    if (file.type.startsWith('image/') && file.size > 800 * 1024) {
       try {
         fileToUpload = await compressImage(file);
       } catch (e) {
