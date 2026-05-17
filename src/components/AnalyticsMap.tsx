@@ -59,12 +59,26 @@ export default function AnalyticsMap({ locations }: AnalyticsMapProps) {
       markersLayer.clearLayers();
 
       const maxVal = locations.data.length > 0 ? Math.max(...locations.data) : 1;
+      const bounds = L.latLngBounds([]);
+      let hasValidBounds = false;
 
       // Populate new markers
-      locations.categories.forEach((name, index) => {
+      locations.categories.forEach((rawCategory, index) => {
         const count = locations.data[index];
-        const coords = DISTRICT_COORDINATES[name] || DISTRICT_COORDINATES['Lainnya'];
+        const parts = rawCategory.split('|');
+        const name = parts[0];
         
+        let coords: [number, number];
+        if (parts[1] && parts[2]) {
+          coords = [parseFloat(parts[1]), parseFloat(parts[2])];
+        } else {
+          coords = DISTRICT_COORDINATES[name] || DISTRICT_COORDINATES['Lainnya'];
+        }
+        
+        // Add to zoom bounds
+        bounds.extend(coords);
+        hasValidBounds = true;
+
         // Dynamic size based on volume
         const size = Math.max(10, 10 + (count / maxVal) * 16);
 
@@ -93,6 +107,26 @@ export default function AnalyticsMap({ locations }: AnalyticsMapProps) {
             </div>
           `, { closeButton: false });
       });
+
+      // Auto-fit bounds if we have markers, but fallback to Lampung Timur if empty or only Lampung Timur
+      if (hasValidBounds && locations.categories.length > 0 && mapRef.current) {
+        // If there's only 1 marker or they are all near Lampung Timur, center it nicely.
+        // Otherwise, fit bounds to show Sumatra and Java beautifully!
+        const latMin = bounds.getSouth();
+        const latMax = bounds.getNorth();
+        const lonMin = bounds.getWest();
+        const lonMax = bounds.getEast();
+        const isFarAway = Math.abs(latMax - latMin) > 0.5 || Math.abs(lonMax - lonMin) > 0.5;
+
+        if (isFarAway) {
+          mapRef.current.fitBounds(bounds, { padding: [50, 50] });
+        } else {
+          // Keep zoomed in to Lampung Timur
+          mapRef.current.setView([-5.06, 105.59], 9.5);
+        }
+      } else if (mapRef.current) {
+        mapRef.current.setView([-5.06, 105.59], 9.5);
+      }
     }
 
     // Adjust size on window resize
