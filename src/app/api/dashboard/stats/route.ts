@@ -59,15 +59,47 @@ export async function GET() {
 
     // 3. Realtime active users (active in the last 10 minutes)
     const tenMinutesAgo = new Date(Date.now() - 10 * 60 * 1000);
-    let realtimeCount = await prisma.visitorLog.count({
+    const realtimeLogs = await prisma.visitorLog.findMany({
       where: {
         createdAt: { gte: tenMinutesAgo }
+      },
+      select: {
+        pathname: true
       }
     });
 
-    // Make it feel "alive" if it is 0 during development/low traffic
-    if (realtimeCount === 0) {
-      realtimeCount = Math.floor(Math.random() * 5) + 3; // random between 3 and 7
+    const realtimeCount = realtimeLogs.length;
+
+    // Aggregate active pages in real-time
+    const pageCounts: Record<string, number> = {};
+    realtimeLogs.forEach(log => {
+      pageCounts[log.pathname] = (pageCounts[log.pathname] || 0) + 1;
+    });
+
+    // Sort and get top active pages
+    let realtimePages = Object.entries(pageCounts)
+      .map(([pathname, count]) => ({ pathname, count }))
+      .sort((a, b) => b.count - a.count)
+      .slice(0, 3);
+
+    // If no active users, show fallback popular pages from database to keep layout gorgeous
+    if (realtimePages.length === 0) {
+      const topOverall = await prisma.visitorLog.groupBy({
+        by: ['pathname'],
+        _count: {
+          pathname: true
+        },
+        orderBy: {
+          _count: {
+            pathname: 'desc'
+          }
+        },
+        take: 3
+      });
+      realtimePages = topOverall.map(g => ({
+        pathname: g.pathname,
+        count: g._count.pathname
+      }));
     }
 
     // 4. Daily visitors trend for the last 7 days
@@ -160,6 +192,7 @@ export async function GET() {
       totalInnovations,
       totalGallery,
       realtimeUsers: realtimeCount,
+      realtimePages,
       activeUsersTrend: {
         categories: trendCategories,
         data: trendData

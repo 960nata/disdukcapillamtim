@@ -15,6 +15,7 @@ export default function DashboardPage() {
     totalInnovations: 0,
     totalGallery: 0,
     realtimeUsers: 0,
+    realtimePages: [] as { pathname: string; count: number }[],
     activeUsersTrend: {
       categories: ['1 Mei', '5 Mei', '10 Mei', '15 Mei', '20 Mei', '25 Mei', '30 Mei'],
       data: [0, 0, 0, 0, 0, 0, 0]
@@ -198,19 +199,21 @@ export default function DashboardPage() {
             <div className="bg-gradient-to-br from-[#27ae60] to-[#2ecc71] p-6 rounded-2xl shadow-lg shadow-green-100 text-white relative overflow-hidden">
               <div className="relative z-10">
                 <h3 className="text-sm font-bold opacity-80 mb-4">Pengguna Real-time</h3>
-                <div className="text-4xl font-black mb-1">{stats.realtimeUsers}</div>
+                <div className="text-4xl font-black mb-1">{stats.realtimeUsers > 0 ? stats.realtimeUsers : 0}</div>
                 <div className="text-xs opacity-80 mb-6">Pengguna aktif saat ini</div>
                 
                 <div className="space-y-3">
                   <div className="text-[11px] font-bold uppercase tracking-wider mb-2">Halaman Teratas</div>
-                  <div className="flex justify-between items-center text-xs bg-white/10 p-2 rounded-lg">
-                    <span className="truncate mr-2">/berita/pelayanan-ktp-el</span>
-                    <span className="font-bold">42</span>
-                  </div>
-                  <div className="flex justify-between items-center text-xs bg-white/10 p-2 rounded-lg">
-                    <span className="truncate mr-2">/inovasi/cetak-mandiri</span>
-                    <span className="font-bold">28</span>
-                  </div>
+                  {stats.realtimePages && stats.realtimePages.length > 0 ? (
+                    stats.realtimePages.map((page: any, idx: number) => (
+                      <div key={idx} className="flex justify-between items-center text-xs bg-white/10 p-2 rounded-lg">
+                        <span className="truncate mr-2">{page.pathname}</span>
+                        <span className="font-bold">{page.count}</span>
+                      </div>
+                    ))
+                  ) : (
+                    <div className="text-xs text-white/60 italic py-2">Tidak ada aktivitas</div>
+                  )}
                 </div>
               </div>
               <div className="absolute -right-4 -bottom-4 opacity-10">
