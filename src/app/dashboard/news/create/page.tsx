@@ -4,12 +4,13 @@ import * as React from 'react';
 import { useState } from 'react';
 import Link from 'next/link';
 import dynamic from 'next/dynamic';
-import { motion } from 'framer-motion';
+import { motion, Reorder } from 'framer-motion';
 
 // Import CustomQuillEditor dynamically to avoid SSR issues
 const CustomQuillEditor = dynamic(() => import('@/components/CustomQuillEditor'), { ssr: false });
 
 type Block = {
+  id: string;
   type: string;
   content?: string | string[] | any;
   layout?: string;
@@ -20,7 +21,7 @@ export default function CreateNewsPage() {
   const [title, setTitle] = useState('');
   const [slug, setSlug] = useState('');
   const [blocks, setBlocks] = useState<Block[]>([
-    { type: 'text', content: '<p>Mulai menulis artikel yang memukau di sini...</p>' },
+    { id: 'initial-1', type: 'text', content: '<p>Mulai menulis artikel yang memukau di sini...</p>' },
   ]);
   
   // SEO States
@@ -233,7 +234,8 @@ export default function CreateNewsPage() {
           newBlocks[textBlockIndex].content = data.content;
           setBlocks(newBlocks);
         } else {
-          setBlocks([...blocks, { type: 'text', content: data.content }]);
+          const newId = `block-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+          setBlocks([...blocks, { id: newId, type: 'text', content: data.content }]);
         }
       }
     } catch (error) {
@@ -245,20 +247,21 @@ export default function CreateNewsPage() {
   };
 
   const addBlock = (type: string) => {
+    const newId = `block-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
     if (type === 'text') {
-      setBlocks([...blocks, { type: 'text', content: '<p>Tulis paragraf baru di sini...</p>' }]);
+      setBlocks([...blocks, { id: newId, type: 'text', content: '<p>Tulis paragraf baru di sini...</p>' }]);
     } else if (type === 'image') {
-      setBlocks([...blocks, { type: 'image', content: '' }]);
+      setBlocks([...blocks, { id: newId, type: 'image', content: '' }]);
     } else if (type === 'video') {
-      setBlocks([...blocks, { type: 'video', content: '' }]);
+      setBlocks([...blocks, { id: newId, type: 'video', content: '' }]);
     } else if (type === 'gallery') {
-      setBlocks([...blocks, { type: 'gallery', content: [] }]);
+      setBlocks([...blocks, { id: newId, type: 'gallery', content: [] }]);
     } else if (type === 'carousel') {
-      setBlocks([...blocks, { type: 'carousel', content: [], layout: '1x1' }]);
+      setBlocks([...blocks, { id: newId, type: 'carousel', content: [], layout: '1x1' }]);
     } else if (type === 'grid') {
-      setBlocks([...blocks, { type: 'grid', layout: '1x2', items: [] }]);
+      setBlocks([...blocks, { id: newId, type: 'grid', layout: '1x2', items: [] }]);
     } else if (type === 'html') {
-      setBlocks([...blocks, { type: 'html', content: '' }]);
+      setBlocks([...blocks, { id: newId, type: 'html', content: '' }]);
     }
   };
 
@@ -272,6 +275,34 @@ export default function CreateNewsPage() {
     const newBlocks = [...blocks];
     newBlocks[index].content = content;
     setBlocks(newBlocks);
+  };
+
+  // Drag and Drop Logic
+  const [draggedBlockIndex, setDraggedBlockIndex] = useState<number | null>(null);
+
+  const handleDragStart = (e: React.DragEvent, index: number) => {
+    setDraggedBlockIndex(index);
+    if (e.dataTransfer) {
+      e.dataTransfer.effectAllowed = 'move';
+    }
+  };
+
+  const handleDragOver = (e: React.DragEvent, index: number) => {
+    e.preventDefault();
+    if (draggedBlockIndex === null || draggedBlockIndex === index) return;
+    
+    // Swap blocks dynamically
+    const newBlocks = [...blocks];
+    const draggedBlock = newBlocks[draggedBlockIndex];
+    newBlocks.splice(draggedBlockIndex, 1);
+    newBlocks.splice(index, 0, draggedBlock);
+    
+    setBlocks(newBlocks);
+    setDraggedBlockIndex(index);
+  };
+
+  const handleDragEnd = () => {
+    setDraggedBlockIndex(null);
   };
 
   // Function to add image to gallery or carousel
@@ -420,11 +451,26 @@ export default function CreateNewsPage() {
             {/* Dynamic Blocks */}
             <div className="space-y-6">
               {blocks.map((block, index) => (
-                <div key={index} className="relative group border border-transparent hover:border-gray-100 rounded-xl sm:p-3 p-0 transition-all hover:bg-gray-50/50">
+                <div 
+                  key={block.id || index} 
+                  onDragOver={(e) => handleDragOver(e, index)}
+                  onDragEnd={handleDragEnd}
+                  className={`relative group border border-transparent rounded-xl sm:p-3 p-0 transition-all ${draggedBlockIndex === index ? 'opacity-40 border-dashed border-gray-300 scale-[0.98]' : 'hover:border-gray-100 hover:bg-gray-50/50'}`}
+                >
                   
+                  {/* Drag Handle */}
+                  <div 
+                    draggable
+                    onDragStart={(e) => handleDragStart(e, index)}
+                    className="absolute -left-4 top-1/2 -translate-y-1/2 p-2 bg-white border border-gray-200 rounded-lg shadow-sm cursor-grab active:cursor-grabbing hidden group-hover:flex text-gray-400 hover:text-[#27ae60] z-20 transition-colors" 
+                    title="Tarik untuk memindahkan (Drag & Drop)"
+                  >
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="9" cy="12" r="1"></circle><circle cx="9" cy="5" r="1"></circle><circle cx="9" cy="19" r="1"></circle><circle cx="15" cy="12" r="1"></circle><circle cx="15" cy="5" r="1"></circle><circle cx="15" cy="19" r="1"></circle></svg>
+                  </div>
+
                   {/* Block Actions */}
                   <div className="absolute -right-2 -top-2 hidden group-hover:flex gap-1 bg-white border border-gray-200 rounded-lg shadow-sm p-1 z-10">
-                    <button onClick={() => removeBlock(index)} className="p-1 text-red-500 hover:bg-red-50 rounded">
+                    <button onClick={() => removeBlock(index)} className="p-1 text-red-500 hover:bg-red-50 rounded" title="Hapus Blok">
                       <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
                     </button>
                   </div>
